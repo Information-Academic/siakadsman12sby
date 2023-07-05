@@ -2,7 +2,7 @@
     'namePage' => 'Reset Password',
     'class' => 'login-page sidebar-mini ',
     'activePage' => '',
-    'backgroundImage' => asset('assets') . "/img/bg14.jpg",
+    'backgroundImage' => asset('assets') . "/img/sman12sby.jpeg",
 ])
 
 @section('content')
@@ -12,11 +12,6 @@
                 <form role="form" method="POST" action="{{ route('password.email') }}">
                     @csrf
                     <div class="card card-login card-plain">
-                        <div class="card-header ">
-                            <div class="logo-container">
-                                <img src="{{ asset('assets/img/now-logo.png') }}" alt="">
-                            </div>
-                        </div>
                         <div class="card-body ">
                             <div class="card-body">
                                 @if (session('status'))
@@ -31,7 +26,7 @@
                                         <i class="now-ui-icons users_circle-08"></i>
                                     </div>
                                 </span>
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="{{'Masukkan email yang aktif'}}" required autocomplete="email" autofocus>
                             </div>
                             @error('email')
                                 <span style="display:block;" class="invalid-feedback" role="alert">
@@ -40,7 +35,7 @@
                             @enderror
                         </div>
                         <div class="card-footer ">
-                            <button  type = "submit" class="btn btn-primary btn-round btn-lg btn-block mb-3">{{ __('Send Password Reset Link') }}</button>
+                            <button  type = "submit" class="btn btn-primary btn-round btn-lg btn-block mb-3">{{ __('Kirim Link Reset Password') }}</button>
                         </div>
                     </div>
                 </form>

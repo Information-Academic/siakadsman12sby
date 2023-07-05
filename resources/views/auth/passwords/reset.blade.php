@@ -2,7 +2,7 @@
     'namePage' => 'Reset Password',
     'class' => 'login-page sidebar-mini ',
     'activePage' => '',
-    'backgroundImage' => asset('assets') . "/img/bg14.jpg"
+    'backgroundImage' => asset('assets') . "/img/sman12sby.jpeg"
 ])
 
 @section('content')
@@ -13,11 +13,6 @@
           @csrf
           <input type="hidden" name="token" value="{{ $token }}">
           <div class="card card-login card-plain">
-            <div class="card-header ">
-              <div class="logo-container">
-                <img src="{{ asset('assets/img/now-logo.png') }}" alt="">
-              </div>
-            </div>
             <div class="card-body ">
               <div class="card-body">
                 @if (session('status'))
