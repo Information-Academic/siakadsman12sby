@@ -91,7 +91,7 @@
                     </div>
                   </div>
                   <select id="role" type="text" class="form-control @error('role') is-invalid @enderror" name="role" value="{{ old('role') }}" autocomplete="role">
-                    <option value="">-- Select {{ __('Level User') }} --</option>
+                    <option value="">-- Pilih {{ __('Level Pengguna') }} --</option>
                     <option value="Guru">Guru</option>
                     <option value="Siswa">Siswa</option>
                   </select>
@@ -135,8 +135,7 @@
                   <label class="form-check-label">
                     <input class="form-check-input" type="checkbox">
                     <span class="form-check-sign"></span>
-                    {{ __('I agree to the') }}
-                    <a href="#something">{{ __('terms and conditions') }}</a>.
+                    {{ __('Saya setuju dengan syarat dan ketentuan.') }}
                   </label>
                 </div>
                 <div class="card-footer ">

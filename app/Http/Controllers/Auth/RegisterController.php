@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use App\Guru;
+use App\Siswa;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -49,11 +51,72 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        if ($data['role'] == 'Guru') {
+            $guru = Guru::where('id_card', $data['nomer'])->count();
+            if ($guru >= 1) {
+                $user = User::where('id_card', $data['nomer'])->count();
+                if ($user >= 1) {
+                    return Validator::make($data, [
+                        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                        'password' => ['required', 'string', 'min:8', 'confirmed'],
+                        'role' => ['required'],
+                        'nomer' => ['required'],
+                        'guru' => ['required'],
+                    ]);
+                } else {
+                    return Validator::make($data, [
+                        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                        'password' => ['required', 'string', 'min:8', 'confirmed'],
+                        'role' => ['required'],
+                        'nomer' => ['required'],
+                    ]);
+                }
+            } else {
+                return Validator::make($data, [
+                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                    'password' => ['required', 'string', 'min:8', 'confirmed'],
+                    'role' => ['required'],
+                    'nomer' => ['required'],
+                    'id_card' => ['required'],
+                ]);
+            }
+        } elseif ($data['role'] == 'Siswa') {
+            $siswa = Siswa::where('no_induk', $data['nomer'])->count();
+            if ($siswa >= 1) {
+                $user = User::where('no_induk', $data['nomer'])->count();
+                if ($user >= 1) {
+                    return Validator::make($data, [
+                        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                        'password' => ['required', 'string', 'min:8', 'confirmed'],
+                        'role' => ['required'],
+                        'nomer' => ['required'],
+                        'siswa' => ['required'],
+                    ]);
+                } else {
+                    return Validator::make($data, [
+                        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                        'password' => ['required', 'string', 'min:8', 'confirmed'],
+                        'role' => ['required'],
+                        'nomer' => ['required'],
+                    ]);
+                }
+            } else {
+                return Validator::make($data, [
+                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                    'password' => ['required', 'string', 'min:8', 'confirmed'],
+                    'role' => ['required'],
+                    'nomer' => ['required'],
+                    'no_induk' => ['required'],
+                ]);
+            }
+        } else {
+            return Validator::make($data, [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+                'role' => ['required'],
+            ]);
+        }
     }
 
     /**

@@ -1,284 +1,235 @@
-@extends('layouts.app', [
-    'namePage' => 'Dashboard',
-    'class' => 'login-page sidebar-mini ',
-    'activePage' => 'home',
-    'backgroundImage' => asset('now') . "/img/bg14.jpg",
-])
-
-@section('content')
-  <div class="panel-header panel-header-lg">
-    <canvas id="bigDashboardChart"></canvas>
-  </div>
-  <div class="content">
-    <div class="row">
-      <div class="col-lg-4">
-        <div class="card card-chart">
-          <div class="card-header">
-            <h5 class="card-category">Global Sales</h5>
-            <h4 class="card-title">Shipped Products</h4>
-            <div class="dropdown">
-              <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
-                <i class="now-ui-icons loader_gear"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                <a class="dropdown-item text-danger" href="#">Remove Data</a>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="chart-area">
-              <canvas id="lineChartExample"></canvas>
-            </div>
-          </div>
-          <div class="card-footer">
-            <div class="stats">
-              <i class="now-ui-icons arrows-1_refresh-69"></i> Just Updated
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="card card-chart">
-          <div class="card-header">
-            <h5 class="card-category">2018 Sales</h5>
-            <h4 class="card-title">All products</h4>
-            <div class="dropdown">
-              <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
-                <i class="now-ui-icons loader_gear"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                <a class="dropdown-item text-danger" href="#">Remove Data</a>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="chart-area">
-              <canvas id="lineChartExampleWithNumbersAndGrid"></canvas>
-            </div>
-          </div>
-          <div class="card-footer">
-            <div class="stats">
-              <i class="now-ui-icons arrows-1_refresh-69"></i> Just Updated
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="card card-chart">
-          <div class="card-header">
-            <h5 class="card-category">Email Statistics</h5>
-            <h4 class="card-title">24 Hours Performance</h4>
-          </div>
-          <div class="card-body">
-            <div class="chart-area">
-              <canvas id="barChartSimpleGradientsNumbers"></canvas>
-            </div>
-          </div>
-          <div class="card-footer">
-            <div class="stats">
-              <i class="now-ui-icons ui-2_time-alarm"></i> Last 7 days
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="card  card-tasks">
-          <div class="card-header ">
-            <h5 class="card-category">Backend development</h5>
-            <h4 class="card-title">Tasks</h4>
-          </div>
-          <div class="card-body ">
-            <div class="table-full-width table-responsive">
-              <table class="table">
-                <tbody>
-                  <tr>
-                    <td>
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" checked>
-                          <span class="form-check-sign"></span>
-                        </label>
-                      </div>
-                    </td>
-                    <td class="text-left">Sign contract for "What are conference organizers afraid of?"</td>
-                    <td class="td-actions text-right">
-                      <button type="button" rel="tooltip" title="" class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Edit Task">
-                        <i class="now-ui-icons ui-2_settings-90"></i>
-                      </button>
-                      <button type="button" rel="tooltip" title="" class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Remove">
-                        <i class="now-ui-icons ui-1_simple-remove"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox">
-                          <span class="form-check-sign"></span>
-                        </label>
-                      </div>
-                    </td>
-                    <td class="text-left">Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-                    <td class="td-actions text-right">
-                      <button type="button" rel="tooltip" title="" class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Edit Task">
-                        <i class="now-ui-icons ui-2_settings-90"></i>
-                      </button>
-                      <button type="button" rel="tooltip" title="" class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Remove">
-                        <i class="now-ui-icons ui-1_simple-remove"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" checked>
-                          <span class="form-check-sign"></span>
-                        </label>
-                      </div>
-                    </td>
-                    <td class="text-left">Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                    </td>
-                    <td class="td-actions text-right">
-                      <button type="button" rel="tooltip" title="" class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Edit Task">
-                        <i class="now-ui-icons ui-2_settings-90"></i>
-                      </button>
-                      <button type="button" rel="tooltip" title="" class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Remove">
-                        <i class="now-ui-icons ui-1_simple-remove"></i>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="card-footer ">
-            <hr>
-            <div class="stats">
-              <i class="now-ui-icons loader_refresh spin"></i> Updated 3 minutes ago
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header">
-            <h5 class="card-category">All Persons List</h5>
-            <h4 class="card-title"> Employees Stats</h4>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table">
-                <thead class=" text-primary">
-                  <th>
-                    Name
-                  </th>
-                  <th>
-                    Country
-                  </th>
-                  <th>
-                    City
-                  </th>
-                  <th class="text-right">
-                    Salary
-                  </th>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      Dakota Rice
-                    </td>
-                    <td>
-                      Niger
-                    </td>
-                    <td>
-                      Oud-Turnhout
-                    </td>
-                    <td class="text-right">
-                      $36,738
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      Minerva Hooper
-                    </td>
-                    <td>
-                      Curaçao
-                    </td>
-                    <td>
-                      Sinaai-Waas
-                    </td>
-                    <td class="text-right">
-                      $23,789
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      Sage Rodriguez
-                    </td>
-                    <td>
-                      Netherlands
-                    </td>
-                    <td>
-                      Baileux
-                    </td>
-                    <td class="text-right">
-                      $56,142
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      Doris Greene
-                    </td>
-                    <td>
-                      Malawi
-                    </td>
-                    <td>
-                      Feldkirchen in Kärnten
-                    </td>
-                    <td class="text-right">
-                      $63,542
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      Mason Porter
-                    </td>
-                    <td>
-                      Chile
-                    </td>
-                    <td>
-                      Gloucester
-                    </td>
-                    <td class="text-right">
-                      $78,615
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+@extends('template_backend.home')
+@section('heading', 'Dashboard')
+@section('page')
+  <li class="breadcrumb-item active">Dashboard</li>
 @endsection
+@section('content')
+    <div class="col-md-12" id="load_content">
+      <div class="card card-primary">
+        <div class="card-body">
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>Jam Pelajaran</th>
+                    <th>Mata Pelajaran</th>
+                    <th>Kelas</th>
+                    <th>Ruang Kelas</th>
+                    <th>Ket.</th>
+                  </tr>
+                </thead>
+                <tbody id="data-jadwal">
+                    {{-- @php
+                      $hari = date('w');
+                      $jam = date('H:i');
+                    @endphp
+                    @if ( $jadwal->count() > 0 )
+                      @if (
+                        $hari == '1' && $jam >= '09:45' && $jam <= '10:15' ||
+                        $hari == '1' && $jam >= '12:30' && $jam <= '13:15' ||
+                        $hari == '2' && $jam >= '09:15' && $jam <= '09:45' ||
+                        $hari == '2' && $jam >= '12:00' && $jam <= '13:00' ||
+                        $hari == '3' && $jam >= '09:15' && $jam <= '09:45' ||
+                        $hari == '3' && $jam >= '12:00' && $jam <= '13:00' ||
+                        $hari == '4' && $jam >= '09:15' && $jam <= '09:45' ||
+                        $hari == '4' && $jam >= '12:00' && $jam <= '13:00' ||
+                        $hari == '5' && $jam >= '09:00' && $jam <= '09:15' ||
+                        $hari == '5' && $jam >= '11:15' && $jam <= '13:00'
+                      )
+                      <tr>
+                        <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Waktunya Istirahat!</td>
+                      </tr>
+                      @else
+                      @foreach ($jadwal as $data)
+                        <tr>
+                          <td>{{ $data->jam_mulai.' - '.$data->jam_selesai }}</td>
+                          <td>
+                              <h5 class="card-title">{{ $data->mapel->nama_mapel }}</h5>
+                              <p class="card-text"><small class="text-muted">{{ $data->guru->nama_guru }}</small></p>
+                          </td>
+                          <td>{{ $data->kelas->nama_kelas }}</td>
+                          <td>{{ $data->ruang->nama_ruang }}</td>
+                          <td>
+                            @if ($data->absen($data->guru_id))
+                              <div style="margin-left:20px;width:30px;height:30px;background:#{{ $data->absen($data->guru_id) }}"></div>
+                            @elseif (date('H:i:s') >= '09:00:00')
+                              <div style="margin-left:20px;width:30px;height:30px;background:#F00"></div>
+                            @else
+                            @endif
+                          </td>
+                        </tr>
+                      @endforeach
+                  @endif
+                  @elseif ($jam <= '07:00')
+                    <tr>
+                      <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Jam Pelajaran Hari ini Akan Segera Dimulai!</td>
+                    </tr>
+                @elseif (
+                  $hari == '1' && $jam >= '16:15' ||
+                  $hari == '2' && $jam >= '16:00' ||
+                  $hari == '3' && $jam >= '16:00' ||
+                  $hari == '4' && $jam >= '16:00' ||
+                  $hari == '5' && $jam >= '15:40'
+                )
+                  <tr>
+                    <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Jam Pelajaran Hari ini Sudah Selesai!</td>
+                  </tr>
+                @elseif ($hari == '0' || $hari == '6')
+                  <tr>
+                    <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Sekalah Libur!</td>
+                  </tr>
+                @elseif($hari == '1' && $jam >= '07:00' && $jam <= '07:30')
+                  <tr>
+                    <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Waktunya Upacara Bendera!</td>
+                  </tr>
+                @else
+                  <tr>
+                    <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Tidak Ada Data Jadwal!</td>
+                  </tr>
+                @endif --}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
 
-@push('js')
-  <script>
-    $(document).ready(function() {
-      // Javascript method's body can be found in assets/js/demos.js
-      demo.initDashboardPageCharts();
+    <div class="col-md-6">
+      <div class="card card-warning" style="min-height: 385px;">
+        <div class="card-header">
+          <h3 class="card-title" style="color: white;">
+            Pengumuman
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="tab-content p-0">
+            {{-- {!! $pengumuman->isi !!} --}}
+          </div>
+        </div>
+      </div>
+    </div>
 
-    });
-  </script>
-@endpush
+    <div class="col-md-6">
+      <div class="card card-info">
+        <div class="card-header">
+          <h3 class="card-title">
+            Keterangan :
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="tab-content p-0">
+            <table class="table" style="margin-top: -21px; margin-bottom: -10px;">
+              {{-- @foreach ($kehadiran as $data)
+                <tr>
+                  <td>
+                    <div style="width:30px;height:30px;background:#{{ $data->color }}"></div>
+                  </td>
+                  <td>:</td>
+                  <td>{{ $data->ket }}</td>
+                </tr>
+              @endforeach --}}
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+@endsection
+@section('script')
+    <script>
+      $(document).ready(function () {
+        setInterval(function() {
+          var date = new Date();
+          var hari = date.getDay();
+          var h = date.getHours();
+          var m = date.getMinutes();
+          h = (h < 10) ? "0" + h : h;
+          m = (m < 10) ? "0" + m : m;
+          var jam = h + ":" + m;
+          
+          if (hari == '0' || hari == '6') {
+            $("#data-jadwal").html(
+              `<tr>
+                <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Sekalah Libur!</td>
+              </tr>`
+            );
+          } else {
+            if (jam <= '07:00') {
+              $("#data-jadwal").html(
+                `<tr>
+                  <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Jam Pelajaran Hari ini Akan Segera Dimulai!</td>
+                </tr>`
+              );
+            } else if (
+              hari == '1' && jam >= '16:15' ||
+              hari == '2' && jam >= '16:00' ||
+              hari == '3' && jam >= '16:00' ||
+              hari == '4' && jam >= '16:00' ||
+              hari == '5' && jam >= '15:40'
+            ) {
+              $("#data-jadwal").html(
+                `<tr>
+                  <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Jam Pelajaran Hari ini Sudah Selesai!</td>
+                </tr>`
+              );
+            } else {
+              if (
+                hari == '1' && jam >= '09:45' && jam <= '10:15' ||
+                hari == '1' && jam >= '12:30' && jam <= '13:15' ||
+                hari == '2' && jam >= '09:15' && jam <= '09:45' ||
+                hari == '2' && jam >= '12:00' && jam <= '13:00' ||
+                hari == '3' && jam >= '09:15' && jam <= '09:45' ||
+                hari == '3' && jam >= '12:00' && jam <= '13:00' ||
+                hari == '4' && jam >= '09:15' && jam <= '09:45' ||
+                hari == '4' && jam >= '12:00' && jam <= '13:00' ||
+                hari == '5' && jam >= '09:00' && jam <= '09:15' ||
+                hari == '5' && jam >= '11:15' && jam <= '13:00'
+              ) {
+                $("#data-jadwal").html(
+                  `<tr>
+                    <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Waktunya Istirahat!</td>
+                  </tr>`
+                );
+              } else if (hari == '1' && jam >= '07:00' && jam <= '07:30') {
+                $("#data-jadwal").html(
+                  `<tr>
+                    <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Waktunya Upacara Bendera!</td>
+                  </tr>`
+                );
+              } else {
+                $.ajax({
+                  type:"GET",
+                  data: {
+                    hari : hari,
+                    jam : jam
+                  },
+                  dataType:"JSON",
+                  url:"{{ url('/jadwal/sekarang') }}",
+                  success:function(data){
+                    var html = "";
+                    $.each(data, function (index, val) {
+                        html += "<tr>";
+                          html += "<td>" + val.jam_mulai + ' - ' + val.jam_selesai + "</td>";
+                          html += "<td><h5 class='card-title'>" + val.mapel + "</h5><p class='card-text'><small class='text-muted'>" + val.guru + "</small></p></td>";
+                          html += "<td>" + val.kelas + "</td>";
+                          html += "<td>" + val.ruang + "</td>";
+                          if (val.ket != null) {
+                            html += "<td><div style='margin-left:20px;width:30px;height:30px;background:#"+val.ket+"'></div></td>";
+                          } else {
+                            html += "<td></td>";
+                          }
+                        html += "</tr>";
+                    });
+                    $("#data-jadwal").html(html);
+                  },
+                  error:function(){
+                  }
+                });
+              }
+            }
+          }
+        }, 60 * 1000);
+      });
+      
+      $("#Dashboard").addClass("active");
+      $("#liDashboard").addClass("menu-open");
+      $("#Home").addClass("active");
+    </script>
+@endsection

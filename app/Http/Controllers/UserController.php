@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -16,6 +17,31 @@ class UserController extends Controller
      */
     public function index(User $model)
     {
-        return view('users.index', ['users' => $model->paginate(15)]);
+        return view('admin.user.index', ['users' => $model->paginate(15)]);
+    }
+
+    public function cek_email(Request $request)
+    {
+        $countUser = User::where('email', $request->email)->count();
+        if ($countUser >= 1) {
+            return response()->json(['success' => 'Email Anda Benar']);
+        } else {
+            return response()->json(['error' => 'Maaf user not found!']);
+        }
+    }
+
+    public function cek_password(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        $countUser = User::where('email', $request->email)->count();
+        if ($countUser >= 1) {
+            if (Hash::check($request->password, $user->password)) {
+                return response()->json(['success' => 'Password Anda Benar']);
+            } else {
+                return response()->json(['error' => 'Maaf user not found!']);
+            }
+        } else {
+            return response()->json(['warning' => 'Maaf user not found!']);
+        }
     }
 }
