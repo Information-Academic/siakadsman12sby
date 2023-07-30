@@ -21,6 +21,12 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/login/cek_email/json', 'UserController@cek_email');
 Route::get('/login/cek_password/json', 'UserController@cek_password');
+Route::post('/cek-email', 'UserController@cek_email')->name('cek-email')->middleware('guest');
+Route::get('forget-password', 'Auth\ForgotPasswordController@showForgetPasswordForm')->name('forget.password.get');
+Route::post('forget-password', 'Auth\ForgotPasswordController@submitForgetPasswordForm')->name('forget.password.post'); 
+Route::get('reset-password/{token}', 'Auth\ForgotPasswordController@showResetPasswordForm')->name('reset.password.get');
+Route::post('reset-password', 'Auth\ForgotPasswordController@submitResetPasswordForm')->name('reset.password.post');
+
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/home', 'HomeController@index')->name('home');

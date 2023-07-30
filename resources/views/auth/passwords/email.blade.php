@@ -1,54 +1,38 @@
-@extends('layouts.app', [
-    'namePage' => 'Reset Password',
-    'class' => 'login-page sidebar-mini ',
-    'activePage' => '',
-    'backgroundImage' => asset('assets') . "/img/sman12sby.jpeg",
-])
-
+@extends('layouts.app')
+@section('page','Reset Password')
 @section('content')
-    <div class="content">
-        <div class="container">
-            <div class="col-md-4 ml-auto mr-auto">
-                <form role="form" method="POST" action="{{ route('password.email') }}">
-                    @csrf
-                    <div class="card card-login card-plain">
-                        <div class="card-body ">
-                            <div class="card-body">
-                                @if (session('status'))
-                                    <div class="alert alert-success" role="alert">
-                                        {{ session('status') }}
-                                    </div>
-                                @endif
-                            </div>
-                            <div class="input-group no-border form-control-lg {{ $errors->has('email') ? ' has-danger' : '' }}">
-                                <span class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <i class="now-ui-icons users_circle-08"></i>
-                                    </div>
-                                </span>
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="{{'Masukkan email yang aktif'}}" required autocomplete="email" autofocus>
-                            </div>
-                            @error('email')
-                                <span style="display:block;" class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('email') }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="card-footer ">
-                            <button  type = "submit" class="btn btn-primary btn-round btn-lg btn-block mb-3">{{ __('Kirim Link Reset Password') }}</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+<div class="card-body login-card-body">
+    <p class="login-box-msg">Lupa Password? Disini akan kita bantu cara mengembalikan password lama anda.</p>
+  
+    <form action="{{ route('forget-password') }}" method="post">
+      @csrf
+      <div class="input-group mb-3">
+        <input id="email" type="email" placeholder="{{ __('E-Mail Address') }}" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="off" autofocus>
+        <div class="input-group-append">
+          <div class="input-group-text">
+            <span class="fas fa-envelope"></span>
+          </div>
         </div>
-    </div>
+        @error('email')
+          <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+          </span>
+        @enderror
+      </div>
+      <div class="row mb-3">
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary btn-block">{{ __('Send Password Reset Link') }}</button>
+        </div>
+        <!-- /.col -->
+      </div>
+      
+      <div class="row">
+        <div class="col-6">
+          <a href="{{ route('login') }}" class="text-center btn-block btn btn-light text-blue">Login Saja</a>
+        </div>
+        <!-- /.col -->
+        <!-- /.col -->
+      </div>
+    </form>
+  </div>
 @endsection
-
-
-@push('js')
-<script>
-    $(document).ready(function() {
-      demo.checkFullPageBackgroundImage();
-    });
-  </script>
-@endpush

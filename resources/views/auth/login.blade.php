@@ -51,7 +51,7 @@
 
   <p class="mb-1">
     @if (Route::has('password.request'))
-      <a class="text-center" href="{{ route('password.request') }}">
+      <a class="text-center" href="{{ route('forget.password.get') }}">
         {{ __('Lupa Password?') }}
       </a>
     @endif

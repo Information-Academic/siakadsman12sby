@@ -26,7 +26,7 @@ class UserController extends Controller
         if ($countUser >= 1) {
             return response()->json(['success' => 'Email Anda Benar']);
         } else {
-            return response()->json(['error' => 'Maaf user not found!']);
+            return response()->json(['error' => 'Maaf user tidak ditemukan!']);
         }
     }
 
@@ -38,10 +38,10 @@ class UserController extends Controller
             if (Hash::check($request->password, $user->password)) {
                 return response()->json(['success' => 'Password Anda Benar']);
             } else {
-                return response()->json(['error' => 'Maaf user not found!']);
+                return response()->json(['error' => 'Maaf user tidak ditemukan!']);
             }
         } else {
-            return response()->json(['warning' => 'Maaf user not found!']);
+            return response()->json(['warning' => 'Maaf user tidak ditemukan!']);
         }
     }
 }
