@@ -27,12 +27,6 @@
                                     <p>Dashboard</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{ route('admin.home') }}" class="nav-link" id="AdminHome">
-                                    <i class="fas fa-home nav-icon"></i>
-                                    <p>Dashboard Admin</p>
-                                </a>
-                            </li>
                         </ul>
                     </li>
                     <li class="nav-item has-treeview" id="liMasterData">

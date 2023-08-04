@@ -13,7 +13,6 @@
                     <th>Jam Pelajaran</th>
                     <th>Mata Pelajaran</th>
                     <th>Kelas</th>
-                    <th>Ruang Kelas</th>
                     <th>Ket.</th>
                   </tr>
                 </thead>
