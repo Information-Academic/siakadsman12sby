@@ -11,7 +11,7 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Operator')
+                @if (Auth::user()->roles == 'Admin')
                     <li class="nav-item has-treeview" id="liDashboard">
                         <a href="#" class="nav-link" id="Dashboard">
                             <i class="nav-icon fas fa-home"></i>
@@ -27,6 +27,7 @@
                                     <p>Dashboard</p>
                                 </a>
                             </li>
+                            
                         </ul>
                     </li>
                     <li class="nav-item has-treeview" id="liMasterData">
@@ -44,7 +45,7 @@
                                     <p>Data Jadwal</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a href="{{ route('guru.index') }}" class="nav-link" id="DataGuru">
                                     <i class="fas fa-users nav-icon"></i>
                                     <p>Data Guru</p>
@@ -73,67 +74,17 @@
                                     <i class="fas fa-user-plus nav-icon"></i>
                                     <p>Data User</p>
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </li>
-                    @if (Auth::user()->role == "Admin")
-                        <li class="nav-item has-treeview" id="liViewTrash">
-                            <a href="#" class="nav-link" id="ViewTrash">
-                                <i class="nav-icon fas fa-recycle"></i>
-                                <p>
-                                    View Trash
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview ml-4">
-                                <li class="nav-item">
-                                    <a href="{{ route('jadwal.trash') }}" class="nav-link" id="TrashJadwal">
-                                        <i class="fas fa-calendar-alt nav-icon"></i>
-                                        <p>Trash Jadwal</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('guru.trash') }}" class="nav-link" id="TrashGuru">
-                                        <i class="fas fa-users nav-icon"></i>
-                                        <p>Trash Guru</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('kelas.trash') }}" class="nav-link" id="TrashKelas">
-                                        <i class="fas fa-home nav-icon"></i>
-                                        <p>Trash Kelas</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('siswa.trash') }}" class="nav-link" id="TrashSiswa">
-                                        <i class="fas fa-users nav-icon"></i>
-                                        <p>Trash Siswa</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('mapel.trash') }}" class="nav-link" id="TrashMapel">
-                                        <i class="fas fa-book nav-icon"></i>
-                                        <p>Trash Mapel</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('user.trash') }}" class="nav-link" id="TrashUser">
-                                        <i class="fas fa-user nav-icon"></i>
-                                        <p>Trash User</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    @else
-                    @endif
                     <li class="nav-item">
-                        <a href="{{ route('guru.absensi') }}" class="nav-link" id="AbsensiGuru">
+                        {{-- <a href="{{ route('guru.absensi') }}" class="nav-link" id="AbsensiGuru">
                             <i class="fas fa-calendar-check nav-icon"></i>
                             <p>Absensi Guru</p>
-                        </a>
+                        </a> --}}
                     </li>
                     <li class="nav-item has-treeview" id="liNilai">
-                        <a href="#" class="nav-link" id="Nilai">
+                        {{-- <a href="#" class="nav-link" id="Nilai">
                             <i class="nav-icon fas fa-file-signature"></i>
                             <p>
                                 Nilai
@@ -165,15 +116,15 @@
                                     <p>Deskripsi Predikat</p>
                                 </a>
                             </li>
-                        </ul>
+                        </ul> --}}
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('admin.pengumuman') }}" class="nav-link" id="Pengumuman">
+                        {{-- <a href="{{ route('admin.pengumuman') }}" class="nav-link" id="Pengumuman">
                             <i class="nav-icon fas fa-clipboard"></i>
                             <p>Pengumuman</p>
-                        </a>
+                        </a> --}}
                     </li>
-                @elseif (Auth::user()->role == 'Guru' && Auth::user()->guru(Auth::user()->id_card))
+                {{-- @elseif (Auth::user()->role == 'Guru' && Auth::user()->guru(Auth::user()->id_card))
                     <li class="nav-item has-treeview">
                         <a href="{{ url('/') }}" class="nav-link" id="Home">
                             <i class="nav-icon fas fa-home"></i>
@@ -253,12 +204,6 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('sikap.siswa') }}" class="nav-link" id="SikapSiswa">
-                            <i class="fas fa-file-alt nav-icon"></i>
-                            <p>Sikap</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a href="{{ route('rapot.siswa') }}" class="nav-link" id="RapotSiswa">
                             <i class="fas fa-file-alt nav-icon"></i>
                             <p>Rapot</p>
@@ -270,7 +215,7 @@
                             <i class="nav-icon fas fa-home"></i>
                             <p>Dashboard</p>
                         </a>
-                    </li>
+                    </li> --}}
                 @endif
             </ul>
         </nav>

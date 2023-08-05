@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jadwal;
+use App\Pengumuman;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +25,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $hari = date('w');
+        $jam = date('H:i');
+        $jadwal = Jadwal::OrderBy('jam_mulai')->OrderBy('jam_selesai')->OrderBy('kelas_id')->where('haris_id', $hari)->where('jam_mulai', '<=', $jam)->where('jam_selesai', '>=', $jam)->get();
+        $pengumuman = Pengumuman::first();
+        return view('home', compact('jadwal', 'pengumuman'));
     }
 }

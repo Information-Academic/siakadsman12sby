@@ -13,11 +13,11 @@
                     <th>Jam Pelajaran</th>
                     <th>Mata Pelajaran</th>
                     <th>Kelas</th>
-                    <th>Ket.</th>
+                    <th>Tipe Kelas</th>
                   </tr>
                 </thead>
                 <tbody id="data-jadwal">
-                    {{-- @php
+                    @php
                       $hari = date('w');
                       $jam = date('H:i');
                     @endphp
@@ -42,19 +42,19 @@
                         <tr>
                           <td>{{ $data->jam_mulai.' - '.$data->jam_selesai }}</td>
                           <td>
-                              <h5 class="card-title">{{ $data->mapel->nama_mapel }}</h5>
-                              <p class="card-text"><small class="text-muted">{{ $data->guru->nama_guru }}</small></p>
+                              <h5 class="card-title">{{ $data->mapels->nama_mapel }}</h5>
+                              <p class="card-text"><small class="text-muted">{{ $data->gurus->nama_guru }}</small></p>
                           </td>
-                          <td>{{ $data->kelas->nama_kelas }}</td>
-                          <td>{{ $data->ruang->nama_ruang }}</td>
-                          <td>
-                            @if ($data->absen($data->guru_id))
+                          <td>{{ $data->kelas->kelas}}</td>
+                          <td>{{ $data->kelas->tipe_kelas}}</td>
+                          {{-- <td>
+                            @if ($data->absen($data->gurus_id))
                               <div style="margin-left:20px;width:30px;height:30px;background:#{{ $data->absen($data->guru_id) }}"></div>
                             @elseif (date('H:i:s') >= '09:00:00')
                               <div style="margin-left:20px;width:30px;height:30px;background:#F00"></div>
                             @else
                             @endif
-                          </td>
+                          </td> --}}
                         </tr>
                       @endforeach
                   @endif
@@ -84,7 +84,7 @@
                   <tr>
                     <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Tidak Ada Data Jadwal!</td>
                   </tr>
-                @endif --}}
+                @endif
             </tbody>
           </table>
         </div>
@@ -100,36 +100,12 @@
         </div>
         <div class="card-body">
           <div class="tab-content p-0">
-            {{-- {!! $pengumuman->isi !!} --}}
+            {!! $pengumuman['isi_pengumuman'] !!}
           </div>
         </div>
       </div>
     </div>
-
-    <div class="col-md-6">
-      <div class="card card-info">
-        <div class="card-header">
-          <h3 class="card-title">
-            Keterangan :
-          </h3>
-        </div>
-        <div class="card-body">
-          <div class="tab-content p-0">
-            <table class="table" style="margin-top: -21px; margin-bottom: -10px;">
-              {{-- @foreach ($kehadiran as $data)
-                <tr>
-                  <td>
-                    <div style="width:30px;height:30px;background:#{{ $data->color }}"></div>
-                  </td>
-                  <td>:</td>
-                  <td>{{ $data->ket }}</td>
-                </tr>
-              @endforeach --}}
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
+    
 @endsection
 @section('script')
     <script>

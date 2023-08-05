@@ -29,7 +29,14 @@ Route::post('reset-password', 'Auth\ForgotPasswordController@submitResetPassword
 
 
 Route::group(['middleware' => 'auth'], function () {
+	Route::get('/', 'HomeController@index')->name('home');
 	Route::get('/home', 'HomeController@index')->name('home');
+	Route::get('/profile', 'UserController@profile')->name('profile');
 	Route::resource('user', 'UserController');
+});
+
+Route::middleware(['admin'])->group(function(){
+	Route::get('/admin/home', 'HomeController@admin')->name('admin.home');
+	Route::resource('/jadwal', 'JadwalController');
 });
 

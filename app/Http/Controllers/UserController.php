@@ -44,4 +44,10 @@ class UserController extends Controller
             return response()->json(['warning' => 'Maaf user tidak ditemukan!']);
         }
     }
+
+    public function profile()
+    {
+        return view('user.pengaturan');
+    }
+
 }
