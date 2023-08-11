@@ -32,11 +32,24 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/', 'HomeController@index')->name('home');
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('/profile', 'UserController@profile')->name('profile');
+	Route::get('/pengaturan/profile', 'UserController@edit_profile')->name('pengaturan.profile');
+	Route::post('/pengaturan/ubah-profile', 'UserController@ubah_profile')->name('pengaturan.ubah-profile');
+  Route::get('/pengaturan/edit-foto', 'UserController@edit_foto')->name('pengaturan.edit-foto');
+  Route::post('/pengaturan/ubah-foto', 'UserController@ubah_foto')->name('pengaturan.ubah-foto');
+  Route::get('/pengaturan/email', 'UserController@edit_email')->name('pengaturan.email');
+  Route::post('/pengaturan/ubah-email', 'UserController@ubah_email')->name('pengaturan.ubah-email');
+  Route::get('/pengaturan/password', 'UserController@edit_password')->name('pengaturan.password');
+  Route::post('/pengaturan/ubah-password', 'UserController@ubah_password')->name('pengaturan.ubah-password');
 	Route::resource('user', 'UserController');
 });
 
 Route::middleware(['admin'])->group(function(){
 	Route::get('/admin/home', 'HomeController@admin')->name('admin.home');
+	Route::get('/admin/pengumuman', 'PengumumanController@index')->name('admin.pengumuman');
+	Route::post('/admin/pengumuman/simpan', 'PengumumanController@simpan')->name('admin.pengumuman.simpan');
 	Route::resource('/jadwal', 'JadwalController');
+	Route::resource('/guru', 'GuruController');
+	Route::get('/guru/mapel/{id}', 'GuruController@mapel')->name('guru.mapel');
+	Route::get('/guru/ubah-foto/{id}', 'GuruController@ubah_foto')->name('guru.ubah-foto');
 });
 

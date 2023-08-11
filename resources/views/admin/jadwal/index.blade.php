@@ -21,7 +21,6 @@
                     <th>No.</th>
                     <th>Nama Kelas</th>
                     <th>Tipe Kelas</th>
-                    <th>Tahun</th>
                     <th>Lihat Jadwal</th>
                 </tr>
             </thead>
@@ -31,7 +30,6 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $data->kelas }}</td>
                     <td>{{$data->tipe_kelas}}</td>
-                    <td>{{$data->tahun}}</td>
                     <td>
                       <a href="{{ route('jadwal.show', Crypt::encrypt($data->id)) }}" class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus"></i> &nbsp; Ditails</a>
                     </td>
@@ -76,6 +74,15 @@
                       <option value="">-- Pilih Kelas --</option>
                       @foreach ($kelas as $data)
                           <option value="{{ $data->id }}">{{ $data->kelas }}</option>
+                      @endforeach
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="kelas_id">Tipe Kelas</label>
+                  <select id="kelas_id" name="kelas_id" class="form-control @error('kelas_id') is-invalid @enderror select2bs4">
+                      <option value="">-- Pilih Tipe Kelas --</option>
+                      @foreach ($kelas as $data)
+                          <option value="{{ $data->id }}">{{ $data->tipe_kelas }}</option>
                       @endforeach
                   </select>
                 </div>

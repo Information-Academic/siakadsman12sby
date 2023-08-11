@@ -10,10 +10,11 @@
             <li class="nav-item">
                 <div class="btn-group" role="group">
                     <a id="btnGroupDrop1" style="color: #fff; margin-right: 40px;" type="button" class="dropdown-toggle text-capitalize" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="nav-icon fas fa-user-circle"></i> &nbsp; {{ Auth::user()->name }}
+                        <i class="nav-icon fas fa-user-circle"></i> &nbsp; {{ Auth::user()->nama_depan. ' '.Auth::user()->nama_belakang }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                        <a class="dropdown-item" href="{{ route('profile') }}"><i class="nav-icon fas fa-user"></i> &nbsp; My Profile</a>
+                        <a class="dropdown-item" href="{{ route('profile') }}">
+                            <i class="nav-icon fas fa-user"></i> &nbsp; My Profile</a>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="nav-icon fas fa-sign-out-alt"></i> &nbsp; Log Out</a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf

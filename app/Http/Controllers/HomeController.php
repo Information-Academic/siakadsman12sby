@@ -28,7 +28,7 @@ class HomeController extends Controller
         $hari = date('w');
         $jam = date('H:i');
         $jadwal = Jadwal::OrderBy('jam_mulai')->OrderBy('jam_selesai')->OrderBy('kelas_id')->where('haris_id', $hari)->where('jam_mulai', '<=', $jam)->where('jam_selesai', '>=', $jam)->get();
-        $pengumuman = Pengumuman::first();
+        $pengumuman = Pengumuman::orderBy('id','desc')->first();
         return view('home', compact('jadwal', 'pengumuman'));
     }
 }

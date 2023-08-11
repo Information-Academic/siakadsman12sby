@@ -92,13 +92,17 @@
     </div>
 
     <div class="col-md-6">
-      <div class="card card-warning" style="min-height: 385px;">
+      <div class="card card-warning" style="width: 980px; height: 900px;">
         <div class="card-header">
           <h3 class="card-title" style="color: white;">
             Pengumuman
           </h3>
         </div>
         <div class="card-body">
+          <div class="tab-content p-0" style="font-weight: bold; text-align: center;">
+            {!! $pengumuman['judul_pengumuman'] !!}
+          </div>
+          <br>
           <div class="tab-content p-0">
             {!! $pengumuman['isi_pengumuman'] !!}
           </div>

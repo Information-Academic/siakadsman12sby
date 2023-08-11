@@ -8,6 +8,7 @@ use App\Kelas;
 use App\Guru;
 use App\Mapel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class JadwalController extends Controller
 {
@@ -77,9 +78,13 @@ class JadwalController extends Controller
      * @param  \App\Jadwal  $jadwal
      * @return \Illuminate\Http\Response
      */
-    public function show(Jadwal $jadwal)
+    public function show($id)
     {
         //
+        $id = Crypt::decrypt($id);
+        $kelas = Kelas::findorfail($id);
+        $jadwal = Jadwal::OrderBy('haris_id', 'asc')->OrderBy('jam_mulai', 'asc')->where('kelas_id', $id)->get();
+        return view('admin.jadwal.show', compact('jadwal', 'kelas'));
     }
 
     /**

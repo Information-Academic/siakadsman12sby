@@ -22,12 +22,12 @@ class Jadwal extends Model
 
   public function mapel()
   {
-    return $this->belongsTo('App\Mapel')->withDefault();
+    return $this->belongsTo('App\Mapel');
   }
 
   public function guru()
   {
-    return $this->belongsTo('App\Guru')->withDefault();
+    return $this->belongsTo('App\Guru');
   }
 
 }

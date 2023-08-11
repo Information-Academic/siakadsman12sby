@@ -8,4 +8,5 @@ class Pengumuman extends Model
 {
     //
     protected $table = 'pengumumans';
+    protected $fillable = ['judul_pengumuman','isi_pengumuman'];
 }

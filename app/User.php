@@ -16,7 +16,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','nip','nis'
+        'nama_depan', 'nama_belakang', 'nama_pengguna', 'email', 'password','nip','nis','roles'
     ];
 
     /**
@@ -39,13 +39,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function guru($id)
     {
-        $guru = Guru::where('id_card', $id)->first();
+        $guru = Guru::where('nip', $id)->first();
         return $guru;
     }
 
     public function siswa($id)
     {
-        $siswa = Siswa::where('no_induk', $id)->first();
+        $siswa = Siswa::where('nis', $id)->first();
         return $siswa;
     }
 

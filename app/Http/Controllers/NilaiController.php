@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Pengumuman;
+use App\Nilai;
 use Illuminate\Http\Request;
 
-class PengumumanController extends Controller
+class NilaiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,26 +15,6 @@ class PengumumanController extends Controller
     public function index()
     {
         //
-        $pengumuman = Pengumuman::where('judul_pengumuman', 'isi_pengumuman')->first();
-        return view('admin.pengumuman', compact('pengumuman'));
-    }
-
-    public function simpan(Request $request)
-    {
-        $this->validate($request, [
-            'judul_pengumuman' => 'required',
-            'isi_pengumuman'=>'required'
-        ]);
-
-        Pengumuman::updateOrCreate(
-            [
-                'id' => $request->id,
-                'judul_pengumuman' => $request->judul_pengumuman,
-                'isi_pengumuman' => $request->isi_pengumuman,
-            ]
-        );
-
-        return redirect()->back()->with('success', 'Pengumuman berhasil di perbarui!');
     }
 
     /**
@@ -61,10 +41,10 @@ class PengumumanController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Pengumuman  $pengumuman
+     * @param  \App\Nilai  $nilai
      * @return \Illuminate\Http\Response
      */
-    public function show(Pengumuman $pengumuman)
+    public function show(Nilai $nilai)
     {
         //
     }
@@ -72,10 +52,10 @@ class PengumumanController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Pengumuman  $pengumuman
+     * @param  \App\Nilai  $nilai
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pengumuman $pengumuman)
+    public function edit(Nilai $nilai)
     {
         //
     }
@@ -84,10 +64,10 @@ class PengumumanController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Pengumuman  $pengumuman
+     * @param  \App\Nilai  $nilai
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pengumuman $pengumuman)
+    public function update(Request $request, Nilai $nilai)
     {
         //
     }
@@ -95,10 +75,10 @@ class PengumumanController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Pengumuman  $pengumuman
+     * @param  \App\Nilai  $nilai
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pengumuman $pengumuman)
+    public function destroy(Nilai $nilai)
     {
         //
     }

@@ -12,23 +12,11 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 @if (Auth::user()->roles == 'Admin')
-                    <li class="nav-item has-treeview" id="liDashboard">
-                        <a href="#" class="nav-link" id="Dashboard">
-                            <i class="nav-icon fas fa-home"></i>
-                            <p>
-                                Dashboard
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
+                    <li class="nav-item" id="liDashboard">
+                        <a href="{{ url('/') }}" class="nav-link" id="Home">
+                            <i class="fas fa-home nav-icon"></i>
+                            <p>Dashboard</p>
                         </a>
-                        <ul class="nav nav-treeview ml-4">
-                            <li class="nav-item">
-                                <a href="{{ url('/') }}" class="nav-link" id="Home">
-                                    <i class="fas fa-home nav-icon"></i>
-                                    <p>Dashboard</p>
-                                </a>
-                            </li>
-                            
-                        </ul>
                     </li>
                     <li class="nav-item has-treeview" id="liMasterData">
                         <a href="#" class="nav-link" id="MasterData">
@@ -45,13 +33,13 @@
                                     <p>Data Jadwal</p>
                                 </a>
                             </li>
-                            {{-- <li class="nav-item">
+                            <li class="nav-item">
                                 <a href="{{ route('guru.index') }}" class="nav-link" id="DataGuru">
                                     <i class="fas fa-users nav-icon"></i>
                                     <p>Data Guru</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a href="{{ route('kelas.index') }}" class="nav-link" id="DataKelas">
                                     <i class="fas fa-home nav-icon"></i>
                                     <p>Data Kelas</p>
@@ -119,10 +107,10 @@
                         </ul> --}}
                     </li>
                     <li class="nav-item">
-                        {{-- <a href="{{ route('admin.pengumuman') }}" class="nav-link" id="Pengumuman">
+                        <a href="{{ route('admin.pengumuman') }}" class="nav-link" id="Pengumuman">
                             <i class="nav-icon fas fa-clipboard"></i>
                             <p>Pengumuman</p>
-                        </a> --}}
+                        </a>
                     </li>
                 {{-- @elseif (Auth::user()->role == 'Guru' && Auth::user()->guru(Auth::user()->id_card))
                     <li class="nav-item has-treeview">
