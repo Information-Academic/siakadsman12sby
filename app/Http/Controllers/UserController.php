@@ -23,7 +23,7 @@ class UserController extends Controller
     public function index()
     {
         $user = User::all();
-        $user = $user->groupBy('role');
+        $user = $user->groupBy('roles');
         return view('admin.user.index', compact('user'));
     }
 
@@ -39,11 +39,12 @@ class UserController extends Controller
             $countGuru = Guru::where('nip', $request->nomer)->count();
             $guruId = Guru::where('nip', $request->nomer)->get();
             foreach ($guruId as $val) {
-                $guru = Guru::findOrFail($val->id);
+                $guru = Guru::find($val->id);
             }
             if ($countGuru >= 1) {
                 User::create([
-                    'name' => $guru->nama_guru,
+                    'nama_depan' => $guru->nama_guru,
+                    'nama_pengguna'=> $request->nama_pengguna,
                     'email' => $request->email,
                     'password' => Hash::make($request->password),
                     'roles' => $request->roles,
@@ -73,10 +74,11 @@ class UserController extends Controller
             }
         } else {
             User::create([
-                'name' => $request->name,
+                'nama_depan' => $request->nama_depan,
+                'nama_pengguna' => $request->nama_pengguna,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'roles' => $request->role,
+                'roles' => $request->roles,
             ]);
             return redirect()->back()->with('success', 'Berhasil menambahkan user Admin baru!');
         }
@@ -86,13 +88,9 @@ class UserController extends Controller
     public function show($id)
     {
         $id = Crypt::decrypt($id);
-        if ($id == "Admin") {
-            return redirect()->back()->with('warning', 'Maaf halaman ini hanya bisa di akses oleh Admin!');
-        } else {
-            $user = User::where('roles', $id)->get();
-            $role = $user->groupBy('roles');
-            return view('admin.user.show', compact('user', 'role'));
-        }
+        $user = User::where('roles', $id)->get();
+        $role = $user->groupBy('roles');
+        return view('admin.user.show', compact('user', 'role'));
     }
 
     public function destroy($id)

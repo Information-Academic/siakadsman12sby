@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Guru;
+use App\Jadwal;
 use App\Kelas;
+use App\Siswa;
 use Illuminate\Http\Request;
 
 class KelasController extends Controller
@@ -15,6 +18,9 @@ class KelasController extends Controller
     public function index()
     {
         //
+        $kelas = Kelas::OrderBy('kelas', 'asc')->get();
+        $guru = Guru::OrderBy('nama_guru', 'asc')->get();
+        return view('admin.kelas.index', compact('kelas', 'guru'));
     }
 
     /**
@@ -25,6 +31,8 @@ class KelasController extends Controller
     public function create()
     {
         //
+        $guru = Guru::OrderBy('nama_guru', 'asc')->get();
+        return view('admin.kelas.create', compact('guru'));
     }
 
     /**
@@ -36,6 +44,35 @@ class KelasController extends Controller
     public function store(Request $request)
     {
         //
+        if ($request->id != '') {
+            $this->validate($request, [
+                'kelas' => 'required|min:1|max:200',
+                'tipe_kelas' => 'required|min:3|max:100',
+                'tahun' => 'required|min:2|max:200',
+                'gurus_id' => 'required|unique:kelas',
+            ]);
+        } else {
+            $this->validate($request, [
+                'kelas' => 'required|min:1|max:200',
+                'tipe_kelas' => 'required|min:3|max:100',
+                'tahun' => 'required|min:2|max:200',
+                'gurus_id' => 'required|unique:kelas',
+            ]);
+        }
+
+        Kelas::updateOrCreate(
+            [
+                'id' => $request->id
+            ],
+            [
+                'kelas' => 'required|min:1|max:200',
+                'tipe_kelas' => 'required|min:3|max:100',
+                'tahun' => 'required|min:2|max:200',
+                'gurus_id' => 'required|unique:kelas',
+            ]
+        );
+
+        return redirect()->back()->with('success', 'Data kelas berhasil diperbarui!');
     }
 
     /**
@@ -78,8 +115,36 @@ class KelasController extends Controller
      * @param  \App\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kelas $kelas)
+    public function destroy($id)
     {
         //
+        $kelas = Kelas::findorfail($id);
+        $countJadwal = Jadwal::where('kelas_id', $kelas->id)->count();
+        if ($countJadwal >= 1) {
+            Jadwal::where('kelas_id', $kelas->id)->delete();
+        } else {
+        }
+        $countSiswa = Siswa::where('kelas_id', $kelas->id)->count();
+        if ($countSiswa >= 1) {
+            Siswa::where('kelas_id', $kelas->id)->delete();
+        } else {
+        }
+        $kelas->delete();
+        return redirect()->back()->with('warning', 'Data kelas berhasil dihapus!');
+    }
+
+    public function getEdit(Request $request)
+    {
+        $kelas = Kelas::where('id', $request->id)->get();
+        foreach ($kelas as $val) {
+            $newForm[] = array(
+                'id' => $val->id,
+                'kelas' => $val->kelas,
+                'tipe_kelas'=> $val->tipe_kelas,
+                'tahun'=> $val->tahun,
+                'gurus_id' => $val->gurus_id,
+            );
+        }
+        return response()->json($newForm);
     }
 }

@@ -51,5 +51,8 @@ Route::middleware(['admin'])->group(function(){
 	Route::resource('/guru', 'GuruController');
 	Route::get('/guru/mapel/{id}', 'GuruController@mapel')->name('guru.mapel');
 	Route::get('/guru/ubah-foto/{id}', 'GuruController@ubah_foto')->name('guru.ubah-foto');
+	Route::resource('/kelas', 'KelasController');
+	Route::get('/kelas/edit/json', 'KelasController@getEdit');
+	Route::resource('/user', 'UserController');
 });
 

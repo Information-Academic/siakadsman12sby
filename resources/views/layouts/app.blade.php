@@ -38,12 +38,12 @@
 <!-- page script -->
 <script>
   $(document).ready(function(){
-      $('#role').change(function(){
-          var kel = $('#role option:selected').val();
+      $('#roles').change(function(){
+          var kel = $('#roles option:selected').val();
           if (kel == "Guru") {
             $("#noId").addClass("mb-3");
             $("#noId").html(`
-              <input id="nomer" type="text" maxlength="5" onkeypress="return inputAngka(event)" placeholder="No Id Card" class="form-control @error('nomer') is-invalid @enderror" name="nomer" autocomplete="nomer">
+              <input id="nomer" type="text" maxlength="5" onkeypress="return inputAngka(event)" placeholder="NIP" class="form-control @error('nomer') is-invalid @enderror" name="nomer" autocomplete="nomer">
               <div class="input-group-append">
                 <div class="input-group-text">
                   <span class="fas fa-id-card"></span>
@@ -80,12 +80,19 @@
           }
       });
   });
+  function inputAngka(e) {
+    var charCode = (e.which) ? e.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57)){
+      return false;
+    }
+    return true;
+  }
 </script>
 @yield('script')
 
 @error('id_card')
   <script>
-    toastr.error("Maaf User ini tidak terdaftar sebagai Guru SMKN 1 Jenangan Ponorogo!");
+    toastr.error("Maaf User ini tidak terdaftar sebagai Guru SMAN 12 Surabaya!");
   </script>
 @enderror
 @error('guru')
@@ -95,7 +102,7 @@
 @enderror
 @error('no_induk')
   <script>
-    toastr.error("Maaf User ini tidak terdaftar sebagai Siswa SMKN 1 Jenangan Ponorogo!");
+    toastr.error("Maaf User ini tidak terdaftar sebagai Siswa SMAN 12 Surabaya!");
   </script>
 @enderror
 @error('siswa')
