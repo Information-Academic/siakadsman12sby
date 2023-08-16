@@ -48,14 +48,13 @@ class KelasController extends Controller
             $this->validate($request, [
                 'kelas' => 'required|min:1|max:200',
                 'tipe_kelas' => 'required|min:3|max:100',
-                'tahun' => 'required|min:2|max:200',
                 'gurus_id' => 'required|unique:kelas',
             ]);
         } else {
             $this->validate($request, [
                 'kelas' => 'required|min:1|max:200',
                 'tipe_kelas' => 'required|min:3|max:100',
-                'tahun' => 'required|min:2|max:200',
+                'tahun' => 'required',
                 'gurus_id' => 'required|unique:kelas',
             ]);
         }
@@ -65,10 +64,10 @@ class KelasController extends Controller
                 'id' => $request->id
             ],
             [
-                'kelas' => 'required|min:1|max:200',
-                'tipe_kelas' => 'required|min:3|max:100',
-                'tahun' => 'required|min:2|max:200',
-                'gurus_id' => 'required|unique:kelas',
+                'kelas' => $request->kelas,
+                'tipe_kelas' => $request->tipe_kelas,
+                'tahun' => $request->tahun,
+                'gurus_id' => $request->gurus_id,
             ]
         );
 

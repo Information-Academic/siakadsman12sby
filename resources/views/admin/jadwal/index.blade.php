@@ -95,6 +95,15 @@
                       @endforeach
                   </select>
                 </div>
+                <div class="form-group">
+                  <label for="gurus_id">Nama Guru</label>
+                  <select id="gurus_id" name="gurus_id" class="form-control @error('gurus_id') is-invalid @enderror select2bs4">
+                      <option value="">-- Pilih Guru --</option>
+                      @foreach ($guru as $data)
+                          <option value="{{ $data->id }}">{{ $data->nama_guru }}</option>
+                      @endforeach
+                  </select>
+                </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">

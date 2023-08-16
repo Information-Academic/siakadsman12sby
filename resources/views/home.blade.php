@@ -12,6 +12,7 @@
                   <tr>
                     <th>Jam Pelajaran</th>
                     <th>Mata Pelajaran</th>
+                    <th>Nama Guru</th>
                     <th>Kelas</th>
                     <th>Tipe Kelas</th>
                   </tr>
@@ -23,19 +24,24 @@
                     @endphp
                     @if ( $jadwal->count() > 0 )
                       @if (
-                        $hari == '1' && $jam >= '09:45' && $jam <= '10:15' ||
-                        $hari == '1' && $jam >= '12:30' && $jam <= '13:15' ||
-                        $hari == '2' && $jam >= '09:15' && $jam <= '09:45' ||
-                        $hari == '2' && $jam >= '12:00' && $jam <= '13:00' ||
-                        $hari == '3' && $jam >= '09:15' && $jam <= '09:45' ||
-                        $hari == '3' && $jam >= '12:00' && $jam <= '13:00' ||
-                        $hari == '4' && $jam >= '09:15' && $jam <= '09:45' ||
-                        $hari == '4' && $jam >= '12:00' && $jam <= '13:00' ||
-                        $hari == '5' && $jam >= '09:00' && $jam <= '09:15' ||
-                        $hari == '5' && $jam >= '11:15' && $jam <= '13:00'
+                        $hari == '1' && $jam >= '09:30' && $jam <= '10:00' ||
+                        $hari == '2' && $jam >= '09:30' && $jam <= '10:00' ||
+                        $hari == '3' && $jam >= '09:30' && $jam <= '10:00' ||
+                        $hari == '4' && $jam >= '09:30' && $jam <= '10:00' ||
+                        $hari == '5' && $jam >= '09:30' && $jam <= '10:00' 
                       )
                       <tr>
-                        <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Waktunya Istirahat!</td>
+                        <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Waktunya Istirahat Pertama!</td>
+                      </tr>
+                      @elseif(
+                        $hari == '1' && $jam >= '11:30' && $jam <= '12:15' ||
+                        $hari == '2' && $jam >= '11:30' && $jam <= '12:15' ||
+                        $hari == '3' && $jam >= '11:30' && $jam <= '12:15' ||
+                        $hari == '4' && $jam >= '11:30' && $jam <= '12:15' ||
+                        $hari == '5' && $jam >= '11:30' && $jam <= '12:15' 
+                      )
+                      <tr>
+                        <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Waktunya Istirahat Kedua!</td>
                       </tr>
                       @else
                       @foreach ($jadwal as $data)
@@ -47,27 +53,19 @@
                           </td>
                           <td>{{ $data->kelas->kelas}}</td>
                           <td>{{ $data->kelas->tipe_kelas}}</td>
-                          {{-- <td>
-                            @if ($data->absen($data->gurus_id))
-                              <div style="margin-left:20px;width:30px;height:30px;background:#{{ $data->absen($data->guru_id) }}"></div>
-                            @elseif (date('H:i:s') >= '09:00:00')
-                              <div style="margin-left:20px;width:30px;height:30px;background:#F00"></div>
-                            @else
-                            @endif
-                          </td> --}}
                         </tr>
                       @endforeach
                   @endif
-                  @elseif ($jam <= '07:00')
+                  @elseif ($jam <= '06:30')
                     <tr>
                       <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Jam Pelajaran Hari ini Akan Segera Dimulai!</td>
                     </tr>
                 @elseif (
-                  $hari == '1' && $jam >= '16:15' ||
-                  $hari == '2' && $jam >= '16:00' ||
-                  $hari == '3' && $jam >= '16:00' ||
-                  $hari == '4' && $jam >= '16:00' ||
-                  $hari == '5' && $jam >= '15:40'
+                  $hari == '1' && $jam >= '15:15' ||
+                  $hari == '2' && $jam >= '15:15' ||
+                  $hari == '3' && $jam >= '15:15' ||
+                  $hari == '4' && $jam >= '15:15' ||
+                  $hari == '5' && $jam >= '14:00'
                 )
                   <tr>
                     <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Jam Pelajaran Hari ini Sudah Selesai!</td>
@@ -76,7 +74,7 @@
                   <tr>
                     <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Sekalah Libur!</td>
                   </tr>
-                @elseif($hari == '1' && $jam >= '07:00' && $jam <= '07:30')
+                @elseif($hari == '1' && $jam >= '06:30' && $jam <= '07:15')
                   <tr>
                     <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Waktunya Upacara Bendera!</td>
                   </tr>
@@ -130,18 +128,18 @@
               </tr>`
             );
           } else {
-            if (jam <= '07:00') {
+            if (jam <= '06:30') {
               $("#data-jadwal").html(
                 `<tr>
                   <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Jam Pelajaran Hari ini Akan Segera Dimulai!</td>
                 </tr>`
               );
             } else if (
-              hari == '1' && jam >= '16:15' ||
-              hari == '2' && jam >= '16:00' ||
-              hari == '3' && jam >= '16:00' ||
-              hari == '4' && jam >= '16:00' ||
-              hari == '5' && jam >= '15:40'
+              hari == '1' && jam >= '15:15' ||
+              hari == '2' && jam >= '15:15' ||
+              hari == '3' && jam >= '15:15' ||
+              hari == '4' && jam >= '15:15' ||
+              hari == '5' && jam >= '14:00'
             ) {
               $("#data-jadwal").html(
                 `<tr>
@@ -150,23 +148,32 @@
               );
             } else {
               if (
-                hari == '1' && jam >= '09:45' && jam <= '10:15' ||
-                hari == '1' && jam >= '12:30' && jam <= '13:15' ||
-                hari == '2' && jam >= '09:15' && jam <= '09:45' ||
-                hari == '2' && jam >= '12:00' && jam <= '13:00' ||
-                hari == '3' && jam >= '09:15' && jam <= '09:45' ||
-                hari == '3' && jam >= '12:00' && jam <= '13:00' ||
-                hari == '4' && jam >= '09:15' && jam <= '09:45' ||
-                hari == '4' && jam >= '12:00' && jam <= '13:00' ||
-                hari == '5' && jam >= '09:00' && jam <= '09:15' ||
-                hari == '5' && jam >= '11:15' && jam <= '13:00'
+                hari == '1' && jam >= '09:30' && jam <= '10:00' ||
+                hari == '2' && jam >= '09:30' && jam <= '10:00' ||
+                hari == '3' && jam >= '09:30' && jam <= '10:00' ||
+                hari == '4' && jam >= '09:30' && jam <= '10:00' ||
+                hari == '5' && jam >= '09:30' && jam <= '10:00'
               ) {
                 $("#data-jadwal").html(
                   `<tr>
-                    <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Waktunya Istirahat!</td>
+                    <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Waktunya Istirahat Pertama!</td>
                   </tr>`
                 );
-              } else if (hari == '1' && jam >= '07:00' && jam <= '07:30') {
+              }
+              else if (
+                hari == '1' && jam >= '11:30' && jam <= '12:15' ||
+                hari == '2' && jam >= '11:30' && jam <= '12:15' ||
+                hari == '3' && jam >= '11:30' && jam <= '12:15' ||
+                hari == '4' && jam >= '11:30' && jam <= '12:15' ||
+                hari == '5' && jam >= '11:30' && jam <= '12:15'
+              ) {
+                $("#data-jadwal").html(
+                  `<tr>
+                    <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Waktunya Istirahat Kedua!</td>
+                  </tr>`
+                );
+              } 
+              else if (hari == '1' && jam >= '06:30' && jam <= '07:15') {
                 $("#data-jadwal").html(
                   `<tr>
                     <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Waktunya Upacara Bendera!</td>
@@ -179,7 +186,7 @@
                     hari : hari,
                     jam : jam
                   },
-                  dataType:"JSON",
+                  dataType:"json",
                   url:"{{ url('/jadwal/sekarang') }}",
                   success:function(data){
                     var html = "";
@@ -188,12 +195,7 @@
                           html += "<td>" + val.jam_mulai + ' - ' + val.jam_selesai + "</td>";
                           html += "<td><h5 class='card-title'>" + val.mapel + "</h5><p class='card-text'><small class='text-muted'>" + val.guru + "</small></p></td>";
                           html += "<td>" + val.kelas + "</td>";
-                          html += "<td>" + val.ruang + "</td>";
-                          if (val.ket != null) {
-                            html += "<td><div style='margin-left:20px;width:30px;height:30px;background:#"+val.ket+"'></div></td>";
-                          } else {
-                            html += "<td></td>";
-                          }
+                          html += "<td>" + val.tipe_kelas + "</td>";
                         html += "</tr>";
                     });
                     $("#data-jadwal").html(html);

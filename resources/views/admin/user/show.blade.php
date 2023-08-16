@@ -27,7 +27,7 @@
                 <th>Email</th>
                 @foreach ($role as $d => $data)
                   @if ($d == 'Guru')
-                    <th>No Id Card</th>
+                    <th>NIP</th>
                   @elseif ($d == 'Siswa')
                     <th>No Induk Siswa</th>
                   @else
@@ -45,9 +45,9 @@
                 <td class="text-capitalize">{{ $data->nama_belakang }}</td>
                 <td class="text-capitalize">{{ $data->nama_pengguna }}</td>
                 <td>{{ $data->email }}</td>
-                @if ($data->role == 'Siswa')
+                @if ($data->roles == 'Siswa')
                   <td>{{ $data->nis }}</td>
-                @elseif ($data->role == 'Guru')
+                @elseif ($data->roles == 'Guru')
                   <td>{{ $data->nip}}</td>
                 @else
                 @endif

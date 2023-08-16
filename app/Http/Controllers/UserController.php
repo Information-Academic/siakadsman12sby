@@ -43,7 +43,8 @@ class UserController extends Controller
             }
             if ($countGuru >= 1) {
                 User::create([
-                    'nama_depan' => $guru->nama_guru,
+                    'nama_depan' => $request->nama_depan,
+                    'nama_belakang' => $request->nama_belakang,
                     'nama_pengguna'=> $request->nama_pengguna,
                     'email' => $request->email,
                     'password' => Hash::make($request->password),

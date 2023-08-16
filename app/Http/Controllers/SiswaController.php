@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Kelas;
 use App\Siswa;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,8 @@ class SiswaController extends Controller
     public function index()
     {
         //
+        $kelas = Kelas::OrderBy('kelas', 'asc')->get();
+        return view('admin.siswa.index', compact('kelas'));
     }
 
     /**

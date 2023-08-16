@@ -93,9 +93,15 @@ class JadwalController extends Controller
      * @param  \App\Jadwal  $jadwal
      * @return \Illuminate\Http\Response
      */
-    public function edit(Jadwal $jadwal)
+    public function edit($id)
     {
         //
+        $id = Crypt::decrypt($id);
+        $jadwal = Jadwal::findorfail($id);
+        $hari = Hari::all();
+        $kelas = Kelas::all();
+        $guru = Guru::OrderBy('nip', 'asc')->get();
+        return view('admin.jadwal.edit', compact('jadwal', 'hari', 'kelas', 'guru'));
     }
 
     /**
@@ -108,6 +114,13 @@ class JadwalController extends Controller
     public function update(Request $request, Jadwal $jadwal)
     {
         //
+        $jadwal->haris_id = $request->haris_id;
+        $jadwal->kelas_id = $request->kelas_id;
+        $jadwal->gurus_id = $request->gurus_id;
+        $jadwal->jam_mulai = $request->jam_mulai;
+        $jadwal->jam_selesai = $request->jam_selesai;
+        $jadwal->save();
+        return redirect()->back()->with('success', 'Data jadwal berhasil disunting!');
     }
 
     /**
@@ -116,8 +129,45 @@ class JadwalController extends Controller
      * @param  \App\Jadwal  $jadwal
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Jadwal $jadwal)
+    public function destroy($id)
     {
         //
+        $jadwal = Jadwal::findorfail($id);
+        $jadwal->delete();
+
+        return redirect()->back()->with('warning', 'Data jadwal berhasil dihapus!');
     }
+
+    public function jadwalSekarang(Request $request)
+    {
+        $jadwal = Jadwal::OrderBy('jam_mulai')->OrderBy('jam_selesai')->OrderBy('kelas_id')->where('hari_id', $request->hari)->where('jam_mulai', '<=', $request->jam)->where('jam_selesai', '>=', $request->jam)->get();
+        foreach ($jadwal as $val) {
+            $newForm[] = array(
+                'mapel' => $val->mapels->nama_mapel,
+                'kelas' => $val->kelas->kelas,
+                'guru' => $val->gurus->nama_guru,
+                'jam_mulai' => $val->jam_mulai,
+                'jam_selesai' => $val->jam_selesai,
+            );
+        }
+        return response()->json($newForm);
+    }
+
+    public function view(Request $request)
+    {
+        $jadwal = Jadwal::OrderBy('haris_id', 'asc')->OrderBy('jam_mulai', 'asc')->where('kelas_id', $request->id)->get();
+        foreach ($jadwal as $val) {
+            $newForm[] = array(
+                'hari' => $val->haris->nama_hari,
+                'mapel' => $val->mapels->nama_mapel,
+                'kelas' => $val->kelas->kelas,
+                'tipe_kelas' => $val->kelas->tipe_kelas,
+                'guru' => $val->gurus->nama_guru,
+                'jam_mulai' => $val->jam_mulai,
+                'jam_selesai' => $val->jam_selesai,
+            );
+        }
+        return response()->json($newForm);
+    }
+
 }

@@ -12,22 +12,22 @@ class Jadwal extends Model
 
   public function hari()
   {
-    return $this->belongsTo('App\Hari');
+    return $this->belongsTo('App\Hari','haris_id');
   }
 
   public function kelas()
   {
-    return $this->belongsTo('App\Kelas');
+    return $this->belongsTo('App\Kelas','kelas_id');
   }
 
   public function mapel()
   {
-    return $this->belongsTo('App\Mapel');
+    return $this->belongsTo('App\Mapel','mapels_id');
   }
 
   public function guru()
   {
-    return $this->belongsTo('App\Guru');
+    return $this->belongsTo('App\Guru','gurus_id');
   }
 
 }

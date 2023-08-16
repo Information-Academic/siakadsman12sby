@@ -20,6 +20,8 @@
                 <tr>
                     <th>No.</th>
                     <th>Kelas</th>
+                    <th>Tipe Kelas</th>
+                    <th>Tahun</th>
                     <th>Wali Kelas</th>
                     <th>Aksi</th>
                 </tr>
@@ -28,8 +30,10 @@
                 @foreach ($kelas as $data)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $data->nama_kelas }}</td>
-                    <td>{{ $data->guru->nama_guru }}</td>
+                    <td>{{ $data->kelas }}</td>
+                    <td>{{ $data->tipe_kelas }}</td>
+                    <td>{{ $data->tahun }}</td>
+                    <td>{{ $data->guru['nama_guru'] }}</td>
                     <td>
                         <form action="{{ route('kelas.destroy', $data->id) }}" method="post">
                             @csrf
@@ -196,7 +200,7 @@
         <input type='text' id="kelas" onkeyup="this.value = this.value.toUpperCase()" name='kelas' class="form-control @error('kelas') is-invalid @enderror" placeholder="{{ __('Kelas') }}">
         <label for="tipe_kelas">Tipe Kelas</label>
         <input type='text' id="tipe_kelas" onkeyup="this.value = this.value.toUpperCase()" name='tipe_kelas' class="form-control @error('tipe_kelas') is-invalid @enderror" placeholder="{{ __('Tipe Kelas') }}">
-        <label for="tahun">Tipe Kelas</label>
+        <label for="tahun">Tahun</label>
         <input type='text' id="tahun" onkeyup="this.value = this.value.toUpperCase()" name='tahun' class="form-control @error('tahun') is-invalid @enderror" placeholder="{{ __('Tahun') }}">
       `);
       $('#kelas').val('');
@@ -219,6 +223,7 @@
               $('#form_nama').html('');
               $('#kelas').val(val.kelas);
               $('#tipe_kelas').val(val.tipe_kelas);
+              $('#tahun').val(val.tahun);
               $('#gurus_id').val(val.gurus_id);
             });
           }

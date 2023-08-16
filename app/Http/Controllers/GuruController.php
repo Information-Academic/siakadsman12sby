@@ -51,8 +51,8 @@ class GuruController extends Controller
             'jenis_kelamin' => 'required'
         ]);
 
-        if ($request->foto) {
-            $foto = $request->foto;
+        if ($request->foto_guru) {
+            $foto = $request->foto_guru;
             $new_foto = date('siHdmY') . "_" . $foto->getClientOriginalName();
             $foto->move('uploads/guru/', $new_foto);
             $nameFoto = 'uploads/guru/' . $new_foto;
@@ -75,10 +75,10 @@ class GuruController extends Controller
             'foto_guru' => $nameFoto,
             'status_guru' => $request->status_guru
         ]);
-
-        Nilai::create([
-            'gurus_id' => $guru->id
-        ]);
+        // Ditutup dulu sementara
+        // Nilai::create([
+        //     'gurus_id' => $guru->id
+        // ]);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan data guru baru!');
     }
@@ -171,7 +171,7 @@ class GuruController extends Controller
             $user = User::where('nip', $guru->nip)->delete();
         }
         $guru->delete();
-        return redirect()->route('guru.index')->with('warning', 'Data guru berhasil dihapus! (Silahkan cek trash data guru)');
+        return redirect()->route('guru.index')->with('warning', 'Data guru berhasil dihapus!');
     }
 
     public function ubah_foto($id)

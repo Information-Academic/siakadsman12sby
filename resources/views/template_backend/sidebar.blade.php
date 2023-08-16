@@ -1,5 +1,5 @@
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar sidebar-light-primary elevation-4">
     <!-- Brand Logo -->
     <a href="" class="brand-link" style="">
         <img src="{{ asset('img/sman12sby.png') }}" alt="sman12sby" class="brand-image img-circle elevation-3">
@@ -45,18 +45,18 @@
                                     <p>Data Kelas</p>
                                 </a>
                             </li>
-                            {{-- <li class="nav-item">
+                            <li class="nav-item">
                                 <a href="{{ route('siswa.index') }}" class="nav-link" id="DataSiswa">
                                     <i class="fas fa-users nav-icon"></i>
                                     <p>Data Siswa</p>
                                 </a>
-                            </li> --}}
-                            {{-- <li class="nav-item">
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('mapel.index') }}" class="nav-link" id="DataMapel">
                                     <i class="fas fa-book nav-icon"></i>
                                     <p>Data Mapel</p>
                                 </a>
-                            </li> --}}
+                            </li>
                             <li class="nav-item">
                                 <a href="{{ route('user.index') }}" class="nav-link" id="DataUser">
                                     <i class="fas fa-user-plus nav-icon"></i>
