@@ -60,13 +60,13 @@
                     <tr>
                       <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Jam Pelajaran Hari ini Akan Segera Dimulai!</td>
                     </tr>
-                @elseif (
+                  @elseif (
                   $hari == '1' && $jam >= '15:15' ||
                   $hari == '2' && $jam >= '15:15' ||
                   $hari == '3' && $jam >= '15:15' ||
                   $hari == '4' && $jam >= '15:15' ||
                   $hari == '5' && $jam >= '14:00'
-                )
+                  )
                   <tr>
                     <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Jam Pelajaran Hari ini Sudah Selesai!</td>
                   </tr>
@@ -181,7 +181,7 @@
                 );
               } else {
                 $.ajax({
-                  type:"GET",
+                  type:"get",
                   data: {
                     hari : hari,
                     jam : jam
@@ -199,8 +199,6 @@
                         html += "</tr>";
                     });
                     $("#data-jadwal").html(html);
-                  },
-                  error:function(){
                   }
                 });
               }

@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
   <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
   <link rel="icon" type="image/png" href="{{ asset('img/sman12sby.png') }}">
+  <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
 <body class="hold-transition login-page" style="background-image: url('{{ asset("images/sman12sby.jpeg") }}'); background-size: cover; background-attachment: fixed;">
   <div class="login-box">
@@ -36,6 +37,7 @@
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
 <!-- page script -->
+@yield('script')
 <script>
   $(document).ready(function(){
       $('#roles').change(function(){
@@ -88,7 +90,7 @@
     return true;
   }
 </script>
-@yield('script')
+
 
 @error('id_card')
   <script>

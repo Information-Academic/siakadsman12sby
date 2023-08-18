@@ -54,6 +54,10 @@ Route::middleware(['admin'])->group(function(){
 	Route::get('/kelas/edit/json', 'KelasController@getEdit');
 	Route::get('/jadwal/view/json', 'JadwalController@view');
 	Route::get('/siswa/view/json', 'SiswaController@view');
+	Route::get('/siswa/kelas/{id}', 'SiswaController@kelas')->name('siswa.kelas');
+	Route::get('/listsiswapdf/{id}', 'SiswaController@cetak_pdf');
+    Route::get('/siswa/ubah-foto/{id}', 'SiswaController@ubah_foto')->name('siswa.ubah-foto');
+    Route::post('/siswa/update-foto/{id}', 'SiswaController@update_foto')->name('siswa.update-foto');
 	Route::get('/mapel/getMapelJson', 'MapelController@getMapelJson');
 	Route::resource('/jadwal', 'JadwalController');
 	Route::resource('/guru', 'GuruController');

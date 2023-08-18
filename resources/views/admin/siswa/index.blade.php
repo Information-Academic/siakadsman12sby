@@ -63,7 +63,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="no_induk">Nomor Induk</label>
+                        <label for="no_induk">Nomor Induk Siswa</label>
                         <input type="text" id="nis" name="nis" onkeypress="return inputAngka(event)" class="form-control @error('nis') is-invalid @enderror">
                     </div>
                     <div class="form-group">
@@ -103,7 +103,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="kelas_id">Tipe Kelas</label>
+                        <label for="tipe_kelas">Tipe Kelas</label>
                         <select id="tipe_kelas" name="tipe_kelas" class="select2bs4 form-control @error('tipe_kelas') is-invalid @enderror">
                             <option value="">-- Pilih Kelas --</option>
                             @foreach ($kelas as $data)
