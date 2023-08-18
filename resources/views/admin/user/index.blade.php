@@ -11,8 +11,50 @@
                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".tambah-user">
                     <i class="nav-icon fas fa-folder-plus"></i> &nbsp; Tambah Data User
                 </button>
+                <button type="button" class="btn btn-success btn-sm my-3" data-toggle="modal" data-target="#importExcel">
+                  <i class="nav-icon fas fa-file-import"></i> &nbsp; IMPORT EXCEL
+                </button>
             </h3>
         </div>
+        <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <form method="post" action="{{ route('user.import_excel') }}" enctype="multipart/form-data">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
+                </div>
+                <div class="modal-body">
+                  @csrf
+                    <div class="card card-outline card-primary">
+                        <div class="card-header">
+                            <h5 class="modal-title">Petunjuk : (Gunakan ekstensi .xlsx dan .csv untuk dapat melakukan import file data guru agar bisa terbaca dengan baik)</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>rows 1 = Nama Depan</li>
+                                <li>rows 2 = Nama Belakang (Opsional)</li>
+                                <li>rows 3 = Nama Pengguna</li>
+                                <li>rows 4 = Email</li>
+                                <li>rows 5 = Password</li>
+                                <li>rows 6 = Roles</li>
+                                <li>rows 7 = NIS (Nomor Induk Siswa)</li>
+                                <li>rows 8 = NIP (Nomor Induk Pegawai)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <label>Pilih file excel</label>
+                    <div class="form-group">
+                      <input type="file" name="file" required="required">
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Import</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
         <!-- /.card-header -->
         <div class="card-body">
           <table class="table table-bordered table-striped table-hover">

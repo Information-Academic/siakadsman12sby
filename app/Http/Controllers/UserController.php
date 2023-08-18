@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Guru;
+use App\Imports\UserImport;
 use App\Kelas;
 use App\Mapel;
 use App\Siswa;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -341,6 +343,18 @@ class UserController extends Controller
         } else {
             return response()->json(['warning' => 'Maaf user tidak ditemukan!']);
         }
+    }
+
+    public function import_excel(Request $request)
+    {
+        $this->validate($request, [
+            'file' => 'required|mimes:csv,xls,xlsx'
+        ]);
+        $file = $request->file('file');
+        $nama_file = rand() . $file->getClientOriginalName();
+        $file->move('file_user', $nama_file);
+        Excel::import(new UserImport, public_path('/file_user/' . $nama_file));
+        return redirect()->back()->with('success', 'Data User Berhasil Diimport!');
     }
 
 }

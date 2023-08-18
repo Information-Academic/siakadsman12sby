@@ -15,8 +15,8 @@ class Siswa
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user()->roles != 'Siswa') {
-            return redirect('home');
+        if ($request->user()['roles'] != 'Siswa') {
+            return redirect('/login');
         }
         return $next($request);
     }

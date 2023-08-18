@@ -59,6 +59,7 @@ Route::middleware(['admin'])->group(function(){
     Route::get('/siswa/ubah-foto/{id}', 'SiswaController@ubah_foto')->name('siswa.ubah-foto');
     Route::post('/siswa/update-foto/{id}', 'SiswaController@update_foto')->name('siswa.update-foto');
 	Route::get('/mapel/getMapelJson', 'MapelController@getMapelJson');
+	Route::post('/user/import_excel', 'UserController@import_excel')->name('user.import_excel');
 	Route::resource('/jadwal', 'JadwalController');
 	Route::resource('/guru', 'GuruController');
 	Route::resource('/kelas', 'KelasController');
