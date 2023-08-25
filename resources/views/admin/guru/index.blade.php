@@ -68,6 +68,10 @@
                         <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="form-control @error('tanggal_lahir') is-invalid @enderror">
                     </div>
                     <div class="form-group">
+                        <label for="alamat_guru">Alamat Guru</label>
+                        <input type="text" id="alamat_guru" name="alamat_guru" class="form-control @error('alamat_guru') is-invalid @enderror">
+                    </div>
+                    <div class="form-group">
                         <label for="jenis_kelamin">Jenis Kelamin</label>
                         <select id="jenis_kelamin" name="jenis_kelamin" class="select2bs4 form-control @error('jenis_kelamin') is-invalid @enderror">
                             <option value="">-- Pilih Jenis Kelamin --</option>
@@ -81,14 +85,19 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="mapel_id">Mapel</label>
-                        <select id="mapels_id" name="mapels_id" class="select2bs4 form-control @error('mapels_id') is-invalid @enderror">
+                    <div class="form-group after-add-more">
+                        <div class="form-group delete">
+                        <label for="mapels_id">Mapel</label>
+                        <div class="copy hapus hide">
+                        <select multiple id="mapels_id" name="mapels_id" class="select2bs4 form-control @error('mapels_id') is-invalid @enderror">
                             <option value="">-- Pilih Mapel --</option>
                             @foreach ($mapel as $data)
                                 <option value="{{ $data->id }}">{{ $data->nama_mapel }}</option>
                             @endforeach
                         </select>
+                        <hr>
+                        </div>
+                        </div>
                     </div>
                     @php
                         $kode = $max+1;
@@ -109,7 +118,7 @@
                         <input type="text" id="nip" name="nip" maxlength="5" onkeypress="return inputAngka(event)" value="{{ $nip }}" class="form-control @error('nip') is-invalid @enderror" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="foto_guru">File input</label>
+                        <label for="foto_guru">Foto Guru</label>
                         <div class="input-group">
                             <div class="custom-file">
                                 <input type="file" name="foto_guru" class="custom-file-input @error('foto_guru') is-invalid @enderror" id="foto_guru">
@@ -125,6 +134,15 @@
                             <option value="Pns">PNS</option>
                             <option value="Honorer">Honorer</option>
                             <option value="Tidak Tetap">Tidak Tetap</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status_pegawai">Status Pegawai</label>
+                        <select id="status_pegawai" name="status_pegawai" class="select2bs4 form-control @error('status_pegawai') is-invalid @enderror">
+                            <option value="">-- Pilih Status Pegawai --</option>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Tidak Aktif">Tidak Aktif</option>
                         </select>
                     </div>
                 </div>

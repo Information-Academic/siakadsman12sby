@@ -1,6 +1,6 @@
 <footer class="main-footer">
     <marquee>
-        <strong>Copyright &copy; <script>document.write(new Date().getFullYear());</script> &diams; <a href="http://smkn1jenpo.sch.id/">SMA Negeri 12 Surabaya</a>. </strong>
+        <strong>Copyright &copy; <script>document.write(new Date().getFullYear());</script> &diams; <a href="https://sman12sby.sch.id/">SMA Negeri 12 Surabaya</a>. </strong>
     </marquee>
 </footer>
 

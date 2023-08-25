@@ -71,6 +71,10 @@
                     <input type="date" id="tanggal_lahir" name="tanggal_lahir" value="{{ $guru->tanggal_lahir }}" class="form-control @error('tanggal_lahir') is-invalid @enderror">
                 </div>
                 <div class="form-group">
+                    <label for="alamat_guru">Alamat Guru</label>
+                    <input type="text" id="alamat_guru" name="alamat_guru" value="{{ $guru->alamat_guru }}" class="form-control @error('alamat_guru') is-invalid @enderror">
+                </div>
+                <div class="form-group">
                     <label for="status_guru">Status Guru</label>
                     <select id="status_guru" name="status_guru" class="select2bs4 form-control @error('status_guru') is-invalid @enderror">
                         <option value="">-- Pilih Status Guru --</option>
@@ -89,6 +93,22 @@
                                 selected
                             @endif
                         >Tidak Tetap</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="status_pegawai">Status Pegawai</label>
+                    <select id="status_pegawai" name="status_pegawai" class="select2bs4 form-control @error('status_pegawai') is-invalid @enderror">
+                        <option value="">-- Pilih Status Pegawai --</option>
+                        <option value="Aktif"
+                            @if ($guru->status_pegawai == 'Aktif')
+                                selected
+                            @endif
+                        >Aktif</option>
+                        <option value="Tidak Aktif"
+                            @if ($guru->status_pegawai == 'Tidak Aktif')
+                                selected
+                            @endif
+                        >Tidak Aktif</option>
                     </select>
                 </div>
             </div>

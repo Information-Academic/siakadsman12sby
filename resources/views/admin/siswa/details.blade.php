@@ -19,6 +19,7 @@
                 <div class="col-md-7">
                     <h5 class="card-title card-text mb-2">Nama : {{ $siswa->nama_siswa }}</h5>
                     <h5 class="card-title card-text mb-2">NIS : {{ $siswa->nis }}</h5>
+                    <h5 class="card-title card-text mb-2">Alamat : {{ $siswa->alamat }}</h5>
                     <h5 class="card-title card-text mb-2">Kelas : {{ $siswa->kelas->kelas }}</h5>
                     <h5 class="card-title card-text mb-2">Tipe Kelas : {{ $siswa->kelas->tipe_kelas }}</h5>
                     <h5 class="card-title card-text mb-2">Tahun : {{ $siswa->kelas->tahun }}</h5>

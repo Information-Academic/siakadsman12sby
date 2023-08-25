@@ -27,7 +27,7 @@
                   @csrf
                     <div class="card card-outline card-primary">
                         <div class="card-header">
-                            <h5 class="modal-title">Petunjuk : (Gunakan ekstensi .xlsx dan .csv untuk dapat melakukan import file data guru agar bisa terbaca dengan baik)</h5>
+                            <h5 class="modal-title">Petunjuk : (Gunakan ekstensi .xlsx dan .csv untuk dapat melakukan import file agar bisa terbaca dengan baik)</h5>
                         </div>
                         <div class="card-body">
                             <ul>

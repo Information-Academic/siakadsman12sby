@@ -27,7 +27,6 @@ Route::post('forget-password', 'Auth\ForgotPasswordController@submitForgetPasswo
 Route::get('reset-password/{token}', 'Auth\ForgotPasswordController@showResetPasswordForm')->name('reset.password.get');
 Route::post('reset-password', 'Auth\ForgotPasswordController@submitResetPasswordForm')->name('reset.password.post');
 
-
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/', 'HomeController@index')->name('home');
 	Route::get('/home', 'HomeController@index')->name('home');
@@ -60,11 +59,25 @@ Route::middleware(['admin'])->group(function(){
     Route::post('/siswa/update-foto/{id}', 'SiswaController@update_foto')->name('siswa.update-foto');
 	Route::get('/mapel/getMapelJson', 'MapelController@getMapelJson');
 	Route::post('/user/import_excel', 'UserController@import_excel')->name('user.import_excel');
+	Route::get('/soal', 'SoalController@index')->name('soal');
+	Route::get('/get-soal', 'SoalController@dataSoal')->name('elearning.get-soal');
+	Route::get('/get-soal-home', 'SoalController@dataSoalHome')->name('elearning.get-soal-home');
+	Route::get('/get-detail-soal', 'SoalController@dataDetailSoal')->name('elearning.get-detail-soal');
+	Route::post('simpan-soal', 'SoalController@simpanSoal');
 	Route::resource('/jadwal', 'JadwalController');
 	Route::resource('/guru', 'GuruController');
 	Route::resource('/kelas', 'KelasController');
 	Route::resource('/user', 'UserController');
 	Route::resource('/mapel', 'MapelController');
 	Route::resource('/siswa', 'SiswaController');
+	Route::resource('/soal', 'SoalController');
+	Route::group(['prefix' => 'crud'], function (){
+		Route::get('simpan-soal', 'SoalController@simpanSoal');
+		Route::post('terbit-soal', 'SoalController@terbitSoal');
+	});
+	Route::group(['prefix' => 'soal'], function (){
+		Route::get('/detail/{id}', 'SoalController@detail')->name('elearning.detail-soal');
+	});
 });
 
+Route::get('/download-file-format/{filename}', 'DownloadController@download')->name('download');

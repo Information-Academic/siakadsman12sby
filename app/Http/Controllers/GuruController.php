@@ -70,10 +70,12 @@ class GuruController extends Controller
             'mapels_id' => $request->mapels_id,
             'jenis_kelamin' => $request->jenis_kelamin,
             'no_telepon' => $request->no_telepon,
+            'alamat' => $request -> alamat,
             'tempat_lahir' => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
             'foto_guru' => $nameFoto,
-            'status_guru' => $request->status_guru
+            'status_guru' => $request->status_guru,
+            'status_pegawai' => $request->status_pegawai
         ]);
         // Ditutup dulu sementara
         // Nilai::create([
@@ -143,9 +145,11 @@ class GuruController extends Controller
             'mapels_id' => $request->mapels_id,
             'jenis_kelamin' => $request->jenis_kelamin,
             'no_telepon' => $request->no_telepon,
+            'alamat' => $request ->alamat,
             'tempat_lahir' => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
-            'status_guru' => $request->status_guru
+            'status_guru' => $request->status_guru,
+            'status_pegawai' => $request->status_pegawai
         ];
         $guru->update($guru_data);
 

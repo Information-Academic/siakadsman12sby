@@ -71,6 +71,10 @@
                         <input type="text" id="nama_siswa" name="nama_siswa" class="form-control @error('nama_siswa') is-invalid @enderror">
                     </div>
                     <div class="form-group">
+                        <label for="alamat">Alamat Siswa</label>
+                        <input type="text" id="alamat" name="alamat" class="form-control @error('alamat') is-invalid @enderror">
+                    </div>
+                    <div class="form-group">
                         <label for="jenis_kelamin">Jenis Kelamin</label>
                         <select id="jenis_kelamin" name="jenis_kelamin" class="select2bs4 form-control @error('jenis_kelamin') is-invalid @enderror">
                             <option value="">-- Pilih Jenis Kelamin --</option>
@@ -83,7 +87,7 @@
                         <input type="text" id="tempat_lahir" name="tempat_lahir" class="form-control @error('tempat_lahir') is-invalid @enderror">
                     </div>
                     <div class="form-group">
-                        <label for="foto_siswa">File input</label>
+                        <label for="foto_siswa">Foto Siswa</label>
                         <div class="input-group">
                             <div class="custom-file">
                                 <input type="file" name="foto_siswa" class="custom-file-input @error('foto_siswa') is-invalid @enderror" id="foto_siswa">

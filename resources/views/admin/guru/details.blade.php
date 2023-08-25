@@ -19,6 +19,7 @@
                 <div class="col-md-7">
                     <h5 class="card-title card-text mb-2">Nama : {{ $guru->nama_guru }}</h5>
                     <h5 class="card-title card-text mb-2">NIP : {{ $guru->nip }}</h5>
+                    <h5 class="card-title card-text mb-2">Alamat : {{ $guru->alamat }}</h5>
                     <h5 class="card-title card-text mb-2">Guru Mapel : {{ $guru->mapel['nama_mapel'] }}</h5>
                     @if ($guru->jenis_kelamin == 'L')
                         <h5 class="card-title card-text mb-2">Jenis Kelamin : Laki-laki</h5>
@@ -34,6 +35,11 @@
                         <h5 class="card-title card-text mb-2">Status Guru : Honorer</h5>
                     @else
                         <h5 class="card-title card-text mb-2">Status Guru : Tidak Tetap</h5>
+                    @endif
+                    @if ($guru->status_pegawai == 'Aktif')
+                        <h5 class="card-title card-text mb-2">Status Pegawai : Aktif</h5>
+                    @else
+                        <h5 class="card-title card-text mb-2">Status Pegawai : Tidak Aktif</h5>
                     @endif
                 </div>
             </div>

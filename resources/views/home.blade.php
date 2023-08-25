@@ -48,8 +48,8 @@
                         <tr>
                           <td>{{ $data->jam_mulai.' - '.$data->jam_selesai }}</td>
                           <td>
-                              <h5 class="card-title">{{ $data->mapels->nama_mapel }}</h5>
-                              <p class="card-text"><small class="text-muted">{{ $data->gurus->nama_guru }}</small></p>
+                              <h5 class="card-title">{{ $data->mapels['nama_mapel'] }}</h5>
+                              <p class="card-text"><small class="text-muted">{{ $data->gurus['nama_guru'] }}</small></p>
                           </td>
                           <td>{{ $data->kelas->kelas}}</td>
                           <td>{{ $data->kelas->tipe_kelas}}</td>

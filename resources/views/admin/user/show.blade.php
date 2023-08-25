@@ -56,7 +56,7 @@
                   <form action="{{ route('user.destroy', $data->id) }}" method="post">
                     @csrf
                     @method('delete')
-                    <button class="btn btn-danger btn-sm"><i class="nav-icon fas fa-trash-alt"></i> &nbsp; Hapus</button>
+                    <button class="btn btn-danger btn-sm" onclick="if(!confirm('apakah anda yakin untuk menghapus nama {{$data->nama_depan. ' '. $data->nama_belakang}} ini?')) return false;"><i class="nav-icon fas fa-trash-alt"></i> &nbsp; Hapus</button>
                   </form>
                 </td>
               </tr>

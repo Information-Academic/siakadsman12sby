@@ -58,6 +58,12 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{ route('soal.index') }}" class="nav-link" id="DataUlangan" target="_blank">
+                                    <i class="fas fa-paperclip nav-icon"></i>
+                                    <p>Data Ulangan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('user.index') }}" class="nav-link" id="DataUser">
                                     <i class="fas fa-user-plus nav-icon"></i>
                                     <p>Data User</p>
@@ -65,14 +71,31 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        {{-- <a href="{{ route('guru.absensi') }}" class="nav-link" id="AbsensiGuru">
-                            <i class="fas fa-calendar-check nav-icon"></i>
-                            <p>Absensi Guru</p>
-                        </a> --}}
+                    <li class="nav-item has-treeview" id="liPresensiData">
+                        <a href="#" class="nav-link" id="PresensiData">
+                            <i class="nav-icon fas fa-edit"></i>
+                            <p>
+                                Presensi Data
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview ml-4">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link" id="AbsensiGuru">
+                                    <i class="fas fa-calendar-check nav-icon"></i>
+                                    <p>Absensi Guru</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link" id="AbsensiGuru">
+                                    <i class="fas fa-calendar-check nav-icon"></i>
+                                    <p>Absensi Siswa</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item has-treeview" id="liNilai">
-                        {{-- <a href="#" class="nav-link" id="Nilai">
+                        <a href="#" class="nav-link" id="Nilai">
                             <i class="nav-icon fas fa-file-signature"></i>
                             <p>
                                 Nilai
@@ -81,30 +104,18 @@
                         </a>
                         <ul class="nav nav-treeview ml-4">
                             <li class="nav-item">
-                                <a href="{{ route('ulangan-kelas') }}" class="nav-link" id="Ulangan">
+                                <a href="#" class="nav-link" id="Ulangan">
                                     <i class="fas fa-file-alt nav-icon"></i>
                                     <p>Nilai Ulangan</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('sikap-kelas') }}" class="nav-link" id="Sikap">
-                                    <i class="fas fa-file-alt nav-icon"></i>
-                                    <p>Nilai Sikap</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('rapot-kelas') }}" class="nav-link" id="Rapot">
+                                <a href="#" class="nav-link" id="Rapot">
                                     <i class="fas fa-file-alt nav-icon"></i>
                                     <p>Nilai Rapot</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{ route('predikat') }}" class="nav-link" id="Deskripsi">
-                                    <i class="fas fa-file-alt nav-icon"></i>
-                                    <p>Deskripsi Predikat</p>
-                                </a>
-                            </li>
-                        </ul> --}}
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('admin.pengumuman') }}" class="nav-link" id="Pengumuman">

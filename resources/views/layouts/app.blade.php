@@ -10,9 +10,19 @@
   <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
   <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
   <link rel="icon" type="image/png" href="{{ asset('img/sman12sby.png') }}">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+  <style>
+    .transparent{
+      background-image: url('{{ asset("images/sman12sby.jpeg") }}'); 
+      background-size: cover; 
+      background-attachment: fixed;
+      opacity: 0.85;
+      filter: alpha(opacity=100);
+    }
+  </style>
   <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
-<body class="hold-transition login-page" style="background-image: url('{{ asset("images/sman12sby.jpeg") }}'); background-size: cover; background-attachment: fixed;">
+<body class="hold-transition login-page transparent">
   <div class="login-box">
     <div class="login-logo">
       <img src="{{ asset('img/logosiakad.png') }}" width="100%" alt="">
@@ -36,6 +46,7 @@
 <!-- jQuery -->
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 <!-- page script -->
 @yield('script')
 <script>
