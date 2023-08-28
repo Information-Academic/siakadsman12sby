@@ -53,6 +53,7 @@ Route::middleware(['admin'])->group(function(){
 	Route::get('/kelas/edit/json', 'KelasController@getEdit');
 	Route::get('/jadwal/view/json', 'JadwalController@view');
 	Route::get('/siswa/view/json', 'SiswaController@view');
+	Route::get('/siswa-pdf/{id}','SiswaController@cetak_pdf');
 	Route::get('/siswa/kelas/{id}', 'SiswaController@kelas')->name('siswa.kelas');
 	Route::get('/listsiswapdf/{id}', 'SiswaController@cetak_pdf');
     Route::get('/siswa/ubah-foto/{id}', 'SiswaController@ubah_foto')->name('siswa.ubah-foto');
@@ -79,5 +80,4 @@ Route::middleware(['admin'])->group(function(){
 		Route::get('/detail/{id}', 'SoalController@detail')->name('elearning.detail-soal');
 	});
 });
-
 Route::get('/download-file-format/{filename}', 'DownloadController@download')->name('download');

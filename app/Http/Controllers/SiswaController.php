@@ -7,7 +7,7 @@ use App\Siswa;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 class SiswaController extends Controller
 {
     /**
@@ -181,4 +181,31 @@ class SiswaController extends Controller
         return view('admin.siswa.ubah-foto', compact('siswa'));
     }
 
+    public function view(Request $request)
+    {
+        $siswa = Siswa::OrderBy('nama_siswa', 'asc')->where('kelas_id', $request->id)->get();
+        foreach ($siswa as $val) {
+            $newForm[] = array(
+                'kelas' => $val->kelas->kelas,
+                'tipe_kelas' => $val->kelas->tipe_kelas,
+                'nis' => $val->nis,
+                'nama_siswa' => $val->nama_siswa,
+                'jenis_kelamin' => $val->jenis_kelamin,
+                'alamat' => $val->alamat,
+                'tempat_lahir' => $val->tempat_lahir,
+                'tanggal_lahir' => $val->tanggal_lahir,
+                'foto_siswa' => $val->foto_siswa,
+                'status_siswa' => $val->status_siswa
+            );
+        }
+
+        return response()->json($newForm);
+    }
+    public function cetak_pdf(Request $request)
+    {
+        $siswa = Siswa::OrderBy('nama_siswa','asc')->where('kelas_id', $request->id)->get();
+        $kelas = Kelas::find($request->id);
+        $pdf = PDF::loadView('admin.siswa.siswa-pdf', ['siswa'=>$siswa,'kelas'=>$kelas])->setPaper('A4','portrait');
+        return $pdf->stream();
+    }
 }

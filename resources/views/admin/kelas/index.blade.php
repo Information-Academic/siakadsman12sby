@@ -118,20 +118,16 @@
                   <tr>
                     <th>No Induk Siswa</th>
                     <th>Nama Siswa</th>
-                    <th>L/P</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Alamat</th>
+                    <th>Tempat Lahir</th>
+                    <th>Tanggal Lahir</th>
                     <th>Foto Siswa</th>
+                    <th>Status Siswa</th>
                   </tr>
                 </thead>
                 <tbody id="data-siswa">
                 </tbody>
-                <tfoot>
-                  <tr>
-                    <th>No Induk Siswa</th>
-                    <th>Nama Siswa</th>
-                    <th>L/P</th>
-                    <th>Foto Siswa</th>
-                  </tr>
-                </tfoot>
               </table>
             </div>
             <!-- /.col -->
@@ -244,7 +240,6 @@
         dataType:"JSON",
         url:"{{ url('/siswa/view/json') }}",
         success:function(result){
-          // console.log(result);
           var siswa = "";
           if(result){
             $.each(result,function(index, val){
@@ -253,7 +248,11 @@
                 siswa += "<td>"+val.nis+"</td>";
                 siswa += "<td>"+val.nama_siswa+"</td>";
                 siswa += "<td>"+val.jenis_kelamin+"</td>";
-                siswa += "<td><img src='"+val.foto+"' width='100px'></td>";
+                siswa += "<td>"+val.alamat+"</td>";
+                siswa += "<td>"+val.tempat_lahir+"</td>";
+                siswa += "<td>"+val.tanggal_lahir+"</td>";
+                siswa += "<td><img src='"+val.foto_siswa+"' width='100px'></td>";
+                siswa += "<td>"+val.status_siswa+"</td>";
               siswa+="</tr>";
             });
             $("#data-siswa").html(siswa);
@@ -261,11 +260,9 @@
         },
         error:function(){
           toastr.error("Errors 404!");
-        },
-        complete:function(){
         }
       });
-      $("#link-siswa").attr("href", "https://siakad.didev.id/listsiswapdf/"+id);
+      $("#link-siswa").attr("href","http://127.0.0.1:8000/siswa-pdf/" +id);
     }
     
     function getSubsJadwal(id){
