@@ -18,4 +18,15 @@ class Kelas extends Model
     public function siswa(){
         return $this->hasMany('App\Siswa','kelas_id');
     }
+
+    public function distribusisoal()
+    {
+      return $this->belongsTo('App\DistribusiSoal', 'kelas_id');
+    }
+    
+    public function soal()
+    {
+      return $this->belongsTo('App\Soal', 'users_id');
+    }
+   
 }

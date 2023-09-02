@@ -25,7 +25,6 @@
                         <th>Alamat</th>
                         <th>Tempat Lahir</th>
                         <th>Tanggal Lahir</th>
-                        <th>Foto Siswa</th>
                         <th>Status Siswa</th>
                     </tr>
                 </thead>

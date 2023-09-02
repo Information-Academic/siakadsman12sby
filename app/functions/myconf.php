@@ -13,20 +13,20 @@
 		}
 		return $status_user;
 	}
-	function getJenisSoal($tipe_ulangan){
-		if ($tipe_ulangan != "") {
-			if ($tipe_ulangan == 'UH') {
-				$jenis = 'Soal Ulangan Harian';
-			}else if($tipe_ulangan == 'UTS'){
-				$jenis = 'Soal Ulangan Tengah Semester';
+	function getJenisSoal($tu){
+		if ($tu != "") {
+			if ($tu == 'UH') {
+				$tipe_ulangan = 'Soal Ulangan Harian';
+			}else if($tu == 'UTS'){
+				$tipe_ulangan = 'Soal Ulangan Tengah Semester';
 			}
-            else if($tipe_ulangan == 'UAS'){
-                $jenis = 'Soal Ulangan Akhir Semester';
+            else if($tu == 'UAS'){
+                $tipe_ulangan = 'Soal Ulangan Akhir Semester';
             }
 		}else{
-			$jenis = 'Invalid';
+			$tipe_ulangan = 'Invalid';
 		}
-		return $jenis;
+		return $tipe_ulangan;
 	}
 	function timeStampIndo($tgl) {
 		if ($tgl != "") {
@@ -52,19 +52,19 @@
 		}
 		return $tanggal;
 	}
-	function jenisSoal($tipe_ulangan) {
-        if ($tipe_ulangan != "") {
-			if ($tipe_ulangan == 'UH') {
-				$jenis = 'Soal Ulangan Harian';
-			}else if($tipe_ulangan == 'UTS'){
-				$jenis = 'Soal Ulangan Tengah Semester';
+	function jenisSoal($tu) {
+        if ($tu != "") {
+			if ($tu == 'UH') {
+				$tipe_ulangan = 'Soal Ulangan Harian';
+			}else if($tu == 'UTS'){
+				$tipe_ulangan = 'Soal Ulangan Tengah Semester';
 			}
-            else if($tipe_ulangan == 'UAS'){
-                $jenis = 'Soal Ulangan Akhir Semester';
+            else if($tu == 'UAS'){
+                $tipe_ulangan = 'Soal Ulangan Akhir Semester';
             }
 		}else{
-			$jenis = 'Invalid';
+			$tipe_ulangan = 'Invalid';
 		}
-		return $jenis;
+		return $tipe_ulangan;
 	}
 ?>

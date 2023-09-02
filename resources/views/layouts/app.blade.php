@@ -16,8 +16,8 @@
       background-image: url('{{ asset("images/sman12sby.jpeg") }}'); 
       background-size: cover; 
       background-attachment: fixed;
-      opacity: 0.85;
-      filter: alpha(opacity=100);
+      opacity: 500;
+      filter: alpha(opacity=500);
     }
   </style>
   <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

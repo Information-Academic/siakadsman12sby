@@ -37,8 +37,8 @@
                                 <li>rows 4 = Email</li>
                                 <li>rows 5 = Password</li>
                                 <li>rows 6 = Roles</li>
-                                <li>rows 7 = NIS (Nomor Induk Siswa)</li>
-                                <li>rows 8 = NIP (Nomor Induk Pegawai)</li>
+                                <li>rows 7 = NIS (Nomor Induk Siswa) (Untuk Siswa)</li>
+                                <li>rows 8 = NIP (Nomor Induk Pegawai) (Untuk Guru)</li>
                             </ul>
                         </div>
                     </div>

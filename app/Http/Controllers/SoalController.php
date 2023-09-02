@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\DetailSoal;
+use App\DistribusiSoal;
 use App\Kelas;
 use App\Mapel;
 use App\Soal;
@@ -197,20 +199,21 @@ class SoalController extends Controller
   public function detail(Request $request)
   {
     if (Auth::user()->roles == 'Guru' || Auth::user()->roles == 'Admin') {
-      $id_soal = $request->id;
+      $ulangans_id = $request->id;
       $user = User::where('id', Auth::user()->id)->first();
       $soal = Soal::where('id', $request->id)->first();
-      $soals = Soal::where('id', $request->id)->get();
-      $cekDistribusisoal = Soal::get();
+      $soals = DetailSoal::where('ulangans_id', $request->id)->get();
+      $cekDistribusisoal = DistribusiSoal::get();
       if (count($cekDistribusisoal) > 0) {
-        $kelas = Kelas::leftjoin('ulangans', 'kelas.id', '=', 'ulangans.kelas_id')
-          ->select('ulangans.id', 'kelas.*')
+        $kelas = Kelas::leftjoin('distribusisoalulangans', 'kelas.id', '=', 'distribusisoalulangans.kelas_id')
+          ->select('distribusisoalulangans.ulangans_id', 'kelas.*')
           ->orderBy('kelas.id', 'ASC')
+          ->distinct('kelas.id')
           ->get();
       } else {
         $kelas = Kelas::get();
       }
-      return view('admin.soal.detail', compact('user', 'soal', 'soals', 'kelas', 'id_soal'));
+      return view('admin.soal.detail', compact('user', 'soal', 'soals', 'kelas', 'ulangans_id'));
     } else {
       return redirect()->route('home.index');
     }
@@ -219,7 +222,7 @@ class SoalController extends Controller
   public function dataDetailSoal(Request $request)
   {
     // return Input::get('id');
-    $soals = Soal::where('id', $request->input('id'))->get();
+    $soals = DetailSoal::where('ulangans_id', $request->input('id'))->get();
     return Datatables::of($soals)
       ->editColumn('status', function ($soals) {
         if ($soals->status == 'Y') {
@@ -231,28 +234,65 @@ class SoalController extends Controller
       ->editColumn('kunci', function ($soals) {
         return '<center>' . $soals->kunci . '</center>';
       })
-      ->editColumn('score', function ($soals) {
-        return '<center>' . $soals->score . '</center>';
+      ->editColumn('nilai', function ($soals) {
+        return '<center>' . $soals->nilai . '</center>';
       })
       ->addColumn('action', function ($soals) {
         return '<div style="text-align:center"><a href="ubah/' . $soals->id . '" class="btn btn-success btn-xs">Ubah</a> <a href="data-soal/' . $soals->id . '" class="btn btn-primary btn-xs">Detail</a></div>';
       })
-      ->rawColumns(['soal', 'kunci', 'score', 'action', 'status'])
+      ->rawColumns(['soal', 'kunci', 'nilai', 'action', 'status'])
       ->make(true);
   }
 
   public function terbitSoal(Request $request)
   {
-    $cek = Soal::where('id', $request->id)->where('kelas_id', $request->kelas_id)->first();
+    $cek = DistribusiSoal::where('ulangans_id', $request->ulangans_id)->where('kelas_id', $request->kelas_id)->first();
     if ($cek != "") {
-      Soal::where('id', $request->id)->where('kelas_id', $request->kelas_id)->delete();
+      DistribusiSoal::where('ulangans_id', $request->ulangans_id)->where('kelas_id', $request->kelas_id)->delete();
       return 'N';
     } else {
-      $query = new Soal;
-      $query->id = $request->id;
+      $query = new DistribusiSoal();
+      $query->ulangans_id = $request->ulangans_id;
       $query->kelas_id = $request->kelas_id;
       $query->save();
       return 'Y';
     }
+  }
+
+  public function simpanDetailSoal(Request $request)
+  {
+    if ($request->soal == "") {
+      return "Soal tidak boleh kosong.";
+    } elseif ($request->kunci == "") {
+      return "Kunci jawaban soal tidak boleh kosong.";
+    } elseif ($request->nilai == "") {
+      return "Nilai soal tidak boleh kosong.";
+    } elseif ($request->status == "") {
+      return "Status soal tidak boleh kosong.";
+    } else {
+      if ($request->id == 'N') {
+        $query = new DetailSoal();
+        $query->ulangans_id = $request->ulangans_id;
+        $query->users_id = Auth::user()->id;
+      } else {
+        $query = DetailSoal::where('id', $request->id)->first();
+      }
+      $query->soal = $request->soal;
+      $query->pila = $request->pila;
+      $query->pilb = $request->pilb;
+      $query->pilc = $request->pilc;
+      $query->pild = $request->pild;
+      $query->pile = $request->pile;
+      $query->kunci = $request->kunci;
+      $query->nilai = $request->nilai;
+      $query->status = $request->status;
+      $query->save();
+      return 'ok';
+    }
+  }
+
+  public function saveEssay(Request $request)
+  {
+    return $request;
   }
 }

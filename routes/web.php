@@ -64,6 +64,7 @@ Route::middleware(['admin'])->group(function(){
 	Route::get('/get-soal', 'SoalController@dataSoal')->name('elearning.get-soal');
 	Route::get('/get-soal-home', 'SoalController@dataSoalHome')->name('elearning.get-soal-home');
 	Route::get('/get-detail-soal', 'SoalController@dataDetailSoal')->name('elearning.get-detail-soal');
+	Route::get('/essay/data', 'DetailSoalEssayController@data');
 	Route::post('simpan-soal', 'SoalController@simpanSoal');
 	Route::resource('/jadwal', 'JadwalController');
 	Route::resource('/guru', 'GuruController');
@@ -72,11 +73,15 @@ Route::middleware(['admin'])->group(function(){
 	Route::resource('/mapel', 'MapelController');
 	Route::resource('/siswa', 'SiswaController');
 	Route::resource('/soal', 'SoalController');
+	Route::resource('/essay', 'DetailSoalEssayController');
 	Route::group(['prefix' => 'crud'], function (){
 		Route::get('simpan-soal', 'SoalController@simpanSoal');
 		Route::post('terbit-soal', 'SoalController@terbitSoal');
+		Route::post('simpan-detail-soal', 'SoalController@simpanDetailSoal');
+		Route::post('simpan-detail-soal-via-excel', 'SoalController@simpanDetailSoalExcel');
 	});
 	Route::group(['prefix' => 'soal'], function (){
+		Route::get('/essay/data', 'DetailSoalEssayController@data');
 		Route::get('/detail/{id}', 'SoalController@detail')->name('elearning.detail-soal');
 	});
 });

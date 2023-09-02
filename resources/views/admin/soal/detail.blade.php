@@ -4,13 +4,15 @@
 <h1><i class="fa fa-book"></i> Data Soal</h1>
 <ol class="breadcrumb">
   <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i> Home</a></li>
-  <li><a href="{{ url('/elearning/soal') }}">Soal</a></li>
+  <li><a href="{{ url('/soal') }}">Soal</a></li>
   <li class="active">Detail soal</li>
 </ol>
 @endsection
 @section('content')
 <?php include(app_path() . '/functions/myconf.php'); ?>
+
 <div class="col-md-4">
+  @if ($soal->tipe_ulangan == "UH" || $soal->tipe_ulangan == "UTS" || $soal->tipe_ulangan == "UAS")
   <div class="box box-info">
     <div class="box-header with-border">
       <h3 class="box-title">Data Kelas</h3>
@@ -27,7 +29,7 @@
           </tr>
         </thead>
         <tbody>
-          <input type="hidden" id="id_soal" value="{{ $id_soal }}">
+          <input type="hidden" id="ulangans_id" value="{{ $ulangans_id }}">
           @if($kelas->count())
           @foreach($kelas as $data_kelas)
           <input type="hidden" id="id{{ $data_kelas->id }}" value="{{ $data_kelas->id }}">
@@ -35,8 +37,8 @@
             <td>{{ $data_kelas->kelas}} {{$data_kelas->tipe_kelas}}</td>
             <td align="center">
               <div id="wrap-status-soal{{ $data_kelas->id }}">
-                @if($data_kelas->id != "")
-                @if($data_kelas->id == Request::segment(4))
+                @if($data_kelas->ulangans_id != "")
+                @if($data_kelas->ulangans_id == Request::segment(4))
                 <span data-toggle="tooltip" title="Kelas ini dapat mengerjakan soal Anda. Klik untuk merubah status soal pada kelas ini." id="terbit-soal{{ $data_kelas->id }}"><i style="color: limegreen; font-size: 16pt; cursor: pointer;" class="fa fa-check-square-o"></i></span>
                 @else
                 <span data-toggle="tooltip" title="Kelas ini tidak dapat mengerjakan soal Anda. Klik untuk merubah status soal pada kelas ini." id="terbit-soal{{ $data_kelas->id }}"><i style="color: red; font-size: 16pt; cursor: pointer;" class="fa fa-minus-square-o"></i></span>
@@ -50,15 +52,15 @@
           @push('scripts')
           <script>
             $(document).ready(function() {
-              $("#terbit-soal{{ $data_kelas->kelas_id }}").click(function() {
-                var id_kelas = $("#id{{ $data_kelas->kelas_id }}").val();
-                var id_soal = $("#id").val();
+              $("#terbit-soal{{ $data_kelas->id }}").click(function() {
+                var kelas_id = $("#id{{ $data_kelas->id }}").val();
+                var ulangans_id = $("#ulangans_id").val();
                 $.ajax({
                   type: "POST",
                   url: "{{ url('/crud/terbit-soal') }}",
                   data: {
-                    id_kelas: id_kelas,
-                    id_soal: id_soal
+                    kelas_id: kelas_id,
+                    ulangans_id: ulangans_id
                   },
                   success: function(data) {
                     if (data == 'Y') {
@@ -76,10 +78,23 @@
           @endif
         </tbody>
       </table>
-      <p style="margin-top: 20px" class="text-muted"><i class="fa fa-info-circle"></i> <b>Data kelas</b> adalah daftar kelas yang akan menerima soal ini. Anda dapat menerbitkan soal ke kelas yang akan mengerjakan soal. Hanya soal dengan jenis <b>Ujian</b> yang bisa tampilkan di sini.</p>
+      <p style="margin-top: 20px" class="text-muted"><i class="fa fa-info-circle"></i> <b>Data kelas</b> adalah daftar kelas yang akan menerima soal ini. Anda dapat menerbitkan soal ke kelas yang akan mengerjakan soal.</p>
     </div>
   </div>
-
+  @else
+  <div class="box box-info">
+    <div class="box-header with-border">
+      <h3 class="box-title">Data Kelas</h3>
+      <div class="box-tools pull-right">
+        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+      </div>
+    </div>
+    <div class="box-body">
+      <p>Seluruh siswa (kelas manapun) dapat mengakses soal yang Anda terbitkan. Soal dalam format latihan bisa dikerjakan berkali-kali oleh siswa yang mengkses soal Anda.</p>
+      <p>Susunlan soal untuk memantapkan pemahaman siswa akan materi terkait. Anda dapat memantau siswa yang mengakses soal latihan yang Anda buat melalui halaman <b>Laporan.</b></p>
+    </div>
+  </div>
+  @endif
 </div>
 <div class="col-md-8">
   <div class="box box-primary">
@@ -100,8 +115,6 @@
               <label class="col-sm-2 control-label">Soal</label>
               <div class="col-sm-10">
                 <input type="hidden" name="id" value="N">
-                <input type="hidden" name="tipe_ulangan" value="1">
-                <input type="hidden" name="sesi" value="{{ md5(rand(0000000000, mt_getrandmax())) }}">
                 <textarea class="form-control textarea" name="soal" placeholder="Soal"></textarea>
               </div>
             </div>
@@ -148,7 +161,7 @@
               </div>
             </div>
             <div class="form-group" style="margin-top: 15px">
-              <label class="col-sm-2 control-label">Score</label>
+              <label class="col-sm-2 control-label">Nilai</label>
               <div class="col-sm-2">
                 <input type="text" class="form-control numOnly" name="score" placeholder="Score">
               </div>
@@ -202,7 +215,7 @@
             <th>Pilihan D</th>
             <th>Pilihan E</th>
             <th style="text-align: center;">Kunci</th>
-            <th style="text-align: center;">Score</th>
+            <th style="text-align: center;">Nilai</th>
             <th style="text-align: center;">Status</th>
             <th style="text-align: center; width: 100px">Aksi</th>
           </tr>
@@ -220,7 +233,7 @@
     </div>
     <div class="box-body">
       <button type="button" id="btn-soal-essay" class="btn btn-primary btn-md">Tulis Soal</button>
-      <form class="form-horizontal" action="{{ url('elearning/soal/essay') }}" method="POST" style="display: none" id="form-essay">
+      <form class="form-horizontal" action="{{ url('soal/essay') }}" method="POST" style="display: none" id="form-essay">
         {{ csrf_field() }}
         <input type="hidden" name="soal_id" value="{{ $soal->id }}">
         <div class="box-body">
@@ -370,7 +383,7 @@
       responsive: true,
       lengthChange: true,
       ajax: {
-        url: "{!! route('elearning.get-detail-soal') !!}",
+        url: '{!! route('elearning.get-detail-soal') !!}',
         data: function(d) {
           d.id = id;
         }
@@ -423,8 +436,8 @@
           searchable: true
         },
         {
-          data: 'score',
-          name: 'score',
+          data: 'nilai',
+          name: 'nilai',
           orderable: true,
           searchable: true
         },
@@ -451,7 +464,7 @@
       $.ajax({
         type: "POST",
         url: "{{ url('/crud/simpan-detail-soal') }}",
-        data: dataString + "&id_soal=" + id,
+        data: dataString + "&ulangans_id=" + id,
         success: function(data) {
           $("#loading-soal").hide();
           $("#wrap-btn").show();
@@ -478,9 +491,9 @@
       responsive: true,
       lengthChange: true,
       ajax: {
-        url: "{{ url('elearning/soal/essay/data') }}",
+        url: "{{ url('/essay/data') }}",
         data: function(d) {
-          d.id_soal = "{{ $soal->id }}"
+          d.ulangans_id = "{{ $soal->id }}"
         }
       },
       columns: [{
