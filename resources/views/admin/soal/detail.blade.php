@@ -163,7 +163,7 @@
             <div class="form-group" style="margin-top: 15px">
               <label class="col-sm-2 control-label">Nilai</label>
               <div class="col-sm-2">
-                <input type="text" class="form-control numOnly" name="score" placeholder="Score">
+                <input type="text" class="form-control numOnly" name="nilai" placeholder="Score">
               </div>
             </div>
             <div class="form-group">
@@ -235,7 +235,7 @@
       <button type="button" id="btn-soal-essay" class="btn btn-primary btn-md">Tulis Soal</button>
       <form class="form-horizontal" action="{{ url('soal/essay') }}" method="POST" style="display: none" id="form-essay">
         {{ csrf_field() }}
-        <input type="hidden" name="soal_id" value="{{ $soal->id }}">
+        <input type="hidden" name="ulangans_id" value="{{ $soal->id }}">
         <div class="box-body">
           <div class="form-group">
             <label class="col-sm-2 control-label">Soal</label>
@@ -491,7 +491,8 @@
       responsive: true,
       lengthChange: true,
       ajax: {
-        url: "{{ url('/essay/data') }}",
+        type: 'POST',
+        url: "{{ url('soal/essay/data') }}",
         data: function(d) {
           d.ulangans_id = "{{ $soal->id }}"
         }

@@ -22,7 +22,7 @@ class DetailSoalEssay extends Model
 
   public function saveEssay($request)
   {
-    $save = new DetailSoalEssay();
+    $save = new DetailSoalEssay;
     $save->ulangans_id = $request->ulangans_id;
     $save->soal = $request->soal;
     $save->status = $request->status;

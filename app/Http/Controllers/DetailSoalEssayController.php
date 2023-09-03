@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DetailSoalEssay;
 use Illuminate\Http\Request;
-
+use Yajra\DataTables\DataTables;
 class DetailSoalEssayController extends Controller
 {
     /**
@@ -36,6 +36,9 @@ class DetailSoalEssayController extends Controller
     public function store(Request $request)
     {
         //
+        $save = new DetailSoalEssay();
+        $save->saveEssay($request);
+        return redirect('/soal/detail/' . $request->ulangans_id);
     }
 
     /**
