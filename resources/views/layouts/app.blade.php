@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,17 +11,18 @@
   <link rel="icon" type="image/png" href="{{ asset('img/sman12sby.png') }}">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
   <style>
-    .transparent{
-      background-image: url('{{ asset("images/sman12sby.jpeg") }}'); 
-      background-size: cover; 
+    #transparent{
+      background-image: url('{{ asset("images/sman12sby.jpeg") }}');
+      background-size: cover;
       background-attachment: fixed;
-      opacity: 500;
-      filter: alpha(opacity=500);
+      opacity: 0.59;
     }
   </style>
   <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
-<body class="hold-transition login-page transparent">
+
+<body class="hold-transition">
+  <div class="login-page" id="transparent">
   <div class="login-box">
     <div class="login-logo">
       <img src="{{ asset('img/logosiakad.png') }}" width="100%" alt="">
@@ -41,7 +41,9 @@
           <strong>Copyright &copy; <script>document.write(new Date().getFullYear());</script> &diams; <a href="https://sman12sby.sch.id/" style="color: white;">SMA Negeri 12 Surabaya</a>. </strong>
       </marquee>
     </footer>
+
   </div>
+</div>
 
 <!-- jQuery -->
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
@@ -133,6 +135,5 @@
         toastr.error("{{ Session('error') }}");
     </script>
 @endif
-
 </body>
 </html>

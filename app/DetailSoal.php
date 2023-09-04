@@ -9,6 +9,7 @@ class DetailSoal extends Model
 {
     //
     protected $table = "detailulangans";
+    protected $fillable = ['ulangans_id','soal','pila','pilb','pilc','pild','pile','kunci','nilai','status'];
 
     public function checkJawab()
 	{

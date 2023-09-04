@@ -10,6 +10,8 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\FormatSoalImport;
 class SoalController extends Controller
 {
     /**
@@ -196,6 +198,30 @@ class SoalController extends Controller
       ->rawColumns(['waktu', 'jenis', 'action'])->make(true);
   }
 
+  public function ubahSoal(Request $request)
+  {
+    if (Auth::user()->roles == 'Guru' || Auth::user()->roles == 'Admin') {
+      $soal = Soal::where('id', $request->id)->first();
+      $user = User::where('id', Auth::user()->id)->first();
+      $mapels = Mapel::orderBy('nama_mapel')->get();
+      return view('guru.soal.form.ubah', compact('user', 'soal', 'mapels'));
+    } else {
+      return redirect()->route('home.index');
+    }
+  }
+
+  public function ubahDetailSoal(Request $request)
+  {
+    if (Auth::user()->roles == 'Guru' or Auth::user()->roles == 'Admin') {
+      $ulangans_id = $request->id;
+      $user = User::where('id', Auth::user()->id)->first();
+      $soal = DetailSoal::where('id', $request->id)->first();
+      return view('soal.form.ubah', compact('user', 'soal', 'ulangans_id'));
+    } else {
+      return redirect()->route('home.index');
+    }
+  }
+
   public function detail(Request $request)
   {
     if (Auth::user()->roles == 'Guru' || Auth::user()->roles == 'Admin') {
@@ -288,6 +314,70 @@ class SoalController extends Controller
       $query->status = $request->status;
       $query->save();
       return 'ok';
+    }
+  }
+
+  public function simpanDetailSoalExcel(Request $request)
+  {
+    $baris = 1;
+    $sukses = 0;
+    $gagal = 0;
+    $kesalahan = '';
+    if ($request->hasFile('file')) {
+      $path = $request->file('file')->getRealPath();
+      $data = Excel::import(new FormatSoalImport, $path);
+      foreach ($data as $data_arr) {
+        foreach ($data_arr as $key => $value) {
+          $jumlah = $key;
+          if ($value->ulangans_id == '') {
+            if ($kesalahan) {
+              $kesalahan = $kesalahan . '<br>- Kode soal kosong pada baris <b>' . $baris . '</b>, proses upload dihentikan. Silahkan cek file Excel Anda lalu upload kembali.';
+            } else {
+              $kesalahan = $kesalahan . '- Kode soal kosong pada baris <b>' . $baris . '</b>, proses upload dihentikan. Silahkan cek file Excel Anda lalu upload kembali.';
+            }
+            return view('admin.soal.hasil_upload_via_excel', compact('sukses', 'gagal', 'jumlah', 'kesalahan'));
+          } elseif ($value->soal == '') {
+            if ($kesalahan) {
+              $kesalahan = $kesalahan . '<br>- Soal kosong pada baris <b>' . $baris . '</b>, proses upload dihentikan. Silahkan cek file Excel Anda lalu upload kembali.';
+            } else {
+              $kesalahan = $kesalahan . '- Soal kosong pada baris <b>' . $baris . '</b>, proses upload dihentikan. Silahkan cek file Excel Anda lalu upload kembali.';
+            }
+            return view('admin.soal.hasil_upload_via_excel', compact('sukses', 'gagal', 'jumlah', 'kesalahan'));
+          } elseif ($value->kunci == '') {
+            if ($kesalahan) {
+              $kesalahan = $kesalahan . '<br>- Pilihan jawaban kosong pada baris <b>' . $baris . '</b>, proses upload dihentikan. Silahkan cek file Excel Anda lalu upload kembali.';
+            } else {
+              $kesalahan = $kesalahan . '- Pilihan jawaban kosong pada baris <b>' . $baris . '</b>, proses upload dihentikan. Silahkan cek file Excel Anda lalu upload kembali.';
+            }
+            return view('admin.soal.hasil_upload_via_excel', compact('sukses', 'gagal', 'jumlah', 'kesalahan'));
+          } elseif ($value->nilai == '') {
+            if ($kesalahan) {
+              $kesalahan = $kesalahan . '<br>- Score kosong pada baris <b>' . $baris . '</b>, proses upload dihentikan. Silahkan cek file Excel Anda lalu upload kembali.';
+            } else {
+              $kesalahan = $kesalahan . '- Score kosong pada baris <b>' . $baris . '</b>, proses upload dihentikan. Silahkan cek file Excel Anda lalu upload kembali.';
+            }
+            return view('admin.soal.hasil_upload_via_excel', compact('sukses', 'gagal', 'jumlah', 'kesalahan'));
+          }
+          $query = new DetailSoal;
+          $query->ulangans_id = $value->ulangans_id;
+          $query->soal = $value->soal;
+          $query->pila = $value->pila;
+          $query->pilb = $value->pilb;
+          $query->pilc = $value->pilc;
+          $query->pild = $value->pild;
+          $query->pile = $value->pile;
+          $query->kunci = $value->kunci;
+          $query->nilai = $value->nilai;
+          $query->status = 'Y';
+          $query->users_id = Auth::user()->id;
+          if ($query->save()) {
+            $sukses = $sukses + 1;
+          }
+        }
+      }
+      return view('admin.soal.hasil_upload_via_excel', compact('sukses', 'gagal', 'kesalahan'));
+    } else {
+      return redirect()->route('soal');
     }
   }
 

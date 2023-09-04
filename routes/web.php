@@ -23,7 +23,7 @@ Route::get('/login/cek_email/json', 'UserController@cek_email');
 Route::get('/login/cek_password/json', 'UserController@cek_password');
 Route::post('/cek-email', 'UserController@cek_email')->name('cek-email')->middleware('guest');
 Route::get('forget-password', 'Auth\ForgotPasswordController@showForgetPasswordForm')->name('forget.password.get');
-Route::post('forget-password', 'Auth\ForgotPasswordController@submitForgetPasswordForm')->name('forget.password.post'); 
+Route::post('forget-password', 'Auth\ForgotPasswordController@submitForgetPasswordForm')->name('forget.password.post');
 Route::get('reset-password/{token}', 'Auth\ForgotPasswordController@showResetPasswordForm')->name('reset.password.get');
 Route::post('reset-password', 'Auth\ForgotPasswordController@submitResetPasswordForm')->name('reset.password.post');
 
@@ -60,7 +60,6 @@ Route::middleware(['admin'])->group(function(){
     Route::post('/siswa/update-foto/{id}', 'SiswaController@update_foto')->name('siswa.update-foto');
 	Route::get('/mapel/getMapelJson', 'MapelController@getMapelJson');
 	Route::post('/user/import_excel', 'UserController@import_excel')->name('user.import_excel');
-	Route::get('/soal', 'SoalController@index')->name('soal');
 	Route::get('/get-soal', 'SoalController@dataSoal')->name('elearning.get-soal');
 	Route::get('/get-soal-home', 'SoalController@dataSoalHome')->name('elearning.get-soal-home');
 	Route::get('/get-detail-soal', 'SoalController@dataDetailSoal')->name('elearning.get-detail-soal');
@@ -72,15 +71,18 @@ Route::middleware(['admin'])->group(function(){
 	Route::resource('/mapel', 'MapelController');
 	Route::resource('/siswa', 'SiswaController');
 	Route::resource('/soal', 'SoalController');
-	
+
 	Route::group(['prefix' => 'crud'], function (){
-		Route::get('simpan-soal', 'SoalController@simpanSoal');
+		Route::post('simpan-soal', 'SoalController@simpanSoal');
 		Route::post('terbit-soal', 'SoalController@terbitSoal');
 		Route::post('simpan-detail-soal', 'SoalController@simpanDetailSoal');
 		Route::post('simpan-detail-soal-via-excel', 'SoalController@simpanDetailSoalExcel');
 	});
 	Route::group(['prefix' => 'soal'], function (){
+		Route::get('/soal', 'SoalController@index')->name('soal');
 		Route::post('/essay/data', 'DetailSoalEssayController@data');
+		Route::get('/ubah/{id}', 'SoalController@ubahSoal')->name('soal.ubah');
+		Route::get('/detail/ubah/{id}', 'SoalController@ubahDetailSoal')->name('elearning.ubah-detail-soal');
 		Route::get('/detail/{id}', 'SoalController@detail')->name('elearning.detail-soal');
 		Route::resource('/essay', 'DetailSoalEssayController');
 	});
