@@ -84,6 +84,7 @@ Route::middleware(['admin'])->group(function(){
 		Route::get('/ubah/{id}', 'SoalController@ubahSoal')->name('soal.ubah');
 		Route::get('/detail/ubah/{id}', 'SoalController@ubahDetailSoal')->name('elearning.ubah-detail-soal');
 		Route::get('/detail/{id}', 'SoalController@detail')->name('elearning.detail-soal');
+        Route::get('/detail/data-soal/{id}', 'SoalController@detailDataSoal')->name('elearning.detail-data-soal');
 		Route::resource('/essay', 'DetailSoalEssayController');
 	});
 });

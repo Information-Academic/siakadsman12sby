@@ -212,11 +212,11 @@ class SoalController extends Controller
 
   public function ubahDetailSoal(Request $request)
   {
-    if (Auth::user()->roles == 'Guru' or Auth::user()->roles == 'Admin') {
+    if (Auth::user()->roles == 'Guru' || Auth::user()->roles == 'Admin') {
       $ulangans_id = $request->id;
       $user = User::where('id', Auth::user()->id)->first();
       $soal = DetailSoal::where('id', $request->id)->first();
-      return view('soal.form.ubah', compact('user', 'soal', 'ulangans_id'));
+      return view('admin.soal.form.ubah', compact('user', 'soal', 'ulangans_id'));
     } else {
       return redirect()->route('home.index');
     }
@@ -269,6 +269,19 @@ class SoalController extends Controller
       ->rawColumns(['soal', 'kunci', 'nilai', 'action', 'status'])
       ->make(true);
   }
+
+  public function detailDataSoal(Request $request)
+  {
+    if (Auth::user()->roles == 'Guru' || Auth::user()->roles == 'Admin') {
+      $ulangans_id = $request->id;
+      $user = User::where('id', Auth::user()->id)->first();
+      $soal = DetailSoal::where('id', $request->id)->first();
+      return view('admin.soal.detailSoal', compact('user', 'soal', 'ulangans_id'));
+    } else {
+      return redirect()->route('home.index');
+    }
+  }
+
 
   public function terbitSoal(Request $request)
   {
@@ -375,7 +388,7 @@ class SoalController extends Controller
           }
         }
       }
-      return view('admin.soal.hasil_upload_via_excel', compact('sukses', 'gagal', 'kesalahan'));
+      return view('admin.soal.index', compact('sukses', 'gagal', 'kesalahan'));
     } else {
       return redirect()->route('soal');
     }

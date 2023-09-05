@@ -58,9 +58,10 @@ class DetailSoalEssayController extends Controller
      * @param  \App\DetailSoalEssay  $detailSoalEssay
      * @return \Illuminate\Http\Response
      */
-    public function edit(DetailSoalEssay $detailSoalEssay)
+    public function edit(DetailSoalEssay $essay)
     {
         //
+        return view('guru.soal.essay.edit',compact('essay'));
     }
 
     /**
@@ -70,9 +71,12 @@ class DetailSoalEssayController extends Controller
      * @param  \App\DetailSoalEssay  $detailSoalEssay
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DetailSoalEssay $detailSoalEssay)
+    public function update(Request $request, DetailSoalEssay $essay)
     {
         //
+        $update = new DetailSoalEssay();
+        $update->updateEssay($request,$essay);
+        return redirect('soal/detail/' . $request->ulangans_id);
     }
 
     /**

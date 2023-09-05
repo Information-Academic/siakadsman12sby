@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.soal')
 @section('title', 'Detail soal')
 @section('breadcrumb')
   <h1>Detail Soal</h1>
@@ -56,9 +56,8 @@
       ?>
       <p>Status soal {!! $status_soal !!}</p>
       <hr>
-      <a href="{{ url('elearning/soal/detail/'.$soal->id_soal) }}" class="btn btn-primary">Paket Soal</a>
       <button type="button" class="btn btn-danger" onclick="self.history.back()">Kembali</button>
-      <a href="{{ url('/elearning/soal/detail/ubah/'.$soal->id) }}" class="btn btn-success">Ubah</a>
+      <a href="{{ url('/soal/detail/ubah/'.$soal->id) }}" class="btn btn-success">Ubah</a>
     </div>
   </div>
 </div>
