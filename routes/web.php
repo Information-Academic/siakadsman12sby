@@ -59,6 +59,7 @@ Route::middleware(['admin'])->group(function(){
     Route::get('/siswa/ubah-foto/{id}', 'SiswaController@ubah_foto')->name('siswa.ubah-foto');
     Route::post('/siswa/update-foto/{id}', 'SiswaController@update_foto')->name('siswa.update-foto');
 	Route::get('/mapel/getMapelJson', 'MapelController@getMapelJson');
+    Route::get('/user/export_excel', 'UserController@export_excel')->name('user.export_excel');
 	Route::post('/user/import_excel', 'UserController@import_excel')->name('user.import_excel');
 	Route::get('/get-soal', 'SoalController@dataSoal')->name('elearning.get-soal');
 	Route::get('/get-soal-home', 'SoalController@dataSoalHome')->name('elearning.get-soal-home');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Guru;
 use App\Imports\UserImport;
+use App\Exports\UserExport;
 use App\Kelas;
 use App\Mapel;
 use App\Siswa;
@@ -89,7 +90,7 @@ class UserController extends Controller
         }
     }
 
-    
+
     public function show($id)
     {
         $id = Crypt::decrypt($id);
@@ -108,7 +109,7 @@ class UserController extends Controller
             } else {
                 return redirect()->back()->with('error', 'Maaf user ini bukan milik anda!');
             }
-        } 
+        }
         else {
             $user->delete();
             return redirect()->back()->with('warning', 'Data user berhasil dihapus!');
@@ -357,6 +358,11 @@ class UserController extends Controller
         $file->move('file_user', $nama_file);
         Excel::import(new UserImport, public_path('/file_user/' . $nama_file));
         return redirect()->back()->with('success', 'Data User Berhasil Diimport!');
+    }
+
+    public function export_excel()
+    {
+        return Excel::import(new UserExport, 'user.xlsx');
     }
 
 }
