@@ -13,7 +13,7 @@
                 </button>
             </h3>
         </div>
-        
+
         <!-- /.card-header -->
         <div class="card-body">
           <table id="example1" class="table table-bordered table-striped table-hover">
@@ -68,8 +68,8 @@
                         <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="form-control @error('tanggal_lahir') is-invalid @enderror">
                     </div>
                     <div class="form-group">
-                        <label for="alamat_guru">Alamat Guru</label>
-                        <input type="text" id="alamat_guru" name="alamat_guru" class="form-control @error('alamat_guru') is-invalid @enderror">
+                        <label for="alamat">Alamat Guru</label>
+                        <input type="text" id="alamat" name="alamat" class="form-control @error('alamat') is-invalid @enderror">
                     </div>
                     <div class="form-group">
                         <label for="jenis_kelamin">Jenis Kelamin</label>
@@ -126,7 +126,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="status_guru">Status Guru</label>
                         <select id="status_guru" name="status_guru" class="select2bs4 form-control @error('status_guru') is-invalid @enderror">

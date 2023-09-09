@@ -7,6 +7,7 @@ use App\Jadwal;
 use App\Kelas;
 use App\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class KelasController extends Controller
 {
@@ -48,26 +49,28 @@ class KelasController extends Controller
             $this->validate($request, [
                 'kelas' => 'required|min:1|max:200',
                 'tipe_kelas' => 'required|min:3|max:100',
-                'gurus_id' => 'required|unique:kelas',
+                'gurus_id' =>'required'
             ]);
         } else {
             $this->validate($request, [
                 'kelas' => 'required|min:1|max:200',
                 'tipe_kelas' => 'required|min:3|max:100',
                 'tahun' => 'required',
-                'gurus_id' => 'required|unique:kelas',
+                'status_kelas' => 'required',
+                'gurus_id' => 'required'
             ]);
         }
 
         Kelas::updateOrCreate(
             [
-                'id' => $request->id
+                'id' => $request->kelas_id
             ],
             [
                 'kelas' => $request->kelas,
                 'tipe_kelas' => $request->tipe_kelas,
                 'tahun' => $request->tahun,
-                'gurus_id' => $request->gurus_id,
+                'status_kelas' => $request->status_kelas,
+                'gurus_id' =>$request->gurus_id,
             ]
         );
 
@@ -91,9 +94,12 @@ class KelasController extends Controller
      * @param  \App\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function edit(Kelas $kelas)
+    public function edit($id)
     {
-        //
+        $id = Crypt::decrypt($id);
+        $kelas = Kelas::findorfail($id);
+        $guru = Guru::all();
+        return view('admin.kelas.edit',['kelas'=>$kelas,'guru'=>$guru]);
     }
 
     /**
@@ -141,6 +147,7 @@ class KelasController extends Controller
                 'kelas' => $val->kelas,
                 'tipe_kelas'=> $val->tipe_kelas,
                 'tahun'=> $val->tahun,
+                'status_kelas'=> $val->status_kelas,
                 'gurus_id' => $val->gurus_id,
             );
         }

@@ -18,7 +18,7 @@
     </div>
     <div class="box-body">
     	<button type="button" id="btn-soal" class="btn btn-primary btn-md"><i class="fa fa-pencil-square-o"></i> &nbsp;Tulis Soal</button>
-    	<a href="{{ url('/download-file-format/soal') }}" class="btn btn-success btn-md"><i class="fa fa-file-excel-o"></i> &nbsp;Download Format Exel</a>
+    	<a href="{{ url('/download-file-format/soal') }}" class="btn btn-success btn-md"><i class="fa fa-file-excel-o"></i> &nbsp;Download Format Excel</a>
     	<button type="button" id="btn-upload-soal" class="btn btn-info btn-md"><i class="fa fa-cloud-upload"></i> &nbsp;Upload Exel</button>
       <div class="well" style="margin-top: 15px; display: none;" id="wrap-soal">
         <form class="form-horizontal" id="formSoal">

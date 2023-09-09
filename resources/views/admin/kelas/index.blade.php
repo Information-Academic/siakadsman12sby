@@ -23,6 +23,7 @@
                     <th>Tipe Kelas</th>
                     <th>Tahun</th>
                     <th>Wali Kelas</th>
+                    <th>Status Kelas</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -34,20 +35,23 @@
                     <td>{{ $data->tipe_kelas }}</td>
                     <td>{{ $data->tahun }}</td>
                     <td>{{ $data->guru['nama_guru'] }}</td>
+                    <td>{{$data->status_kelas}}</td>
                     <td>
                         <form action="{{ route('kelas.destroy', $data->id) }}" method="post">
                             @csrf
                             @method('delete')
-                            <button type="button" class="btn btn-info btn-sm" onclick="getSubsSiswa({{$data->id}})" data-toggle="modal" data-target=".view-siswa">
+                            <button type="button" class="btn btn-info btn-xs" onclick="getSubsSiswa({{$data->id}})" data-toggle="modal" data-target=".view-siswa">
                               <i class="nav-icon fas fa-users"></i> &nbsp; View Siswa
                             </button>
-                            <button type="button" class="btn btn-info btn-sm" onclick="getSubsJadwal({{$data->id}})" data-toggle="modal" data-target=".view-jadwal">
+                            <button type="button" class="btn btn-info btn-xs" onclick="getSubsJadwal({{$data->id}})" data-toggle="modal" data-target=".view-jadwal">
                               <i class="nav-icon fas fa-calendar-alt"></i> &nbsp; View Jadwal
                             </button>
-                            <button type="button" class="btn btn-success btn-sm" onclick="getEditKelas({{$data->id}})" data-toggle="modal" data-target="#form-kelas">
+                            <button type="button" class="btn btn-success btn-xs" onclick="getEditKelas({{$data->id}})" data-toggle="modal" data-target="#form-kelas">
                               <i class="nav-icon fas fa-edit"></i> &nbsp; Edit
                             </button>
-                            <button class="btn btn-danger btn-sm"><i class="nav-icon fas fa-trash-alt"></i> &nbsp; Hapus</button>
+                            <a href="{{route('kelas.edit',Crypt::encrypt($data->id))}}" class="btn btn-success btn-xs">
+                            <i class="nav-icon fas fa-edit"></i>Edit Status Kelas</a>
+                            <button class="btn btn-danger btn-xs"><i class="nav-icon fas fa-trash-alt"></i> &nbsp; Hapus</button>
                         </form>
                     </td>
                 </tr>
@@ -166,13 +170,6 @@
               </thead>
               <tbody id="data-jadwal">
               </tbody>
-              <tfoot>
-                <tr>
-                  <th>Hari</th>
-                  <th>Jadwal</th>
-                  <th>Jam Pelajaran</th>
-                </tr>
-              </tfoot>
             </table>
           </div>
           <!-- /.col -->
@@ -198,6 +195,12 @@
         <input type='text' id="tipe_kelas" onkeyup="this.value = this.value.toUpperCase()" name='tipe_kelas' class="form-control @error('tipe_kelas') is-invalid @enderror" placeholder="{{ __('Tipe Kelas') }}">
         <label for="tahun">Tahun</label>
         <input type='text' id="tahun" onkeyup="this.value = this.value.toUpperCase()" name='tahun' class="form-control @error('tahun') is-invalid @enderror" placeholder="{{ __('Tahun') }}">
+        <label for="tahun">Status Kelas</label>
+        <select id="status_kelas" name="status_kelas" class="select2bs4 form-control @error('status_kelas') is-invalid @enderror">
+            <option value="">-- Pilih Status Kelas --</option>
+            <option value="Aktif">Aktif</option>
+            <option value="Tidak Aktif">Tidak Aktif</option>
+        </select>
       `);
       $('#kelas').val('');
       $('#gurus_id').val('');
@@ -211,10 +214,9 @@
         dataType:"JSON",
         url:"{{ url('/kelas/edit/json') }}",
         success:function(result){
-            // console.log(result);
           if(result){
             $.each(result,function(index, val){
-              $("#judul").text('Edit Data Kelas ' + val.nama);
+              $("#judul").text('Edit Data Kelas ' + val.kelas + ' ' + val.tipe_kelas);
               $('#id').val(val.id);
               $('#form_nama').html('');
               $('#kelas').val(val.kelas);
@@ -264,7 +266,7 @@
       });
       $("#link-siswa").attr("href","http://127.0.0.1:8000/siswa-pdf/" +id);
     }
-    
+
     function getSubsJadwal(id){
       var parent = id;
       $.ajax({
@@ -277,10 +279,10 @@
           var jadwal = "";
           if(result){
             $.each(result,function(index, val){
-              $("#judul-jadwal").text('View Data Jadwal ' + val.kelas);
+              $("#judul-jadwal").text('View Data Jadwal ' + val.kelas + ' ' + val.tipe_kelas);
               jadwal += "<tr>";
                 jadwal += "<td>"+val.hari+"</td>";
-                jadwal += "<td><h5 class='card-title'>"+val.mapel+"</h5><p class='card-text'><small class='text-muted'>"+val.guru+"</small></p></td>";
+                jadwal += "<td><h5 class='card-title'>"+val.nama_mapel+"</h5><p class='card-text'><small class='text-muted'>"+val.nama_guru+"</small></p></td>";
                 jadwal += "<td>"+val.jam_mulai+" - "+val.jam_selesai+"</td>";
               jadwal+="</tr>";
             });

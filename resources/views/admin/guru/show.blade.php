@@ -20,7 +20,7 @@
                     <th>No.</th>
                     <th>Nama Guru</th>
                     <th>NIP</th>
-                    <th>ALamat</th>
+                    <th>Alamat</th>
                     <th>Foto</th>
                     <th>Aksi</th>
                 </tr>

@@ -8,7 +8,7 @@ class Kelas extends Model
 {
     //
     protected $table = 'kelas';
-    protected $fillable = ['kelas', 'tipe_kelas', 'tahun','gurus_id'];
+    protected $fillable = ['kelas','tipe_kelas','tahun','status_kelas','gurus_id'];
 
     public function guru()
     {
@@ -23,10 +23,10 @@ class Kelas extends Model
     {
       return $this->belongsTo('App\DistribusiSoal', 'kelas_id');
     }
-    
+
     public function soal()
     {
       return $this->belongsTo('App\Soal', 'users_id');
     }
-   
+
 }
