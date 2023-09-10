@@ -9,6 +9,7 @@ use App\Guru;
 use App\Mapel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class JadwalController extends Controller
 {
@@ -51,10 +52,15 @@ class JadwalController extends Controller
             'kelas_id' => 'required',
             'gurus_id' => 'required',
             'jam_mulai' => 'required',
-            'jam_selesai' => 'required',            
+            'jam_selesai' => 'required',
         ]);
 
         $guru = Guru::findorfail($request->gurus_id);
+        $jadwal = DB::table('jadwals')->where('haris_id', $request->haris_id)->where('kelas_id', $request->kelas_id)->where('mapels_id', $guru->mapels_id)->where('gurus_id', $request->gurus_id)->where('jam_mulai', $request->jam_mulai)->where('jam_selesai', $request->jam_selesai)->get();
+        if(count($jadwal) > 0){
+            return redirect()->back()->with('warning', 'Data jadwal sudah ada!');
+        }
+        else{
         Jadwal::updateOrCreate(
             [
                 'id' => $request->jadwals_id
@@ -68,8 +74,8 @@ class JadwalController extends Controller
                 'jam_selesai' => $request->jam_selesai,
             ]
         );
-
         return redirect()->back()->with('success', 'Data jadwal berhasil diperbarui!');
+        }
     }
 
     /**
