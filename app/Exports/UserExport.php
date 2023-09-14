@@ -13,7 +13,7 @@ class UserExport implements FromCollection
     public function collection()
     {
         //
-        $user = User::select('nama_depan','nama_belakang','nama_pengguna','email')->get();
+        $user = User::select('nama_depan','nama_belakang','nama_pengguna','email','password')->get();
         return $user;
     }
 }

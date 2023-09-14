@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Pengumuman;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PengumumanController extends Controller
 {
@@ -19,7 +20,7 @@ class PengumumanController extends Controller
         return view('admin.pengumuman', compact('pengumuman'));
     }
 
-    public function simpan(Request $request)
+    public function simpan(Request $request, Pengumuman $pengumuman)
     {
         $this->validate($request, [
             'judul_pengumuman' => 'required',

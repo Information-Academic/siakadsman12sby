@@ -19,7 +19,8 @@
                 </div>
                 <div class="card-body pad">
                     <div class="mb-3">
-                        <input type="hidden" name="id" value="{{ $pengumuman['id']}}">    
+                        <input type="hidden" name="id" value="{{ $pengumuman['id']}}">
+                        <label for="judul_pengumuman">Judul Pengumuman</label>
                         <input type="text @error('judul_pengumuman') is-invalid @enderror" name="judul_pengumuman" value="{{$pengumuman['judul_pengumuman']}}" placeholder="Masukkan Judul Pengumuman" style="width: 100%;">
                         <br>
                         <br>

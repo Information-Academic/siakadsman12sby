@@ -11,7 +11,7 @@
                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".tambah-user">
                     <i class="nav-icon fas fa-folder-plus"></i> &nbsp; Tambah Data User
                 </button>
-                <a href="{{ route('user.export_excel') }}" class="btn btn-success btn-sm my-3" target="_blank"><i class="nav-icon fas fa-file-export"></i> &nbsp; EXPORT EXCEL</a>
+                {{-- <a href="{{ route('user.export_excel') }}" class="btn btn-success btn-sm my-3" target="_blank"><i class="nav-icon fas fa-file-export"></i> &nbsp; EXPORT EXCEL</a> --}}
                 <button type="button" class="btn btn-primary btn-sm my-3" data-toggle="modal" data-target="#importExcel">
                   <i class="nav-icon fas fa-file-import"></i> &nbsp; IMPORT EXCEL
                 </button>

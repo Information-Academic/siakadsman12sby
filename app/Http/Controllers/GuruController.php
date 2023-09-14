@@ -131,15 +131,6 @@ class GuruController extends Controller
         ]);
 
         $guru = Guru::findorfail($id);
-        $user = User::where('nip', $guru->nip)->first();
-        if ($user) {
-            $user_data = [
-                'nama_depan' => $request->nama_depan,
-                'nama_belakang' => $request->nama_belakang,
-            ];
-            $user->update($user_data);
-        } else {
-        }
         $guru_data = [
             'nama_guru' => $request->nama_guru,
             'mapels_id' => $request->mapels_id,

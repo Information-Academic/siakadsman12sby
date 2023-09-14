@@ -28,7 +28,7 @@
                         $hari == '2' && $jam >= '09:30' && $jam <= '10:00' ||
                         $hari == '3' && $jam >= '09:30' && $jam <= '10:00' ||
                         $hari == '4' && $jam >= '09:30' && $jam <= '10:00' ||
-                        $hari == '5' && $jam >= '09:30' && $jam <= '10:00' 
+                        $hari == '5' && $jam >= '09:30' && $jam <= '10:00'
                       )
                       <tr>
                         <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Waktunya Istirahat Pertama!</td>
@@ -38,7 +38,7 @@
                         $hari == '2' && $jam >= '11:30' && $jam <= '12:15' ||
                         $hari == '3' && $jam >= '11:30' && $jam <= '12:15' ||
                         $hari == '4' && $jam >= '11:30' && $jam <= '12:15' ||
-                        $hari == '5' && $jam >= '11:30' && $jam <= '12:15' 
+                        $hari == '5' && $jam >= '11:30' && $jam <= '12:15'
                       )
                       <tr>
                         <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Waktunya Istirahat Kedua!</td>
@@ -107,7 +107,6 @@
         </div>
       </div>
     </div>
-    
 @endsection
 @section('script')
     <script>
@@ -120,7 +119,7 @@
           h = (h < 10) ? "0" + h : h;
           m = (m < 10) ? "0" + m : m;
           var jam = h + ":" + m;
-          
+
           if (hari == '0' || hari == '6') {
             $("#data-jadwal").html(
               `<tr>
@@ -172,7 +171,7 @@
                     <td colspan='5' style='background:#fff;text-align:center;font-weight:bold;font-size:18px;'>Waktunya Istirahat Kedua!</td>
                   </tr>`
                 );
-              } 
+              }
               else if (hari == '1' && jam >= '06:30' && jam <= '07:15') {
                 $("#data-jadwal").html(
                   `<tr>
@@ -206,7 +205,7 @@
           }
         }, 60 * 1000);
       });
-      
+
       $("#Dashboard").addClass("active");
       $("#liDashboard").addClass("menu-open");
       $("#Home").addClass("active");

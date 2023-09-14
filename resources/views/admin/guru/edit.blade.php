@@ -72,7 +72,7 @@
                 </div>
                 <div class="form-group">
                     <label for="alamat_guru">Alamat Guru</label>
-                    <input type="text" id="alamat_guru" name="alamat_guru" value="{{ $guru->alamat_guru }}" class="form-control @error('alamat_guru') is-invalid @enderror">
+                    <input type="text" id="alamat" name="alamat" value="{{ $guru->alamat }}" class="form-control @error('alamat') is-invalid @enderror">
                 </div>
                 <div class="form-group">
                     <label for="status_guru">Status Guru</label>
