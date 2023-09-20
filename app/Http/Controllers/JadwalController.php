@@ -10,7 +10,6 @@ use App\Mapel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-
 class JadwalController extends Controller
 {
     /**
@@ -59,6 +58,7 @@ class JadwalController extends Controller
         $jadwal = DB::table('jadwals')->where('haris_id', $request->haris_id)->where('kelas_id', $request->kelas_id)->where('mapels_id', $guru->mapels_id)->where('gurus_id', $request->gurus_id)->where('jam_mulai', $request->jam_mulai)->where('jam_selesai', $request->jam_selesai)->get();
         if(count($jadwal) > 0){
             return redirect()->back()->with('warning', 'Data jadwal sudah ada!');
+            // return response()->json(['dataExists'=>$jadwal]);
         }
         else{
         Jadwal::updateOrCreate(
@@ -164,11 +164,11 @@ class JadwalController extends Controller
         $jadwal = Jadwal::OrderBy('haris_id', 'asc')->OrderBy('jam_mulai', 'asc')->where('kelas_id', $request->id)->get();
         foreach ($jadwal as $val) {
             $newForm[] = array(
-                'hari' => $val->haris->nama_hari,
-                'mapel' => $val->mapels->nama_mapel,
-                'kelas' => $val->kelas->kelas,
-                'tipe_kelas' => $val->kelas->tipe_kelas,
-                'guru' => $val->gurus->nama_guru,
+                'hari' => $val->hari['nama_hari'],
+                'mapel' => $val->mapel['nama_mapel'],
+                'kelas' => $val->kelas['kelas'],
+                'tipe_kelas' => $val->kelas['tipe_kelas'],
+                'guru' => $val->guru['nama_guru'],
                 'jam_mulai' => $val->jam_mulai,
                 'jam_selesai' => $val->jam_selesai,
             );

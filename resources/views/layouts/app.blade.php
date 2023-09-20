@@ -13,10 +13,10 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
   <style>
     #transparent{
-      background-image: url('{{ asset("images/sman12sby.jpeg") }}');
+      background: url('https://i0.wp.com/www.radarjatim.co/wp-content/uploads/2020/09/Screenshot_2020-09-08-08-56-40-84.jpg?w=720&ssl=1');
       background-size: cover;
       background-attachment: fixed;
-      opacity: 0.59;
+      opacity: 1;
     }
   </style>
   <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

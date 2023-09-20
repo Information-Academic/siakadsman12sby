@@ -175,10 +175,10 @@
           <!-- /.col -->
         </div>
       </div>
-      <div class="modal-footer justify-content-between">
+      {{-- <div class="modal-footer justify-content-between">
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="nav-icon fas fa-arrow-left"></i> &nbsp; Kembali</button>
         <a id="link-jadwal" href="#" class="btn btn-primary"><i class="nav-icon fas fa-download"></i> &nbsp; Download PDF</a>
-      </div>
+      </div> --}}
     </div>
   </div>
 </div>
@@ -282,7 +282,7 @@
               $("#judul-jadwal").text('View Data Jadwal ' + val.kelas + ' ' + val.tipe_kelas);
               jadwal += "<tr>";
                 jadwal += "<td>"+val.hari+"</td>";
-                jadwal += "<td><h5 class='card-title'>"+val.nama_mapel+"</h5><p class='card-text'><small class='text-muted'>"+val.nama_guru+"</small></p></td>";
+                jadwal += "<td><h5 class='card-title'>"+val.mapel+"</h5><p class='card-text'><small class='text-muted'>"+val.guru+"</small></p></td>";
                 jadwal += "<td>"+val.jam_mulai+" - "+val.jam_selesai+"</td>";
               jadwal+="</tr>";
             });
@@ -295,7 +295,7 @@
         complete:function(){
         }
       });
-      $("#link-jadwal").attr("href", "https://siakad.didev.id/jadwalkelaspdf/"+id);
+      $("#link-jadwal").attr("href", "http://127.0.0.1:8000/jadwal-pdf/"+id);
     }
 
     $("#MasterData").addClass("active");

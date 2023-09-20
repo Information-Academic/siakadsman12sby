@@ -30,4 +30,11 @@ class Jadwal extends Model
     return $this->belongsTo('App\Guru','gurus_id');
   }
 
+  public function cekRapot($id)
+  {
+    $data = json_decode($id, true);
+    $rapot = Rapor::where('siswas_id', $data['siswa'])->where('mapels_id', $data['mapel'])->first();
+    return $rapot;
+  }
+
 }

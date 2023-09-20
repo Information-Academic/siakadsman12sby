@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Kelas;
+use App\Presensi;
 use App\Siswa;
 use App\User;
 use Illuminate\Http\Request;
@@ -201,6 +202,7 @@ class SiswaController extends Controller
 
         return response()->json($newForm);
     }
+
     public function cetak_pdf(Request $request)
     {
         $siswa = Siswa::OrderBy('nama_siswa','asc')->where('kelas_id', $request->id)->get();
@@ -208,4 +210,18 @@ class SiswaController extends Controller
         $pdf = PDF::loadView('admin.siswa.siswa-pdf', ['siswa'=>$siswa,'kelas'=>$kelas])->setPaper('A4','portrait');
         return $pdf->stream();
     }
+
+    public function presensi(){
+        $siswa = Siswa::all();
+        return view('admin.siswa.absen',compact('siswa'));
+    }
+
+    public function presensikehadiran($id)
+    {
+        $id = Crypt::decrypt($id);
+        $siswa = Siswa::findorfail($id);
+        $absen = Presensi::orderBy('tanggal_absen', 'desc')->where('siswas_id', $id)->get();
+        return view('admin.siswa.kehadiran', compact('siswa', 'absen'));
+    }
+
 }

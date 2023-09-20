@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Guru;
+use App\Hari;
 use App\Jadwal;
 use App\Kelas;
 use App\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 class KelasController extends Controller
 {
     /**
@@ -152,5 +153,14 @@ class KelasController extends Controller
             );
         }
         return response()->json($newForm);
+    }
+
+    public function cetak_pdf(Request $request)
+    {
+        $guru = Guru::OrderBy('nama_guru','asc')->where('mapels_id', $request->id)->get();
+        $kelas = Kelas::find($request->id);
+        $jadwal = Jadwal::find($request->id);
+        $pdf = PDF::loadView('admin.kelas.jadwal-pdf', ['guru'=>$guru,'kelas'=>$kelas,'jadwal'=>$jadwal])->setPaper('A4','portrait');
+        return $pdf->stream();
     }
 }

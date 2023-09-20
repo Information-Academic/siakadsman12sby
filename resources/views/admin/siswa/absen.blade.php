@@ -1,7 +1,7 @@
 @extends('template_backend.home')
-@section('heading', 'Presensi Guru')
+@section('heading', 'Presensi Siswa')
 @section('page')
-    <li class="breadcrumb-item active">Presensi guru</li>
+    <li class="breadcrumb-item active">Presensi siswa</li>
 @endsection
 @section('content')
 <div class="col-md-12">
@@ -11,17 +11,17 @@
             <thead>
                 <tr>
                     <th>No.</th>
-                    <th>Nama Guru</th>
+                    <th>Nama Siswa</th>
                     <th>Cek Presensi</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($guru as $data)
+                @foreach ($siswa as $data)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $data->nama_guru }}</td>
+                        <td>{{ $data->nama_siswa }}</td>
                         <td>
-                            <a href="{{ route('guru.presensikehadiran', Crypt::encrypt($data->id)) }}" class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus"></i> &nbsp; Details</a>
+                            <a href="{{ route('siswa.presensikehadiran', Crypt::encrypt($data->id)) }}" class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus"></i> &nbsp; Details</a>
                         </td>
                     </tr>
                 @endforeach
@@ -33,6 +33,6 @@
 @endsection
 @section('script')
     <script>
-        $("#AbsensiGuru").addClass("active");
+        $("#AbsensiSiswa").addClass("active");
     </script>
 @endsection

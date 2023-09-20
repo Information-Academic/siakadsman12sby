@@ -108,18 +108,18 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="jam_mulai">Jam Mulai</label>
-                  <input type='text' id="jam_mulai" name='jam_mulai' class="form-control @error('jam_mulai') is-invalid @enderror jam_mulai" placeholder="{{ Date('H:i') }}">
+                  <input type='time' id="jam_mulai" name='jam_mulai' class="form-control @error('jam_mulai') is-invalid @enderror jam_mulai">
                 </div>
                 <div class="form-group">
                   <label for="jam_selesai">Jam Selesai</label>
-                  <input type='text' id="jam_selesai" name='jam_selesai' class="form-control @error('jam_selesai') is-invalid @enderror" placeholder="{{ Date('H:i') }}">
+                  <input type='time' id="jam_selesai" name='jam_selesai' class="form-control @error('jam_selesai') is-invalid @enderror">
                 </div>
               </div>
             </div>
           </div>
           <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal"><i class='nav-icon fas fa-arrow-left'></i> &nbsp; Kembali</button>
-              <button type="submit" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> &nbsp; Tambahkan</button>
+              <button type="submit" class="btn btn-primary" id="checkData"><i class="nav-icon fas fa-save"></i> &nbsp; Tambahkan</button>
           </form>
           </div>
       </div>
@@ -133,6 +133,42 @@
         $("#DataJadwal").addClass("active");
         $("#jam_mulai,#jam_selesai").timepicker({
             timeFormat: 'HH:mm'
+        });
+        $(document).ready(function(){
+            $('#checkData').submit(function(e){
+                e.preventDefault();
+                var haris_id = $('#haris_id').val();
+                var kelas_id = $('#kelas_id').val();
+                var mapels_id = $('#mapels_id').val();
+                var gurus_id = $('#gurus_id').val();
+                var jam_mulai = $('#jam_mulai').val();
+                var jam_selesai = $('#jam_selesai').val();
+
+                $.ajax({
+                    method:'POST',
+                    url:'{{route("jadwal.store")}}',
+                    async:false,
+                    data: {
+                        value: haris_id,
+                        value2: kelas_id,
+                        value3: mapels_id,
+                        value4: gurus_id,
+                        value5: jam_mulai,
+                        value6: jam_selesai
+                    },
+                    success:function(data){
+                        if(data == 1){
+                            console.log(data);
+                            alert('Data Sudah Ada');
+                        }else{
+                            $('#modal').modal('hide');
+                        }
+                    },
+                    error:function(data){
+                        console.log(data);
+                    }
+                });
+            });
         });
     </script>
 @endsection

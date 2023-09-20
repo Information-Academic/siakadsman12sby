@@ -6,6 +6,7 @@ use App\Guru;
 use App\Jadwal;
 use App\Mapel;
 use App\Nilai;
+use App\Presensi;
 use App\User;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Http\Request;
@@ -200,5 +201,18 @@ class GuruController extends Controller
         $mapel = Mapel::findorfail($id);
         $guru = Guru::where('mapels_id', $id)->get();
         return view('admin.guru.show', compact('mapel', 'guru'));
+    }
+
+    public function presensi(){
+        $guru = Guru::all();
+        return view('admin.guru.absen',compact('guru'));
+    }
+
+    public function presensikehadiran($id)
+    {
+        $id = Crypt::decrypt($id);
+        $guru = Guru::findorfail($id);
+        $absen = Presensi::orderBy('tanggal_absen', 'desc')->where('gurus_id', $id)->get();
+        return view('admin.guru.kehadiran', compact('guru', 'absen'));
     }
 }

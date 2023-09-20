@@ -81,15 +81,15 @@
                         </a>
                         <ul class="nav nav-treeview ml-4">
                             <li class="nav-item">
-                                <a href="#" class="nav-link" id="AbsensiGuru">
+                                <a href="{{route('guru.presensi')}}" class="nav-link" id="AbsensiGuru">
                                     <i class="fas fa-calendar-check nav-icon"></i>
-                                    <p>Absensi Guru</p>
+                                    <p>Presensi Guru</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link" id="AbsensiGuru">
+                                <a href="{{route('siswa.presensi')}}" class="nav-link" id="AbsensiSiswa">
                                     <i class="fas fa-calendar-check nav-icon"></i>
-                                    <p>Absensi Siswa</p>
+                                    <p>Presensi Siswa</p>
                                 </a>
                             </li>
                         </ul>
@@ -104,15 +104,15 @@
                         </a>
                         <ul class="nav nav-treeview ml-4">
                             <li class="nav-item">
-                                <a href="#" class="nav-link" id="Ulangan">
+                                <a href="{{route('ulangan-kelas')}}" class="nav-link" id="Ulangan">
                                     <i class="fas fa-file-alt nav-icon"></i>
                                     <p>Nilai Ulangan</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link" id="Rapot">
+                                <a href="{{route('rapor-kelas')}}" class="nav-link" id="Rapot">
                                     <i class="fas fa-file-alt nav-icon"></i>
-                                    <p>Nilai Rapot</p>
+                                    <p>Nilai Rapor</p>
                                 </a>
                             </li>
                         </ul>

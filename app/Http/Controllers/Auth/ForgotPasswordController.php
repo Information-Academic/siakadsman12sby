@@ -42,8 +42,8 @@ class ForgotPasswordController extends Controller
         $token = Str::random(64);
 
         DB::table('password_resets')->insert([
-            'email' => $request->email, 
-            'token' => $token, 
+            'email' => $request->email,
+            'token' => $token,
             'created_at' => Carbon::now()
           ]);
 
@@ -59,7 +59,7 @@ class ForgotPasswordController extends Controller
      *
      * @return response()
      */
-    public function showResetPasswordForm($token) { 
+    public function showResetPasswordForm($token) {
        return view('auth.forgetPasswordLink', ['token' => $token]);
     }
 
@@ -78,7 +78,7 @@ class ForgotPasswordController extends Controller
 
         $updatePassword = DB::table('password_resets')
                             ->where([
-                              'email' => $request->email, 
+                              'email' => $request->email,
                               'token' => $request->token
                             ])
                             ->first();
@@ -93,5 +93,5 @@ class ForgotPasswordController extends Controller
         DB::table('password_resets')->where(['email'=> $request->email])->delete();
 
         return redirect('/login')->with('message', 'Your password has been changed!');
-    }    
+    }
 }
