@@ -362,7 +362,7 @@ class UserController extends Controller
 
     public function export_excel()
     {
-        
+
         return Excel::download(new UserExport, 'Data User.xlsx');
     }
 

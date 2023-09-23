@@ -112,7 +112,7 @@
 </script>
 
 
-@error('id_card')
+@error('nip')
   <script>
     toastr.error("Maaf User ini tidak terdaftar sebagai Guru SMAN 12 Surabaya!");
   </script>
@@ -122,7 +122,7 @@
     toastr.error("Maaf Guru ini sudah terdaftar sebagai User!");
   </script>
 @enderror
-@error('no_induk')
+@error('nis')
   <script>
     toastr.error("Maaf User ini tidak terdaftar sebagai Siswa SMAN 12 Surabaya!");
   </script>

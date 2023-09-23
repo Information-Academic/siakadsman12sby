@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Jadwal extends Model
 {
@@ -35,6 +36,19 @@ class Jadwal extends Model
     $data = json_decode($id, true);
     $rapot = Rapor::where('siswas_id', $data['siswa'])->where('mapels_id', $data['mapel'])->first();
     return $rapot;
+  }
+
+  public function rapot($id)
+  {
+    $kelas = Kelas::where('id', $id)->first();
+    return $kelas;
+  }
+
+  public function ulangan($id)
+  {
+    $siswa = Siswa::where('no_induk', Auth::user()->nis)->first();
+    $nilai = Ulangan::where('siswas_id', $siswa->id)->where('mapels_id', $id)->first();
+    return $nilai;
   }
 
 }

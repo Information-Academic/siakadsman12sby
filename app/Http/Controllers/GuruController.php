@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Guru;
 use App\Jadwal;
+use App\Kehadiran;
 use App\Mapel;
 use App\Nilai;
 use App\Presensi;
 use App\User;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GuruController extends Controller
 {
@@ -206,6 +208,84 @@ class GuruController extends Controller
     public function presensi(){
         $guru = Guru::all();
         return view('admin.guru.absen',compact('guru'));
+    }
+
+    public function presensiGuru()
+    {
+        $presensi = Presensi::where('tanggal_absen', date('d-m-Y'))->get();
+        $kehadiran = Kehadiran::limit(4)->get();
+        return view('guru.presensi', compact('presensi','kehadiran'));
+    }
+
+    public function simpan(Request $request)
+    {
+        $this->validate($request, [
+            'nip' => 'required',
+            'status_kehadiran' => 'required'
+        ]);
+        $cekGuru = Guru::where('nip', $request->nip)->count();
+        if ($cekGuru >= 1) {
+            $guru = Guru::where('nip', $request->nip)->first();
+            if ($guru->nip == Auth::user()->nip) {
+                $cekAbsen = Presensi::where('gurus_id', $guru->id)->where('tanggal_absen', date('d-m-Y'))->count();
+                if ($cekAbsen == 0) {
+                    if (date('w') != '0' && date('w') != '6') {
+                        if (date('H:i:s') >= '06:00:00') {
+                            if (date('H:i:s') >= '09:00:00') {
+                                if (date('H:i:s') >= '16:15:00') {
+                                    Presensi::create([
+                                        'tanggal_absen' => date('d-m-Y'),
+                                        'gurus_id' => $guru->id,
+                                        'kehadirans_id' => '4',
+                                    ]);
+                                    return redirect()->back()->with('info', 'Maaf sekarang sudah waktunya pulang!');
+                                } else {
+                                    if ($request->kehadirans_id == '1') {
+                                        $terlambat = date('H') - 9 . ' Jam ' . date('i') . ' Menit';
+                                        if (date('H') - 9 == 0) {
+                                            $terlambat = date('i') . ' Menit';
+                                        }
+                                        Presensi::create([
+                                            'tanggal_absen' => date('d-m-Y'),
+                                            'gurus_id' => $guru->id,
+                                            'kehadirans_id' => '5',
+                                        ]);
+                                        return redirect()->back()->with('warning', 'Maaf anda terlambat ' . $terlambat . '!');
+                                    } else {
+                                        Presensi::create([
+                                            'tanggal_absen' => date('d-m-Y'),
+                                            'gurus_id' => $guru->id,
+                                            'kehadirans_id' => $request->kehadirans_id,
+                                        ]);
+                                        return redirect()->back()->with('success', 'Anda hari ini berhasil presensi!');
+                                    }
+                                }
+                            } else {
+                                Presensi::create([
+                                    'tanggal_absen' => date('Y-m-d'),
+                                    'gurus_id' => $guru->id,
+                                    'kehadirans_id' => $request->kehadirans_id,
+                                ]);
+                                return redirect()->back()->with('success', 'Anda hari ini berhasil presensi tepat waktu!');
+                            }
+                        } else {
+                            return redirect()->back()->with('info', 'Maaf presensi di mulai jam 6 pagi!');
+                        }
+                    } else {
+                        $namaHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu"];
+                        $d = date('w');
+                        $hari = $namaHari[$d];
+                        return redirect()->back()->with('info', 'Maaf sekolah hari ' . $hari . ' libur!');
+                    }
+                } else {
+                    return redirect()->back()->with('warning', 'Maaf presensi tidak bisa dilakukan 2x!');
+                }
+            } else {
+                return redirect()->back()->with('error', 'Maaf nomor induk pegawai ini bukan milik anda!');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Maaf nomor induk pegawai ini tidak terdaftar!');
+        }
     }
 
     public function presensikehadiran($id)

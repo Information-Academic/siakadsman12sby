@@ -40,7 +40,7 @@
           </div>
           <div class="form-group" style="margin-top: 20px">
             <div class="col-sm-offset-2 col-sm-10">
-              <input class="btn btn-danger" id="batal-simpan-essay" type="button" value="Batal" />
+              <input class="btn btn-danger" id="batal-simpan-essay" type="button" value="Batal" onclick="self.history.back()" />
               <button class="btn btn-primary" type="submit">Simpan</button>
             </div>
           </div>

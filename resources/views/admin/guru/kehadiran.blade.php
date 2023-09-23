@@ -27,7 +27,7 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{$data->guru->nama_guru}}</td>
                     <td>{{ date('l, d F Y', strtotime($data->tanggal_absen)) }}</td>
-                    <td>{{$data->status_kehadiran}}</td>
+                    <td>{{$data->kehadirans->keterangan}}</td>
                 </tr>
                 @endforeach
             </tbody>

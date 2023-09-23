@@ -8,6 +8,7 @@ use App\Kelas;
 use App\Rapor;
 use App\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 
 class RaporController extends Controller
@@ -20,6 +21,11 @@ class RaporController extends Controller
     public function index()
     {
         //
+        $guru = Guru::where('nip', Auth::user()->nip)->first();
+        $jadwal = Jadwal::where('gurus_id', $guru->id)->orderBy('kelas_id')->get();
+        $kelas = $jadwal->groupBy('kelas_id');
+
+        return view('guru.rapor.kelas', compact('kelas', 'guru'));
     }
 
     /**

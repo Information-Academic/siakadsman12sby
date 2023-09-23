@@ -9,6 +9,7 @@ use App\Rapor;
 use App\Siswa;
 use App\Ulangan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 
 class UlanganController extends Controller
@@ -21,6 +22,10 @@ class UlanganController extends Controller
     public function index()
     {
         //
+        $guru = Guru::where('nip', Auth::user()->nip)->first();
+        $jadwal = Jadwal::where('gurus_id', $guru->id)->orderBy('kelas_id')->get();
+        $kelas = $jadwal->groupBy('kelas_id');
+        return view('guru.ulangan.kelas', compact('kelas', 'guru'));
     }
 
     /**
@@ -51,13 +56,14 @@ class UlanganController extends Controller
             if($request->ulha_1 && $request->ulha_2 && $request->uts && $request->ulha_3 && $request->uas){
                 $nilai = ($request->ulha_1 + $request->ulha_2 + $request->uts + $request->ulha_3 + (2 * $request->uas)) / 6;
                 $nilai = (int) $nilai;
+
                 if($nilai>90){
                     Rapor::create([
                         'siswas_id' => $request->siswas_id,
                         'kelas_id' => $request->kelas_id,
                         'gurus_id' => $request->gurus_id,
                         'mapels_id' => $guru->mapels_id,
-                        'kkm_nilai' => $nilai,
+                        'nilai_rapor' => $nilai,
                     ]);
                 }
                 else if($nilai > 80){
@@ -66,7 +72,7 @@ class UlanganController extends Controller
                         'kelas_id' => $request->kelas_id,
                         'gurus_id' => $request->gurus_id,
                         'mapels_id' => $guru->mapels_id,
-                        'kkm_nilai' => $nilai,
+                        'nilai_rapor' => $nilai,
                     ]);
                 }
                 else if($nilai > 70){
@@ -75,7 +81,7 @@ class UlanganController extends Controller
                         'kelas_id' => $request->kelas_id,
                         'gurus_id' => $request->gurus_id,
                         'mapels_id' => $guru->mapels_id,
-                        'kkm_nilai' => $nilai,
+                        'nilai_rapor' => $nilai,
                     ]);
                 }
                 else {
@@ -84,10 +90,10 @@ class UlanganController extends Controller
                         'kelas_id' => $request->kelas_id,
                         'gurus_id' => $request->gurus_id,
                         'mapels_id' => $guru->mapels_id,
-                        'kkm_nilai' => $nilai,
+                        'nilai_rapor' => $nilai,
                     ]);
                 }
-            }
+        }
             else{
 
             }
@@ -106,10 +112,10 @@ class UlanganController extends Controller
                     'ulha_3' => $request->ulha_3,
                     'uas' => $request->uas,
                 ]);
-            return redirect()->route('guru.ulangan.kelas')->with('success', 'Data Nilai berhasil disimpan!');
+            return response()->json(['success' => 'Nilai ulangan siswa berhasil ditambahkan!']);
         }
         else{
-            return redirect()->route('guru.ulangan.kelas')->with('error', 'Data Nilai gagal disimpan!');
+            return response()->json(['error' => 'Maaf guru ini tidak mengajar kelas ini!']);
         }
     }
 
@@ -119,9 +125,14 @@ class UlanganController extends Controller
      * @param  \App\Ulangan  $ulangan
      * @return \Illuminate\Http\Response
      */
-    public function show(Ulangan $ulangan)
+    public function show($id)
     {
         //
+        $id = Crypt::decrypt($id);
+        $guru = Guru::where('nip', Auth::user()->nip)->first();
+        $kelas = Kelas::findorfail($id);
+        $siswa = Siswa::where('kelas_id', $id)->get();
+        return view('guru.ulangan.nilai', compact('guru', 'kelas', 'siswa'));
     }
 
     /**

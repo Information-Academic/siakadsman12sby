@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Guru;
 use App\Jadwal;
+use App\Kehadiran;
 use App\Kelas;
 use App\Mapel;
 use App\Pengumuman;

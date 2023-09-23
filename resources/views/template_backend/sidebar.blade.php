@@ -123,7 +123,7 @@
                             <p>Pengumuman</p>
                         </a>
                     </li>
-                {{-- @elseif (Auth::user()->role == 'Guru' && Auth::user()->guru(Auth::user()->id_card))
+                @elseif (Auth::user()->roles == 'Guru')
                     <li class="nav-item has-treeview">
                         <a href="{{ url('/') }}" class="nav-link" id="Home">
                             <i class="nav-icon fas fa-home"></i>
@@ -131,9 +131,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('absen.harian') }}" class="nav-link" id="AbsenGuru">
+                        <a href="{{ route('presensi.harian') }}" class="nav-link" id="AbsenGuru">
                             <i class="fas fa-calendar-check nav-icon"></i>
-                            <p>Absen</p>
+                            <p>Presensi Guru</p>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -158,32 +158,19 @@
                                 </a>
                             </li>
                             @if (
-                                Auth::user()->guru(Auth::user()->id_card)->mapel->nama_mapel == "Pendidikan Agama dan Budi Pekerti" ||
-                                Auth::user()->guru(Auth::user()->id_card)->mapel->nama_mapel == "Pendidikan Pancasila dan Kewarganegaraan"
+                                Auth::user()->guru(Auth::user()->nip)->mapel->nama_mapel == "Pendidikan Agama dan Budi Pekerti" ||
+                                Auth::user()->guru(Auth::user()->nip)->mapel->nama_mapel == "Pendidikan Pancasila dan Kewarganegaraan"
                             )
-                                <li class="nav-item">
-                                    <a href="{{ route('sikap.index') }}" class="nav-link" id="SikapGuru">
-                                        <i class="fas fa-file-alt nav-icon"></i>
-                                        <p>Entry Nilai Sikap</p>
-                                    </a>
-                                </li>
-                            @else
                             @endif
                             <li class="nav-item">
-                                <a href="{{ route('rapot.index') }}" class="nav-link" id="RapotGuru">
+                                <a href="{{ route('rapor.index') }}" class="nav-link" id="RapotGuru">
                                     <i class="fas fa-file-alt nav-icon"></i>
-                                    <p>Entry Nilai Rapot</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('nilai.index') }}" class="nav-link" id="DesGuru">
-                                    <i class="fas fa-file-alt nav-icon"></i>
-                                    <p>Deskripsi Predikat</p>
+                                    <p>Entry Nilai Rapor</p>
                                 </a>
                             </li>
                         </ul>
                     </li>
-                @elseif (Auth::user()->role == 'Siswa' && Auth::user()->siswa(Auth::user()->no_induk))
+                {{-- @elseif (Auth::user()->role == 'Siswa' && Auth::user()->siswa(Auth::user()->no_induk))
                     <li class="nav-item has-treeview">
                         <a href="{{ url('/') }}" class="nav-link" id="Home">
                             <i class="nav-icon fas fa-home"></i>
@@ -207,14 +194,14 @@
                             <i class="fas fa-file-alt nav-icon"></i>
                             <p>Rapot</p>
                         </a>
-                    </li>
+                    </li> --}}
                 @else
                     <li class="nav-item has-treeview">
                         <a href="{{ url('/') }}" class="nav-link" id="Home">
                             <i class="nav-icon fas fa-home"></i>
                             <p>Dashboard</p>
                         </a>
-                    </li> --}}
+                    </li>
                 @endif
             </ul>
         </nav>

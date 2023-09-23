@@ -8,6 +8,7 @@ use App\Kelas;
 use App\Guru;
 use App\Mapel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 class JadwalController extends Controller
@@ -174,6 +175,12 @@ class JadwalController extends Controller
             );
         }
         return response()->json($newForm);
+    }
+
+    public function guru(){
+        $guru = Guru::where('nip', Auth::user()->nip)->first();
+        $jadwal = Jadwal::orderBy('haris_id')->OrderBy('jam_mulai')->where('gurus_id', $guru->id)->get();
+        return view('guru.jadwal', compact('jadwal', 'guru'));
     }
 
 }

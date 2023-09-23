@@ -28,7 +28,7 @@
                     @if (Auth::user()->roles == 'Guru')
                         <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
-                                <b>NIP</b> <a class="float-right">{{ Auth::user()->guru(Auth::user()->nip) }}</a>
+                                <b>NIP</b> <a class="float-right">{{ Auth::user()->guru(Auth::user()->nip)->nip }}</a>
                             </li>
                         </ul>
                     @elseif (Auth::user()->roles == 'Siswa')
@@ -66,7 +66,7 @@
             </div>
         </div>
         <!-- /.col -->
-        
+
         <div class="col-7">
             <!-- About Me Box -->
             <div class="card card-primary">

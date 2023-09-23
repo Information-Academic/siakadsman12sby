@@ -22,7 +22,7 @@
               <div class="col-md-6">
                   <div class="form-group">
                       <label for="name">Nama Guru</label>
-                      <input type="text" id="name" name="nama_guru" value="{{ Auth::user()->nama_guru }}" class="form-control @error('name') is-invalid @enderror">
+                      <input type="text" id="nama_guru" name="nama_guru" value="{{ Auth::user()->guru(Auth::user()->nip)->nama_guru }}" class="form-control @error('nama_guru') is-invalid @enderror">
                   </div>
                   <div class="form-group">
                       <label for="mapels_id">Mapel</label>
@@ -30,7 +30,7 @@
                           <option value="">-- Pilih Mapel --</option>
                           @foreach ($mapel as $data)
                               <option value="{{ $data->id }}"
-                                  @if (Auth::user()->guru(Auth::user()->nis)->mapel_id == $data->id)
+                                  @if (Auth::user()->guru(Auth::user()->nip)->mapels_id == $data->id)
                                       selected
                                   @endif
                               >{{ $data->nama_mapel }}</option>
@@ -49,7 +49,7 @@
               <div class="col-md-6">
                   <div class="form-group">
                       <label for="nip">NIP</label>
-                      <input type="text" id="nip" name="nip" onkeypress="return inputAngka(event)" value="{{ Auth::user()->guru(Auth::user()->nip) }}" class="form-control @error('nip') is-invalid @enderror" disabled>
+                      <input type="text" id="nip" name="nip" onkeypress="return inputAngka(event)" value="{{ Auth::user()->guru(Auth::user()->nip)->nip }}" class="form-control @error('nip') is-invalid @enderror" disabled>
                   </div>
                   <div class="form-group">
                       <label for="jk">Jenis Kelamin</label>
