@@ -163,11 +163,9 @@ class UserController extends Controller
     {
         if (Auth::user()->roles == 'Guru') {
             $this->validate($request, [
-                'nama_depan'      => 'required',
-                'nama_pengguna'   => 'reqired',
                 'mapels_id'  => 'required',
                 'jenis_kelamin'        => 'required',
-                'no_telepon'      => 'required',
+                'nomor_telepon'      => 'required',
                 'tempat_lahir' => 'required',
                 'tanggal_lahir' => 'required',
             ]);
@@ -183,7 +181,7 @@ class UserController extends Controller
                 'nama_guru' => $request->nama_guru,
                 'mapels_id'  => $request->mapels_id,
                 'jenis_kelamin'        => $request->jenis_kelamin,
-                'no_telepon'      => $request->no_telepon,
+                'nomor_telepon'      => $request->nomor_telepon,
                 'tempat_lahir' => $request->tempat_lahir,
                 'tanggal_lahir' => $request->tanggal_lahir
             ];
@@ -191,12 +189,9 @@ class UserController extends Controller
             return redirect()->route('profile')->with('success', 'Profile anda berhasil diperbarui!');
         } elseif (Auth::user()->roles == 'Siswa') {
             $this->validate($request, [
-                'nama_depan'      => 'required',
-                'nama_pengguna' => 'required',
                 'jenis_kelamin'        => 'required',
                 'kelas_id'  => 'required',
-                'nis'       => 'required',
-                'no_telepon'      => 'required',
+                'nomor_telepon'      => 'required',
                 'tempat_lahir' => 'required',
                 'tanggal_lahir' => 'required',
             ]);
@@ -209,11 +204,10 @@ class UserController extends Controller
                 $user->update($user_data);
             }
             $siswa_data = [
-                'nis'        => $request->nis,
                 'nama_siswa' => $request->nama_siswa,
                 'jenis_kelamin'         => $request->jenis_kelamin,
                 'kelas_id'   => $request->kelas_id,
-                'no_telepon'       => $request->no_telepon,
+                'nomor_telepon'       => $request->nomor_telepon,
                 'tempat_lahir'  => $request->tempat_lahir,
                 'tanggal_lahir'  => $request->tanggal_lahir,
             ];

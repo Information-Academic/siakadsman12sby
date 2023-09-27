@@ -22,4 +22,8 @@ class DistribusiSoal extends Model
     {
   	    return $this->belongsTo('App\Jawaban', 'ulangans_id', 'ulangans_id');
     }
+
+    public function mapel(){
+        return $this->belongsTo('App\Mapel', 'mapels_id');
+    }
 }

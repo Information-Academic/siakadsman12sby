@@ -46,9 +46,24 @@ class Jadwal extends Model
 
   public function ulangan($id)
   {
-    $siswa = Siswa::where('no_induk', Auth::user()->nis)->first();
+    $siswa = Siswa::where('nis', Auth::user()->nis)->first();
     $nilai = Ulangan::where('siswas_id', $siswa->id)->where('mapels_id', $id)->first();
     return $nilai;
   }
+
+  public function nilai($id)
+  {
+    $siswa = Siswa::where('nis', Auth::user()->nis)->first();
+    $nilai = Rapor::where('siswas_id', $siswa->id)->where('mapels_id', $id)->first();
+    return $nilai;
+  }
+
+  public function cekUlangan($id)
+  {
+    $data = json_decode($id, true);
+    $ulangan = Ulangan::where('siswas_id', $data['siswa'])->where('mapels_id', $data['mapel'])->first();
+    return $ulangan;
+  }
+
 
 }

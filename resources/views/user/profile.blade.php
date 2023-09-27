@@ -79,11 +79,11 @@
               <div class="col-md-6">
                   <div class="form-group">
                       <label for="no_induk">Nomor Induk Siswa</label>
-                      <input type="text" id="nis" name="nis" value="{{ Auth::user()->siswa(Auth::user()->nis)}}" class="form-control" disabled>
+                      <input type="text" id="nis" name="nis" value="{{ Auth::user()->siswa(Auth::user()->nis)->nis}}" class="form-control" disabled>
                   </div>
                   <div class="form-group">
                       <label for="name">Nama Siswa</label>
-                      <input type="text" id="nama_siswa" name="nama_siswa" value="{{ Auth::user()->nama_siswa }}" class="form-control @error('nama_siswa') is-invalid @enderror">
+                      <input type="text" id="nama_siswa" name="nama_siswa" value="{{ Auth::user()->siswa(Auth::user()->nis)->nama_siswa }}" class="form-control @error('nama_siswa') is-invalid @enderror">
                   </div>
                   <div class="form-group">
                       <label for="jk">Jenis Kelamin</label>
@@ -113,16 +113,29 @@
                           <option value="">-- Pilih Kelas --</option>
                           @foreach ($kelas as $data)
                               <option value="{{ $data->id }}"
-                                  @if (Auth::user()->siswa(Auth::user()->nis)->kelas_id == $data->id)
+                                  @if (Auth::user()->siswa(Auth::user()->nis)->kelas_id== $data->id)
                                       selected
                                   @endif
-                              >{{ $data->nama_kelas }}</option>
+                              >{{ $data->kelas }}</option>
                           @endforeach
                       </select>
                   </div>
                   <div class="form-group">
+                    <label for="tipe_kelas">Tipe Kelas</label>
+                    <select id="tipe_kelas" name="tipe_kelas" class="select2bs4 form-control @error('tipe_kelas') is-invalid @enderror">
+                        <option value="">-- Pilih Kelas --</option>
+                        @foreach ($kelas as $data)
+                            <option value="{{ $data->id }}"
+                                @if (Auth::user()->siswa(Auth::user()->nis)->tipe_kelas== $data->id)
+                                    selected
+                                @endif
+                            >{{ $data->tipe_kelas }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                  <div class="form-group">
                       <label for="telp">Nomor Telpon/HP/WA</label>
-                      <input type="text" id="no_telepon" name="no_telepon" value="{{ Auth::user()->siswa(Auth::user()->nis)->no_telepon }}" onkeypress="return inputAngka(event)" class="form-control @error('no_telepon') is-invalid @enderror">
+                      <input type="text" id="nomor_telepon" name="nomor_telepon" value="{{ Auth::user()->siswa(Auth::user()->nis)->nomor_telepon }}" onkeypress="return inputAngka(event)" class="form-control @error('nomor_telepon') is-invalid @enderror">
                   </div>
                   <div class="form-group">
                       <label for="tgl_lahir">Tanggal Lahir</label>

@@ -233,8 +233,7 @@ class SoalController extends Controller
       if (count($cekDistribusisoal) > 0) {
         $kelas = Kelas::leftjoin('distribusisoalulangans', 'kelas.id', '=', 'distribusisoalulangans.kelas_id')
           ->select('distribusisoalulangans.ulangans_id', 'kelas.*')
-          ->orderBy('kelas.id', 'ASC')
-          ->distinct('kelas.id')
+          ->orderBy('kelas.id','ASC')
           ->get();
       } else {
         $kelas = Kelas::get();
@@ -290,7 +289,7 @@ class SoalController extends Controller
       DistribusiSoal::where('ulangans_id', $request->ulangans_id)->where('kelas_id', $request->kelas_id)->delete();
       return 'N';
     } else {
-      $query = new DistribusiSoal();
+      $query = new DistribusiSoal;
       $query->ulangans_id = $request->ulangans_id;
       $query->kelas_id = $request->kelas_id;
       $query->save();

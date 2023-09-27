@@ -182,4 +182,13 @@ class UlanganController extends Controller
         $mapel = $jadwal->groupBy('mapels_id');
         return view('admin.ulangan.show', compact('mapel', 'siswa', 'kelas'));
     }
+
+    public function siswa()
+    {
+        $siswa = Siswa::where('nis', Auth::user()->nis)->first();
+        $kelas = Kelas::findorfail($siswa->kelas_id);
+        $jadwal = Jadwal::where('kelas_id', $kelas->id)->orderBy('mapels_id')->get();
+        $mapel = $jadwal->groupBy('mapels_id');
+        return view('siswa.ulangan', compact('siswa', 'kelas', 'mapel'));
+    }
 }

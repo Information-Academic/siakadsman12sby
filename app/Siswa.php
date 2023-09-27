@@ -30,5 +30,4 @@ class Siswa extends Model
         $nilai = Rapor::where('siswas_id', $id)->where('gurus_id', $guru->id)->first();
         return $nilai;
     }
-
 }

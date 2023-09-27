@@ -165,12 +165,12 @@
                             <li class="nav-item">
                                 <a href="{{ route('rapor.index') }}" class="nav-link" id="RapotGuru">
                                     <i class="fas fa-file-alt nav-icon"></i>
-                                    <p>Entry Nilai Rapor</p>
+                                    <p>Data Nilai Rapor</p>
                                 </a>
                             </li>
                         </ul>
                     </li>
-                {{-- @elseif (Auth::user()->role == 'Siswa' && Auth::user()->siswa(Auth::user()->no_induk))
+                @elseif (Auth::user()->roles == 'Siswa' && Auth::user()->siswa(Auth::user()->nis))
                     <li class="nav-item has-treeview">
                         <a href="{{ url('/') }}" class="nav-link" id="Home">
                             <i class="nav-icon fas fa-home"></i>
@@ -184,17 +184,29 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('ulangan.siswa') }}" class="nav-link" id="UlanganSiswa">
-                            <i class="fas fa-file-alt nav-icon"></i>
+                        <a href="{{ route('presensisiswa.harian') }}" class="nav-link" id="AbsenSiswa">
+                            <i class="fas fa-calendar-check nav-icon"></i>
+                            <p>Presensi Siswa</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('soal.ujian') }}" class="nav-link" id="DataUlangan" target="_blank">
+                            <i class="fas fa-paperclip nav-icon"></i>
                             <p>Ulangan</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('rapot.siswa') }}" class="nav-link" id="RapotSiswa">
+                        <a href="{{ route('ulangan.siswa') }}" class="nav-link" id="UlanganSiswa">
                             <i class="fas fa-file-alt nav-icon"></i>
-                            <p>Rapot</p>
+                            <p>Nilai Ulangan</p>
                         </a>
-                    </li> --}}
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('rapor.siswa') }}" class="nav-link" id="RapotSiswa">
+                            <i class="fas fa-file-alt nav-icon"></i>
+                            <p>Rapor Siswa</p>
+                        </a>
+                    </li>
                 @else
                     <li class="nav-item has-treeview">
                         <a href="{{ url('/') }}" class="nav-link" id="Home">

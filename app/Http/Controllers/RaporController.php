@@ -77,9 +77,14 @@ class RaporController extends Controller
      * @param  \App\Rapor  $rapor
      * @return \Illuminate\Http\Response
      */
-    public function show(Rapor $rapor)
+    public function show($id)
     {
         //
+        $id = Crypt::decrypt($id);
+        $guru = Guru::where('nip', Auth::user()->nip)->first();
+        $kelas = Kelas::findorfail($id);
+        $siswa = Siswa::where('kelas_id', $id)->get();
+        return view('guru.rapor.rapor', compact('guru', 'kelas', 'siswa'));
     }
 
     /**
@@ -128,6 +133,15 @@ class RaporController extends Controller
         $jadwal = Jadwal::orderBy('mapels_id')->where('kelas_id', $kelas->id)->get();
         $mapel = $jadwal->groupBy('mapels_id');
         return view('admin.rapor.show', compact('mapel', 'siswa', 'kelas'));
+    }
+
+    public function siswa()
+    {
+        $siswa = Siswa::where('nis', Auth::user()->nis)->first();
+        $kelas = Kelas::findorfail($siswa->kelas_id);
+        $jadwal = Jadwal::where('kelas_id', $kelas->id)->orderBy('mapels_id')->get();
+        $mapel = $jadwal->groupBy('mapels_id');
+        return view('siswa.rapor', compact('siswa', 'kelas', 'mapel'));
     }
 
 }

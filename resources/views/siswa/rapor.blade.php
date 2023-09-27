@@ -1,16 +1,18 @@
 @extends('template_backend.home')
-@section('heading', 'Show Rapot')
+@section('heading', 'Nilai Rapor')
 @section('page')
-  <li class="breadcrumb-item active">Show Rapor</li>
+  <li class="breadcrumb-item active">Nilai Rapor</li>
 @endsection
 @section('content')
 <div class="col-md-12">
     <!-- general form elements -->
     <div class="card card-primary">
       <div class="card-header">
-        <h3 class="card-title">Show Rapor</h3>
+        <h3 class="card-title">Nilai Rapor Siswa</h3>
       </div>
       <!-- /.card-header -->
+      <!-- form start -->
+        @csrf
         <div class="card-body">
           <div class="row">
             <div class="col-md-12">
@@ -18,22 +20,17 @@
                     <tr>
                         <td>No Induk Siswa</td>
                         <td>:</td>
-                        <td>{{ $siswa->nis }}</td>
+                        <td>{{ Auth::user()->nis }}</td>
                     </tr>
                     <tr>
                         <td>Nama Siswa</td>
                         <td>:</td>
-                        <td>{{ $siswa->nama_siswa }}</td>
+                        <td class="text-capitalize">{{ Auth::user()->nama_depan }} {{ Auth::user()->nama_belakang }}</td>
                     </tr>
                     <tr>
-                        <td>Kelas</td>
+                        <td>Nama Kelas</td>
                         <td>:</td>
-                        <td>{{ $kelas->kelas }}</td>
-                    </tr>
-                    <tr>
-                        <td>Tipe Kelas</td>
-                        <td>:</td>
-                        <td>{{ $kelas->tipe_kelas }}</td>
+                        <td>{{ $kelas->kelas }} {{ $kelas->tipe_kelas }}</td>
                     </tr>
                     <tr>
                         <td>Wali Kelas</td>
@@ -70,33 +67,32 @@
                 <hr>
             </div>
             <div class="col-md-12">
-                <table class="table table-bordered table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th class="ctr" rowspan="3">No.</th>
-                            <th class="ctr" rowspan="3">Mata Pelajaran</th>
-                        </tr>
-                        <tr>
-                            <th class="ctr">KKM</th>
-                            <th class="ctr">Nilai</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                            @foreach ($mapel as $val => $data)
-                                <?php $data = $data[0]; ?>
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <h4 class="mb-3">Nilai Rapor {{Auth::user()->nama_depan}} {{Auth::user()->nama_belakang}}</h4>
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead>
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $data->mapel->nama_mapel }}</td>
-                                    @php
-                                        $array = array('mapel' => $val, 'siswa' => $siswa->id);
-                                        $jsonData = json_encode($array);
-                                    @endphp
-                                    <td class="ctr">75</td>
-                                    <td class="ctr">{{ $data->cekRapot($jsonData)['nilai_rapor'] }}</td>
+                                    <th rowspan="2">No.</th>
+                                    <th rowspan="2">Mata Pelajaran</th>
+                                    <th rowspan="2">KKM</th>
+                                    <th rowspan="2">Nilai</th>
                                 </tr>
-                            @endforeach
-                    </tbody>
-                </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($mapel as $val => $data)
+                                    <tr>
+                                        <?php $data = $data[0]; ?>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $data->mapel->nama_mapel }}</td>
+                                        <td class="ctr">75</td>
+                                        <td class="ctr">{{ $data->nilai($val)['nilai_rapor'] }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
           </div>
         </div>
@@ -107,8 +103,6 @@
 @endsection
 @section('script')
     <script>
-        $("#Nilai").addClass("active");
-        $("#liNilai").addClass("menu-open");
-        $("#Rapot").addClass("active");
+        $("#RapotSiswa").addClass("active");
     </script>
 @endsection

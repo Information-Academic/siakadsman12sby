@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class DetailSoalEssay extends Model
 {
@@ -17,7 +18,7 @@ class DetailSoalEssay extends Model
 
   public function userJawab()
   {
-    return $this->hasOne(JawabanEssay::class, 'detailsoalessays_id', 'id')->where('users_id', auth()->user()->id);
+    return $this->hasOne(JawabanEssay::class, 'detailsoalessays_id', 'id')->where('users_id', Auth()->user()->id);
   }
 
   public function saveEssay($request)

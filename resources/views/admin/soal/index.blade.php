@@ -190,7 +190,7 @@ $(document).ready(function (){
     $("#loading").show();
     var dataString = $("#formSoal").serialize();
     $.ajax({
-      type: "GET",
+      type: "POST",
       url: "{{ url('/crud/simpan-soal') }}",
       data: dataString,
       success: function(data){

@@ -41,6 +41,32 @@ Route::group(['middleware' => 'auth'], function () {
   	Route::get('/pengaturan/password', 'UserController@edit_password')->name('pengaturan.password');
   	Route::post('/pengaturan/ubah-password', 'UserController@ubah_password')->name('pengaturan.ubah-password');
 
+      Route::middleware(['siswa'])->group(function () {
+        Route::get('/jadwal/siswa', 'JadwalController@siswa')->name('jadwal.siswa');
+        Route::get('/cetakjadwalpdf', 'JadwalController@cetakJadwal');
+        Route::get('/presensisiswa/harian', 'SiswaController@presensiSiswa')->name('presensisiswa.harian');
+        Route::post('/presensisiswa/simpan', 'SiswaController@simpan')->name('presensisiswa.simpan');
+        Route::get('/ulangan/siswa', 'UlanganController@siswa')->name('ulangan.siswa');
+        Route::get('/rapor/siswa', 'RaporController@siswa')->name('rapor.siswa');
+
+	Route::get('ujian', 'SiswaController@ujian')->name('soal.ujian');
+	Route::get('ujian/get-detail-essay', 'SiswaController@getDetailEssay');
+	Route::get('ujian/simpan-jawaban-essay', 'SiswaController@simpanJawabanEssay');
+	Route::get('ujian/detail/{id}', 'SiswaController@detailUjian');
+	Route::get('ujian/finish/{id}', 'SiswaController@finishUjian');
+	Route::get('ujian/get-soal/{id}', 'SiswaController@getSoal');
+	Route::get('ujian/jawab', 'SiswaController@jawab');
+	Route::post('ujian/kirim-jawaban', 'SiswaController@kirimJawaban');
+    });
+
+    Route::middleware(['guru'])->group(function(){
+        Route::get('/presensi/harian', 'GuruController@presensiGuru')->name('presensi.harian');
+        Route::post('/presensi/simpan', 'GuruController@simpan')->name('presensi.simpan');
+        Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
+        Route::resource('/ulangan', 'UlanganController');
+        Route::resource('/rapor', 'RaporController');
+    });
+
     Route::middleware(['admin'])->group(function(){
         Route::get('/admin/home', 'HomeController@admin')->name('admin.home');
         Route::get('/admin/pengumuman', 'PengumumanController@index')->name('admin.pengumuman');
@@ -83,6 +109,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('/siswa', 'SiswaController');
         Route::resource('/soal', 'SoalController');
         Route::resource('user', 'UserController');
+        Route::resource('/jadwal','JadwalController');
 
         Route::group(['prefix' => 'crud'], function (){
             Route::post('simpan-soal', 'SoalController@simpanSoal');
@@ -100,16 +127,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::resource('/essay', 'DetailSoalEssayController');
         });
     });
-
-    Route::middleware(['guru'])->group(function(){
-        Route::get('/presensi/harian', 'GuruController@presensiGuru')->name('presensi.harian');
-        Route::post('/presensi/simpan', 'GuruController@simpan')->name('presensi.simpan');
-        Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
-        Route::resource('/ulangan', 'UlanganController');
-        Route::resource('/rapor', 'RaporController');
-    });
 });
-
 
 Route::get('/download-file-format/{filename}', 'DownloadController@download')->name('download');
 

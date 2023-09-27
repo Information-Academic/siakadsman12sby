@@ -2,13 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\DetailSoal;
+use App\DetailSoalEssay;
+use App\DistribusiSoal;
+use App\Jawaban;
+use App\JawabanEssay;
+use App\Kehadiran;
 use App\Kelas;
+use App\Mapel;
 use App\Presensi;
 use App\Siswa;
+use App\Soal;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 class SiswaController extends Controller
 {
     /**
@@ -223,5 +234,176 @@ class SiswaController extends Controller
         $absen = Presensi::orderBy('tanggal_absen', 'desc')->where('siswas_id', $id)->get();
         return view('admin.siswa.kehadiran', compact('siswa', 'absen'));
     }
+
+    public function presensiSiswa()
+    {
+        $presensi = Presensi::where('tanggal_absen', date('d-m-Y'))->get();
+        $kehadiran = Kehadiran::limit(4)->get();
+        return view('siswa.presensi', compact('presensi','kehadiran'));
+    }
+
+    public function simpan(Request $request)
+    {
+        $this->validate($request, [
+            'nis' => 'required',
+            'status_kehadiran' => 'required'
+        ]);
+        $cekSiswa = Siswa::where('nis', $request->nis)->count();
+        if ($cekSiswa >= 1) {
+            $siswa = Siswa::where('nis', $request->nis)->first();
+            if ($siswa->nis == Auth::user()->nis) {
+                $cekAbsen = Presensi::where('siswas_id', $siswa->id)->where('tanggal_absen', date('d-m-Y'))->count();
+                if ($cekAbsen == 0) {
+                    if (date('w') != '0' && date('w') != '6') {
+                        if (date('H:i:s') >= '06:00:00') {
+                            if (date('H:i:s') >= '09:00:00') {
+                                if (date('H:i:s') >= '16:15:00') {
+                                    Presensi::create([
+                                        'tanggal_absen' => date('d-m-Y'),
+                                        'siswas_id' => $siswa->id,
+                                        'kehadirans_id' => '4',
+                                    ]);
+                                    return redirect()->back()->with('info', 'Maaf sekarang sudah waktunya pulang!');
+                                } else {
+                                    if ($request->kehadirans_id == '1') {
+                                        $terlambat = date('H') - 9 . ' Jam ' . date('i') . ' Menit';
+                                        if (date('H') - 9 == 0) {
+                                            $terlambat = date('i') . ' Menit';
+                                        }
+                                        Presensi::create([
+                                            'tanggal_absen' => date('d-m-Y'),
+                                            'siswas_id' => $siswa->id,
+                                            'kehadirans_id' => '5',
+                                        ]);
+                                        return redirect()->back()->with('warning', 'Maaf anda terlambat ' . $terlambat . '!');
+                                    } else {
+                                        Presensi::create([
+                                            'tanggal_absen' => date('d-m-Y'),
+                                            'siswas_id' => $siswa->id,
+                                            'kehadirans_id' => $request->kehadirans_id,
+                                        ]);
+                                        return redirect()->back()->with('success', 'Anda hari ini berhasil presensi!');
+                                    }
+                                }
+                            } else {
+                                Presensi::create([
+                                    'tanggal_absen' => date('Y-m-d'),
+                                    'siswas_id' => $siswa->id,
+                                    'kehadirans_id' => $request->kehadirans_id,
+                                ]);
+                                return redirect()->back()->with('success', 'Anda hari ini berhasil presensi tepat waktu!');
+                            }
+                        } else {
+                            return redirect()->back()->with('info', 'Maaf presensi di mulai jam 6 pagi!');
+                        }
+                    } else {
+                        $namaHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu"];
+                        $d = date('w');
+                        $hari = $namaHari[$d];
+                        return redirect()->back()->with('info', 'Maaf sekolah hari ' . $hari . ' libur!');
+                    }
+                } else {
+                    return redirect()->back()->with('warning', 'Maaf presensi tidak bisa dilakukan 2x!');
+                }
+            } else {
+                return redirect()->back()->with('error', 'Maaf nomor induk siswa ini bukan milik anda!');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Maaf nomor induk siswa ini tidak terdaftar!');
+        }
+    }
+
+    public function ujian()
+    {
+    $user = User::where('id', Auth()->user()->id)->first();
+    $distribusi = DistribusiSoal::all();
+    $kelas = Kelas::all();
+    return view('halaman-siswa.ujian', compact('user', 'distribusi','kelas'));
+    }
+
+    public function detailUjian($id)
+    {
+    $check_soal = DistribusiSoal::all();
+    if ($check_soal) {
+      $soal = Soal::with('detail_soal_essays')->where('id', $id)->first();
+      $soals = DetailSoal::where('ulangans_id', $id)->where('status', 'Y')->get();
+      $kelas = Kelas::all();
+      return view('halaman-siswa.detail_ujian', compact('soal', 'soals','kelas'));
+    }
+    }
+
+    public function getDetailEssay(Request $request)
+    {
+    $soal_essay = DetailSoalEssay::with('userJawab')->find($request->ulangans_id);
+    return view('halaman-siswa.get_soal_essay', compact('soal_essay'));
+    }
+
+    public function simpanJawabanEssay(Request $request)
+    {
+    if ($request->jawab_essay == '' || $request->jawab_essay == null) {
+      return '';
+    }
+    $check_jawaban = JawabanEssay::where('users_id', auth()->user()->id)->where('detailsoalessays_id', $request->id_soal_esay)->first();
+    if (!$check_jawaban) {
+      $save = new JawabanEssay();
+      $save->detailsoalessays_id = $request->id_soal_esay;
+      $save->users_id = auth()->user()->id;
+    } else {
+      $save = $check_jawaban;
+    }
+    $save->jawab = $request->jawab_essay;
+    if ($save->save()) {
+      return 1;
+    }
+  }
+
+  public function getSoal($id)
+  {
+    $soal = DetailSoal::find($id);
+    return view('halaman-siswa.get_soal', compact('soal'));
+  }
+
+  public function kirimJawaban(Request $request)
+  {
+    Jawaban::where('ulangans_id', $request->id_soal)->where('users_id', Auth()->user()->id)->update(['status' => 1]);
+  }
+
+  public function jawab(Request $request)
+  {
+    $get_jawab = explode('/', $request->get_jawab);
+    $pilihan = $get_jawab[0];
+    $id_detail_soal = $get_jawab[1];
+    $id_siswa = $get_jawab[2];
+    $detail_soal = DetailSoal::find($id_detail_soal);
+
+    $jawab = Jawaban::where('ulangans_id', $id_detail_soal)->where('users_id', Auth()->user()->id)->first();
+    if (!$jawab) {
+      $jawab = new Jawaban;
+    }
+    $jawab->id = $id_detail_soal;
+    $jawab->ulangans_id = $detail_soal->ulangans_id;
+    $jawab->users_id = Auth()->user()->users_id;
+    $jawab->kelas_id = Auth()->user()->kelas_id;
+    $jawab->nama_depan = Auth()->user()->nama_depan;
+    $jawab->nama_belakang = Auth()->user()->nama_belakang;
+    $jawab->pilihan = $pilihan;
+
+    $check_jawaban = DetailSoal::where('id', $id_detail_soal)->where('kunci', $pilihan)->first();
+    if ($check_jawaban) {
+      $jawab->nilai = $detail_soal->nilai;
+    } else {
+      $jawab->nilai = 0;
+    }
+    $jawab->status = 0;
+    $jawab->save();
+    return 1;
+  }
+
+  public function finishUjian($id)
+  {
+    $soal = Soal::find($id);
+    $nilai = Jawaban::where('ulangans_id', $id)->sum('nilai');
+    return view('halaman-siswa.finish', compact('soal', 'nilai'));
+  }
 
 }

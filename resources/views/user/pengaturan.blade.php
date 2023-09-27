@@ -34,7 +34,7 @@
                     @elseif (Auth::user()->roles == 'Siswa')
                         <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
-                                <b>NIS</b> <a class="float-right">{{ Auth::user()->siswa(Auth::user()->nis) }}</a>
+                                <b>NIS</b> <a class="float-right">{{ Auth::user()->siswa(Auth::user()->nis)->nis }}</a>
                             </li>
                         </ul>
                     @else

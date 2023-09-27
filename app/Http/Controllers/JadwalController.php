@@ -7,6 +7,9 @@ use App\Hari;
 use App\Kelas;
 use App\Guru;
 use App\Mapel;
+use App\Siswa;
+use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -183,4 +186,19 @@ class JadwalController extends Controller
         return view('guru.jadwal', compact('jadwal', 'guru'));
     }
 
+    public function siswa()
+    {
+        $siswa = Siswa::where('nis', Auth::user()->nis)->first();
+        $kelas = Kelas::findorfail($siswa->kelas_id);
+        $jadwal = Jadwal::orderBy('haris_id')->OrderBy('jam_mulai')->where('kelas_id', $kelas->id)->get();
+        return view('siswa.jadwal', compact('jadwal', 'kelas', 'siswa'));
+    }
+
+    public function cetakJadwal(){
+        $siswa = Siswa::where('nis', Auth::user()->nis)->first();
+        $kelas = Kelas::findorfail($siswa->kelas_id);
+        $jadwal = Jadwal::orderBy('haris_id')->OrderBy('jam_mulai')->where('kelas_id', $kelas->id)->get();
+        $pdf = FacadePdf::loadView('siswa.cetakjadwal',['jadwal'=>$jadwal]);
+        return $pdf->download('jadwal.pdf');
+    }
 }

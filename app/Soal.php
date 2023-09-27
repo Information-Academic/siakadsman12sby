@@ -24,19 +24,19 @@ class Soal extends Model
     {
       return $this->belongsTo('App\User', 'users_id');
     }
-  
+
     public function jawab()
     {
       return $this->belongsTo('App\Jawaban', 'ulangans_id');
     }
-  
+
     public function detailSoal()
     {
       return $this->hasMany('App\DetailSoal', 'ulangans_id');
     }
-  
+
     public function detail_soal_essays()
     {
-      return $this->hasMany(DetailSoalEssay::class, 'id_soal', 'id');
+      return $this->hasMany(DetailSoalEssay::class, 'ulangans_id', 'id');
     }
 }
