@@ -30,5 +30,4 @@ class PasswordChangeController extends Controller
 
     return redirect()->route('home'); // Ganti dengan rute yang sesuai setelah mengubah kata sandi
     }
-
 }

@@ -29,4 +29,9 @@ class Kelas extends Model
       return $this->belongsTo('App\Soal', 'users_id');
     }
 
+    public function kelas()
+    {
+    return $this->belongsTo('App\Kelas', 'id');
+    }
+
 }

@@ -10,8 +10,6 @@ use App\Mapel;
 use App\Pengumuman;
 use App\Siswa;
 use App\User;
-use Illuminate\Http\Request;
-
 class HomeController extends Controller
 {
     /**

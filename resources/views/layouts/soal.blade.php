@@ -241,49 +241,8 @@
       <ul class="sidebar-menu">
         <li class="header" style="background-color: #a2c4c9;">MAIN NAVIGATION</li>
         <li class="{{ Request::is('home*') == true  ? 'active' : '' }}"><a href="{{ url('/home') }}"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
-        @if($user['roles']['Guru'] or $user['roles']['Admin'])
-        <li class="treeview {{ Request::is('master*') == true  ? 'active' : '' }}">
-          <a href="#">
-            <i class="fa fa-database"></i> <span>Master Data</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="{{Request::is('master/guru*') == true  ? 'active' : '' }}"><a href="{{ url('/master/guru') }}"><i class="fa fa-circle-o"></i> Guru</a></li>
-            <li class="{{Request::is('master/kelas*') == true  ? 'active' : '' }}"><a href="{{ url('/master/kelas') }}"><i class="fa fa-circle-o"></i> Kelas</a></li>
-            <li class="{{Request::is('master/siswa*') == true  ? 'active' : '' }}"><a href="{{ url('/master/siswa') }}"><i class="fa fa-circle-o"></i> Siswa</a></li>
-          </ul>
-        </li>
-        <li class="treeview {{ Request::is('elearning*') == true  ? 'active' : '' }}">
-          <a href="#">
-            <i class="fa fa-graduation-cap"></i> <span>E-Learning</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="{{Request::is('elearning/materi*') == true  ? 'active' : '' }}"><a href="{{ url('/elearning/materi') }}"><i class="fa fa-circle-o"></i> Materi</a></li>
-            <li class="{{ Request::is('elearning/soal*') == true  ? 'active' : '' }}"><a href="{{ url('/elearning/soal') }}"><i class="fa fa-circle-o"></i> Soal</a></li>
-            <li class="{{Request::is('elearning/laporan*') == true  ? 'active' : '' }}"><a href="{{ url('/elearning/laporan') }}"><i class="fa fa-circle-o"></i> Laporan</a></li>
-          </ul>
-        </li>
-        <li class="treeview {{ Request::is('cetak*') == true  ? 'active' : '' }}">
-          <a href="#">
-            <i class="fa fa-print"></i> <span>Cetak</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="{{Request::is('cetak/kartu-ujian*') == true  ? 'active' : '' }}"><a href="{{ url('/cetak/kartu-ujian') }}"><i class="fa fa-circle-o"></i> Kartu Ujian</a></li>
-            <li class="{{Request::is('cetak/berita-acara*') == true  ? 'active' : '' }}"><a href="{{ url('/cetak/berita-acara') }}"><i class="fa fa-circle-o"></i> Berita Acara</a></li>
-          </ul>
-        </li>
-        <li class="{{ Request::is('pengaturan*') == true ? 'active' : '' }}"><a href="{{ url('/pengaturan') }}"><i class="fa fa-cog"></i> <span>Pengaturan</span></a></li>
-        @elseif($user['roles']['Siswa'])
-          <li class="{{ Request::is('siswa/materi*') == true ? 'active' : '' }}"><a href="{{ url('siswa/materi') }}"><i class="fa fa-database"></i> <span>Materi</span></a></li>
-          <li class="{{ Request::is('siswa/ujian*') == true ? 'active' : '' }}"><a href="{{ url('siswa/ujian') }}"><i class="fa fa-list"></i> <span>Ujian</span></a></li>
+        @if(Auth::user()->roles == 'Admin')
+            <li class="{{Request::is('/laporan*') == true  ? 'active' : '' }}"><a href="{{ url('/laporan') }}"><i class="fa fa-print"></i>Nilai Laporan Ulangan</a></li>
         @endif
       </ul>
     </section>
@@ -350,7 +309,7 @@
 
   $(".numOnly").keydown(function (e) {
     if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-      (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
+      (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
       (e.keyCode >= 35 && e.keyCode <= 40)) {
         return;
     }

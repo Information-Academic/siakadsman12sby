@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@section('page','Reset Password')
+@section('page','Ubah Password')
 @section('content')
 <div class="card-body login-card-body">
-    <p class="login-box-msg">Reset Password supaya lebih aman</p>
+    <p class="login-box-msg">Ubah Password supaya lebih aman</p>
     @if (Session::has('message'))
     <div class="alert alert-success" role="alert">
        {{ Session::get('message') }}

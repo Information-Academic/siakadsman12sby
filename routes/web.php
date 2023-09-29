@@ -126,6 +126,18 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/detail/data-soal/{id}', 'SoalController@detailDataSoal')->name('elearning.detail-data-soal');
             Route::resource('/essay', 'DetailSoalEssayController');
         });
+        Route::group(['prefix' => 'laporan'], function () {
+            Route::get('/', 'LaporanController@index')->name('elearning.laporan');
+            Route::get('/detail-kelas/{id}', 'LaporanController@detailKelas')->name('elearning.laporan');
+            Route::get('data-paket-soal', 'LaporanController@data_paket_soal')->name('elearning.laporan.data_paket_soal');
+            Route::get('detail-kelas/{id_kelas}/paket-soal/{id_soal}', 'LaporanController@detailPaketSoalPerKelas');
+            Route::get('data-kelas-paket-soal', 'LaporanController@dataKelasPaketSoal')->name('elearning.laporan.data_kelas_paket_soal');
+            Route::get('{id_soal}', 'LaporanController@detailLaporanSiswa')->name('elearning.detailLaporanSiswa');
+            Route::get('hasil-siswa', 'LaporanController@hasilSiswa')->name('elearning.hasilSiswa');
+        });
+        Route::group(['prefix' => 'cetak'], function () {
+            Route::get('/pdf/hasil-ujian-persiswa/{siswa}/{soal}', 'LaporanController@pdfHasilUjianPersiswa');
+        });
     });
 });
 
