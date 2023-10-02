@@ -26,6 +26,8 @@ Route::get('forget-password', 'Auth\ForgotPasswordController@showForgetPasswordF
 Route::post('forget-password', 'Auth\ForgotPasswordController@submitForgetPasswordForm')->name('forget.password.post');
 Route::get('reset-password/{token}', 'Auth\ForgotPasswordController@showResetPasswordForm')->name('reset.password.get');
 Route::post('reset-password', 'Auth\ForgotPasswordController@submitResetPasswordForm')->name('reset.password.post');
+Route::get('/change-password', 'PasswordChangeController@edit')->name('password.change');
+Route::post('/change-password', 'PasswordChangeController@update');
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/', 'HomeController@index')->name('home');
@@ -78,7 +80,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/siswa/presensi', 'SiswaController@presensi')->name('siswa.presensi');
         Route::get('/siswa/presensikehadiran/{id}', 'SiswaController@presensikehadiran')->name('siswa.presensikehadiran');
         Route::get('/siswa/kelas/{id}', 'SiswaController@kelas')->name('siswa.kelas');
-        Route::get('/kelas/edit/json', 'KelasController@getEdit');
         Route::get('/jadwal/view/json', 'JadwalController@view');
         Route::post('/admin/jadwal','JadwalController@store');
         Route::get('/siswa/view/json', 'SiswaController@view');

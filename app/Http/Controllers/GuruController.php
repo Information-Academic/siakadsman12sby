@@ -6,7 +6,6 @@ use App\Guru;
 use App\Jadwal;
 use App\Kehadiran;
 use App\Mapel;
-use App\Nilai;
 use App\Presensi;
 use App\User;
 use Illuminate\Support\Facades\Crypt;
@@ -134,6 +133,9 @@ class GuruController extends Controller
         ]);
 
         $guru = Guru::findorfail($id);
+        if($request->nip == "" || $request->nama_guru == "" || $request->jenis_kelamin == "" || $request->alamat == "" || $request->tempat_lahir == "" || $request->tanggal_lahir == "" || $request->status_guru == "" || $request->status_pegawai == "" || $request->mapels_id == ""){
+            return redirect()->route('guru.index')->with('error', 'Data guru gagal diperbarui!');
+        }
         $guru_data = [
             'nama_guru' => $request->nama_guru,
             'mapels_id' => $request->mapels_id,
@@ -156,7 +158,7 @@ class GuruController extends Controller
      * @param  \App\Guru  $guru
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Guru $id)
+    public function destroy($id)
     {
         //
         $guru = Guru::findorfail($id);

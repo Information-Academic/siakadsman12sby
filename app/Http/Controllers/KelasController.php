@@ -138,23 +138,7 @@ class KelasController extends Controller
         $kelas->delete();
         return redirect()->back()->with('warning', 'Data kelas berhasil dihapus!');
     }
-
-    public function getEdit(Request $request)
-    {
-        $kelas = Kelas::where('id', $request->id)->get();
-        foreach ($kelas as $val) {
-            $newForm[] = array(
-                'id' => $val->id,
-                'kelas' => $val->kelas,
-                'tipe_kelas'=> $val->tipe_kelas,
-                'tahun'=> $val->tahun,
-                'status_kelas'=> $val->status_kelas,
-                'gurus_id' => $val->gurus_id,
-            );
-        }
-        return response()->json($newForm);
-    }
-
+    
     public function cetak_pdf(Request $request)
     {
         $guru = Guru::OrderBy('nama_guru','asc')->where('mapels_id', $request->id)->get();

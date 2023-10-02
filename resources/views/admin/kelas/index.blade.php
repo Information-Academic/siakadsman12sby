@@ -46,9 +46,9 @@
                             <button type="button" class="btn btn-info btn-xs" onclick="getSubsJadwal({{$data->id}})" data-toggle="modal" data-target=".view-jadwal">
                               <i class="nav-icon fas fa-calendar-alt"></i> &nbsp; View Jadwal
                             </button>
-                            <button type="button" class="btn btn-success btn-xs" onclick="getEditKelas({{$data->id}})" data-toggle="modal" data-target="#form-kelas">
+                            {{-- <button type="button" class="btn btn-success btn-xs" onclick="getEditKelas({{$data->id}})" data-toggle="modal" data-target="#form-kelas">
                               <i class="nav-icon fas fa-edit"></i> &nbsp; Edit
-                            </button>
+                            </button> --}}
                             <a href="{{route('kelas.edit',Crypt::encrypt($data->id))}}" class="btn btn-success btn-xs">
                             <i class="nav-icon fas fa-edit"></i>Edit Status Kelas</a>
                             <button class="btn btn-danger btn-xs"><i class="nav-icon fas fa-trash-alt"></i> &nbsp; Hapus</button>
@@ -96,7 +96,7 @@
         </div>
         <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-default" data-dismiss="modal"><i class='nav-icon fas fa-arrow-left'></i> &nbsp; Kembali</button>
-            <button type="submit" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> &nbsp; Tambahkan</button>
+            <button type="submit" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> &nbsp; Update</button>
       </form>
       </div>
     </div>
@@ -206,33 +206,33 @@
       $('#gurus_id').val('');
     }
 
-    function getEditKelas(id){
-      var parent = id;
-      $.ajax({
-        type:"GET",
-        data:"id="+parent,
-        dataType:"JSON",
-        url:"{{ url('/kelas/edit/json') }}",
-        success:function(result){
-          if(result){
-            $.each(result,function(index, val){
-              $("#judul").text('Edit Data Kelas ' + val.kelas + ' ' + val.tipe_kelas);
-              $('#id').val(val.id);
-              $('#form_nama').html('');
-              $('#kelas').val(val.kelas);
-              $('#tipe_kelas').val(val.tipe_kelas);
-              $('#tahun').val(val.tahun);
-              $('#gurus_id').val(val.gurus_id);
-            });
-          }
-        },
-        error:function(){
-          toastr.error("Errors 404!");
-        },
-        complete:function(){
-        }
-      });
-    }
+    // function getEditKelas(id){
+    //   var parent = id;
+    //   $.ajax({
+    //     type:"GET",
+    //     data:"id="+parent,
+    //     dataType:"JSON",
+    //     url:"{{ url('/kelas/edit/json') }}",
+    //     success:function(result){
+    //       if(result){
+    //         $.each(result,function(index, val){
+    //           $("#judul").text('Edit Data Kelas ' + val.kelas + ' ' + val.tipe_kelas);
+    //           $('#id').val(val.id);
+    //           $('#form_nama').html('');
+    //           $('#kelas').val(val.kelas);
+    //           $('#tipe_kelas').val(val.tipe_kelas);
+    //           $('#tahun').val(val.tahun);
+    //           $('#gurus_id').val(val.gurus_id);
+    //         });
+    //       }
+    //     },
+    //     error:function(){
+    //       toastr.error("Errors 404!");
+    //     },
+    //     complete:function(){
+    //     }
+    //   });
+    // }
 
     function getSubsSiswa(id){
       var parent = id;

@@ -29,7 +29,7 @@
       <img src="{{ asset('img/logosiakad.png') }}" width="100%" alt="">
     </div>
 
-    <div class="login-logo" style="color: deepskyblue; font-weight: bold;">
+    <div class="login-logo" style="color: rgba(157, 254, 10, 0.952); font-weight: bold;">
       @yield('page')
     </div>
 

@@ -31,7 +31,7 @@
                     <td>{{ $data->kelas }}</td>
                     <td>{{$data->tipe_kelas}}</td>
                     <td>
-                      <a href="{{ route('jadwal.show', Crypt::encrypt($data->id)) }}" class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus"></i> &nbsp; Ditails</a>
+                      <a href="{{ route('jadwal.show', Crypt::encrypt($data->id)) }}" class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus"></i> &nbsp; Details</a>
                     </td>
                   </tr>
                 @endforeach

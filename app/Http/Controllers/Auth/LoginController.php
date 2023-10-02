@@ -41,10 +41,10 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-    if ($user->must_change_password) {
-        return redirect()->route('forget.password.post'); // Ganti dengan rute yang sesuai
+    if (!$user->password_changed) {
+        return redirect()->route('password.change');
     }
 
-    return redirect()->intended($this->redirectPath());
+    return redirect()->route('home');
     }
 }
