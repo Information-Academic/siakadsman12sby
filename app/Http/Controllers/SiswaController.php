@@ -128,20 +128,17 @@ class SiswaController extends Controller
     {
         //
         $this->validate($request, [
+            'nis' => 'required',
             'nama_siswa' => 'required',
+            'alamat' => 'required',
             'jenis_kelamin' => 'required',
-            'kelas_id' => 'required'
+            'kelas_id' => 'required',
+            'nomor_telepon' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required',
         ]);
 
         $siswa = Siswa::findorfail($id);
-        $user = User::where('nis', $siswa->nis)->first();
-        if ($user) {
-            $user_data = [
-                'nama_depan' => $request->nama_depan,
-                'nama_belakang' => $request->nama_belakang,
-            ];
-            $user->update($user_data);
-        }
         $siswa_data = [
             'nis' => $request->nis,
             'nama_siswa' => $request->nama_siswa,
@@ -192,6 +189,25 @@ class SiswaController extends Controller
         $siswa = Siswa::findorfail($id);
         return view('admin.siswa.ubah-foto', compact('siswa'));
     }
+
+    public function update_foto(Request $request, $id)
+    {
+        $this->validate($request, [
+            'foto_siswa' => 'required'
+        ]);
+
+        $siswa = Siswa::findorfail($id);
+        $foto = $request->foto_siswa;
+        $new_foto = date('s' . 'i' . 'H' . 'd' . 'm' . 'Y') . "_" . $foto->getClientOriginalName();
+        $siswa_data = [
+            'foto_siswa' => 'uploads/siswa/' . $new_foto,
+        ];
+        $foto->move('uploads/siswa/', $new_foto);
+        $siswa->update($siswa_data);
+
+        return redirect()->route('siswa.index')->with('success', 'Berhasil merubah foto!');
+    }
+
 
     public function view(Request $request)
     {

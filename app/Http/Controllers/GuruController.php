@@ -207,10 +207,10 @@ class GuruController extends Controller
         return view('admin.guru.show', compact('mapel', 'guru'));
     }
 
-    public function presensi(){
-        $guru = Guru::all();
-        return view('admin.guru.absen',compact('guru'));
-    }
+    // public function presensi(){
+    //     $guru = Guru::all();
+    //     return view('admin.guru.absen',compact('guru'));
+    // }
 
     public function presensiGuru()
     {
@@ -290,11 +290,11 @@ class GuruController extends Controller
         }
     }
 
-    public function presensikehadiran($id)
-    {
-        $id = Crypt::decrypt($id);
-        $guru = Guru::findorfail($id);
-        $absen = Presensi::orderBy('tanggal_absen', 'desc')->where('gurus_id', $id)->get();
-        return view('admin.guru.kehadiran', compact('guru', 'absen'));
-    }
+    // public function presensikehadiran($id)
+    // {
+    //     $id = Crypt::decrypt($id);
+    //     $guru = Guru::findorfail($id);
+    //     $absen = Presensi::all();
+    //     return view('admin.guru.kehadiran', compact('guru', 'absen'));
+    // }
 }

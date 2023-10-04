@@ -40,6 +40,10 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label for="alamat">Alamat Siswa</label>
+                    <input type="text" id="alamat" name="alamat" class="form-control @error('alamat') is-invalid @enderror" value="{{$siswa->alamat}}">
+                </div>
+                <div class="form-group">
                     <label for="tempat_lahir">Tempat Lahir</label>
                     <input type="text" id="tempat_lahir" name="tempat_lahir" value="{{ $siswa->tempat_lahir }}" class="form-control @error('tempat_lahir') is-invalid @enderror">
                 </div>

@@ -62,7 +62,6 @@ class JadwalController extends Controller
         $jadwal = DB::table('jadwals')->where('haris_id', $request->haris_id)->where('kelas_id', $request->kelas_id)->where('mapels_id', $guru->mapels_id)->where('gurus_id', $request->gurus_id)->where('jam_mulai', $request->jam_mulai)->where('jam_selesai', $request->jam_selesai)->get();
         if(count($jadwal) > 0){
             return redirect()->back()->with('warning', 'Data jadwal sudah ada!');
-            // return response()->json(['dataExists'=>$jadwal]);
         }
         else{
         Jadwal::updateOrCreate(

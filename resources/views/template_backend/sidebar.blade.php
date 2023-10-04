@@ -71,28 +71,13 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item has-treeview" id="liPresensiData">
-                        <a href="#" class="nav-link" id="PresensiData">
+                    <li class="nav-item">
+                        <a href="{{route('presensikehadiran')}}" class="nav-link" id="PresensiData">
                             <i class="nav-icon fas fa-edit"></i>
                             <p>
                                 Presensi Data
-                                <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
-                        <ul class="nav nav-treeview ml-4">
-                            <li class="nav-item">
-                                <a href="{{route('guru.presensi')}}" class="nav-link" id="AbsensiGuru">
-                                    <i class="fas fa-calendar-check nav-icon"></i>
-                                    <p>Presensi Guru</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{route('siswa.presensi')}}" class="nav-link" id="AbsensiSiswa">
-                                    <i class="fas fa-calendar-check nav-icon"></i>
-                                    <p>Presensi Siswa</p>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
                     <li class="nav-item has-treeview" id="liNilai">
                         <a href="#" class="nav-link" id="Nilai">
@@ -131,7 +116,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('presensi.harian') }}" class="nav-link" id="AbsenGuru">
+                        <a href="{{ route('presensi.index') }}" class="nav-link" id="AbsenGuru">
                             <i class="fas fa-calendar-check nav-icon"></i>
                             <p>Presensi Guru</p>
                         </a>
@@ -184,7 +169,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('presensisiswa.harian') }}" class="nav-link" id="AbsenSiswa">
+                        <a href="{{ route('presensisiswaharian') }}" class="nav-link" id="AbsenSiswa">
                             <i class="fas fa-calendar-check nav-icon"></i>
                             <p>Presensi Siswa</p>
                         </a>

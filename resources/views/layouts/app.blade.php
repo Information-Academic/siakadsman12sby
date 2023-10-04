@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
   <style>
     #transparent{
-      background: url('https://i0.wp.com/www.radarjatim.co/wp-content/uploads/2020/09/Screenshot_2020-09-08-08-56-40-84.jpg?w=720&ssl=1');
+      background: url('https://media.istockphoto.com/id/1211889635/id/foto/wallpaper-hitam-abstrak-latar-belakang-gelap-minimal-dalam-dan-elegan.jpg?s=170667a&w=0&k=20&c=381hcWs5UCXsYWMm5MJNEwc43JYw0Q7v0SzUuGFEqJU=');
       background-size: cover;
       background-attachment: fixed;
       opacity: 1;
@@ -29,7 +29,7 @@
       <img src="{{ asset('img/logosiakad.png') }}" width="100%" alt="">
     </div>
 
-    <div class="login-logo" style="color: rgba(157, 254, 10, 0.952); font-weight: bold;">
+    <div class="login-logo" style="color: white; font-weight: bold;">
       @yield('page')
     </div>
 

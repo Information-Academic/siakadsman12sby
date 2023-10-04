@@ -51,7 +51,7 @@
                             </button> --}}
                             <a href="{{route('kelas.edit',Crypt::encrypt($data->id))}}" class="btn btn-success btn-xs">
                             <i class="nav-icon fas fa-edit"></i>Edit Status Kelas</a>
-                            <button class="btn btn-danger btn-xs"><i class="nav-icon fas fa-trash-alt"></i> &nbsp; Hapus</button>
+                            <button class="btn btn-danger btn-xs" onclick="if(!confirm('apakah anda yakin untuk menghapus data kelas {{$data->kelas}} {{$data->tipe_kelas}} ini?')) return false;"><i class="nav-icon fas fa-trash-alt"></i> &nbsp; Hapus</button>
                         </form>
                     </td>
                 </tr>

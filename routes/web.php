@@ -43,27 +43,27 @@ Route::group(['middleware' => 'auth'], function () {
   	Route::get('/pengaturan/password', 'UserController@edit_password')->name('pengaturan.password');
   	Route::post('/pengaturan/ubah-password', 'UserController@ubah_password')->name('pengaturan.ubah-password');
 
-      Route::middleware(['siswa'])->group(function () {
+    Route::middleware(['siswa'])->group(function () {
+        Route::get('/presensisiswaharian', 'PresensiController@siswa')->name('presensisiswaharian');
+        Route::post('/presensi/absen', 'PresensiController@absen')->name('presensisiswaharian.absen');
         Route::get('/jadwal/siswa', 'JadwalController@siswa')->name('jadwal.siswa');
         Route::get('/cetakjadwalpdf', 'JadwalController@cetakJadwal');
-        Route::get('/presensisiswa/harian', 'SiswaController@presensiSiswa')->name('presensisiswa.harian');
-        Route::post('/presensisiswa/simpan', 'SiswaController@simpan')->name('presensisiswa.simpan');
         Route::get('/ulangan/siswa', 'UlanganController@siswa')->name('ulangan.siswa');
         Route::get('/rapor/siswa', 'RaporController@siswa')->name('rapor.siswa');
 
-	Route::get('ujian', 'SiswaController@ujian')->name('soal.ujian');
-	Route::get('ujian/get-detail-essay', 'SiswaController@getDetailEssay');
-	Route::get('ujian/simpan-jawaban-essay', 'SiswaController@simpanJawabanEssay');
-	Route::get('ujian/detail/{id}', 'SiswaController@detailUjian');
-	Route::get('ujian/finish/{id}', 'SiswaController@finishUjian');
-	Route::get('ujian/get-soal/{id}', 'SiswaController@getSoal');
-	Route::get('ujian/jawab', 'SiswaController@jawab');
-	Route::post('ujian/kirim-jawaban', 'SiswaController@kirimJawaban');
+	    Route::get('ujian', 'SiswaController@ujian')->name('soal.ujian');
+	    Route::get('ujian/get-detail-essay', 'SiswaController@getDetailEssay');
+	    Route::get('ujian/simpan-jawaban-essay', 'SiswaController@simpanJawabanEssay');
+	    Route::get('ujian/detail/{id}', 'SiswaController@detailUjian');
+	    Route::get('ujian/finish/{id}', 'SiswaController@finishUjian');
+	    Route::get('ujian/get-soal/{id}', 'SiswaController@getSoal');
+	    Route::get('ujian/jawab', 'SiswaController@jawab');
+	    Route::post('ujian/kirim-jawaban', 'SiswaController@kirimJawaban');
     });
 
     Route::middleware(['guru'])->group(function(){
-        Route::get('/presensi/harian', 'GuruController@presensiGuru')->name('presensi.harian');
-        Route::post('/presensi/simpan', 'GuruController@simpan')->name('presensi.simpan');
+        Route::get('/presensi', 'PresensiController@index')->name('presensi.index');
+        Route::post('/presensi/store', 'PresensiController@store')->name('presensi.store');
         Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
         Route::resource('/ulangan', 'UlanganController');
         Route::resource('/rapor', 'RaporController');
@@ -75,10 +75,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/admin/pengumuman/simpan', 'PengumumanController@simpan')->name('admin.pengumuman.simpan');
         Route::get('/guru/mapel/{id}', 'GuruController@mapel')->name('guru.mapel');
         Route::get('/guru/ubah-foto/{id}', 'GuruController@ubah_foto')->name('guru.ubah-foto');
-        Route::get('/guru/presensi', 'GuruController@presensi')->name('guru.presensi');
-        Route::get('/guru/presensikehadiran/{id}', 'GuruController@presensikehadiran')->name('guru.presensikehadiran');
-        Route::get('/siswa/presensi', 'SiswaController@presensi')->name('siswa.presensi');
-        Route::get('/siswa/presensikehadiran/{id}', 'SiswaController@presensikehadiran')->name('siswa.presensikehadiran');
+        Route::get('/presensikehadiran', 'PresensiController@presensikehadiran')->name('presensikehadiran');
         Route::get('/siswa/kelas/{id}', 'SiswaController@kelas')->name('siswa.kelas');
         Route::get('/jadwal/view/json', 'JadwalController@view');
         Route::post('/admin/jadwal','JadwalController@store');

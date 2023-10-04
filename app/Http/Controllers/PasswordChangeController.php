@@ -17,6 +17,7 @@ class PasswordChangeController extends Controller
 public function update(Request $request)
 {
     $user = Auth::user();
+
     $request->validate([
         'password' => 'required|string|min:8|confirmed',
     ]);
