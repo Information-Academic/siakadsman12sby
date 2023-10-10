@@ -77,6 +77,7 @@
                                     <th rowspan="2">Mata Pelajaran</th>
                                     <th rowspan="2">KKM</th>
                                     <th rowspan="2">Nilai</th>
+                                    <th rowspan="2">Predikat</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -87,6 +88,17 @@
                                         <td>{{ $data->mapel->nama_mapel }}</td>
                                         <td class="ctr">75</td>
                                         <td class="ctr">{{ $data->nilai($val)['nilai_rapor'] }}</td>
+                                        <td class="ctr">
+                                            @if ( $data->nilai($data->id)['nilai_rapor ']> 88)
+                                                <div class="text-center">A (Sangat Baik)</div>
+                                            @elseif ( $data->nilai($data->id)['nilai_rapor'] > 79 && $data->nilai($data->id)['nilai_rapor'] <=88)
+                                                <div class="text-center">B (Baik)</div>
+                                            @elseif ( $data->nilai($data->id)['nilai_rapor'] > 70 && $data->nilai($data->id)['nilai_rapor'] <=79)
+                                                <div class="text-center">C (Cukup)</div>
+                                            @else
+                                                <div class="text-center">D (Kurang)</div>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -26,9 +26,11 @@ class JadwalController extends Controller
         //
         $hari = Hari::all();
         $mapel = Mapel::all();
-        $kelas = Kelas::OrderBy('kelas','asc')->get();
+        $kelas = Kelas::OrderBy('kelas','asc')->distinct()->get(['kelas']);
+        $kelas2 = Kelas::OrderBy('tipe_kelas','asc')->distinct()->get(['tipe_kelas']);
+        $kelas3 = Kelas::OrderBy('tipe_kelas','asc')->OrderBy('kelas','asc')->get();
         $guru = Guru::OrderBy('nama_guru', 'asc')->get();
-        return view('admin.jadwal.index', compact('hari', 'mapel','kelas', 'guru'));
+        return view('admin.jadwal.index', compact('hari', 'mapel','kelas', 'guru','kelas2','kelas3'));
     }
 
     /**

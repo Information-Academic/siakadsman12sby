@@ -20,7 +20,7 @@
 		<div class="box-body">
 			<div class="row">
 				<div class="col-sm-12">
-					<h1 style="margin:  0 0 0 0; color: #292e38; font-size: 24pt;">{{ $soal->mapel->nama_mapel }} kelas {{$kelas['1']['kelas']}} {{$kelas['2']['tipe_kelas']}}</h1>
+					<h1 style="margin:  0 0 0 0; color: #292e38; font-size: 24pt;">{{ $soal->mapel->nama_mapel }} kelas {{$kelas['0']['kelas']}} {{$kelas['2']['tipe_kelas']}}</h1>
 					<div id="fsstatus" style="font-size: 14pt; margin: 0 0 20px 0; color: #888c8e"></div>
 					<div style="border: dotted #0723e8; padding: 10px; margin-bottom: 15px;">
 						<table class="table table-striped">
@@ -261,12 +261,12 @@
 		}
 
 		$(document).on('click', '.no_soal_essay', function() {
-			const id_soal_esay = $(this).data('id');
+			const ulangans_id = $(this).data('id');
 			$.ajax({
 				url: "{{ url('ujian/get-detail-essay') }}",
 				type: "GET",
 				data: {
-					id_soal_esay: id_soal_esay
+					ulangans_id: ulangans_id
 				},
 				success: function(data) {
 					$("#wrap-soal").html(data);
@@ -275,14 +275,14 @@
 		});
 
 		$(document).on('click', '#simpan-essay', function() {
-			const jawab_essay = $("#jawab_essay").val();
-			const id_soal_esay = $(this).data('id');
+			const jawab = $("#jawab").val();
+			const ulangans_id = $(this).data('id');
 			$.ajax({
 				type: "GET",
 				url: "{{ url('ujian/simpan-jawaban-essay') }}",
 				data: {
-					jawab_essay: jawab_essay,
-					id_soal_esay: id_soal_esay
+					jawab: jawab,
+					ulangans_id: ulangans_id
 				},
 				success: function(data) {
 					console.log(data);

@@ -16,7 +16,6 @@
                     <th>Nama</th>
                     <th>Tanggal</th>
                     <th>Status & Jarak</th>
-                    <th>Keterangan</th>
                     <th>Roles</th>
                 </tr>
             </thead>
@@ -33,7 +32,7 @@
                             <span class="badge badge-danger">Tidak Hadir. Jarak sekolah dengan user {{number_format($data->distance)}} m</span>
                         @endif
                     </td>
-                    <td>{{$data->kehadiran->keterangan}}</td>
+                    {{-- <td>{{$data->kehadiran->keterangan}}</td> --}}
                     <td>{{$data->user->roles}}</td>
                 </tr>
                 @endforeach

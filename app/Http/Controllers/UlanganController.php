@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Guru;
 use App\Jadwal;
 use App\Kelas;
+use App\Mapel;
 use App\Rapor;
 use App\Siswa;
 use App\Ulangan;
@@ -25,7 +26,9 @@ class UlanganController extends Controller
         $guru = Guru::where('nip', Auth::user()->nip)->first();
         $jadwal = Jadwal::where('gurus_id', $guru->id)->orderBy('kelas_id')->get();
         $kelas = $jadwal->groupBy('kelas_id');
-        return view('guru.ulangan.kelas', compact('kelas', 'guru'));
+        // $guru2 = json_decode($guru,true);
+        // dd($mapel_guru);
+        return view('guru.ulangan.kelas', ['guru'=>$guru,'jadwal'=>$jadwal,'kelas'=>$kelas]);
     }
 
     /**
@@ -49,6 +52,14 @@ class UlanganController extends Controller
     public function store(Request $request)
     {
         //
+        $this->validate($request, [
+            'ulha_1' => 'required',
+            'ulha_2' => 'required',
+            'uts' => 'required',
+            'ulha_3' => 'required',
+            'uas' => 'required',
+        ]);
+
         $guru = Guru::findorfail($request->gurus_id);
         $cekJadwal = Jadwal::where('gurus_id',$request->gurus_id)->where('kelas_id',$request->kelas_id)->count();
 

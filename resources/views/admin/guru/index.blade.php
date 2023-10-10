@@ -89,7 +89,7 @@
                         <div class="form-group delete">
                         <label for="mapels_id">Mapel</label>
                         <div class="copy hapus hide">
-                        <select multiple id="mapels_id" name="mapels_id" class="select2bs4 form-control @error('mapels_id') is-invalid @enderror">
+                        <select multiple id="mapels_id" name="mapels_id[]" class="select2bs4 form-control @error('mapels_id') is-invalid @enderror">
                             <option value="">-- Pilih Mapel --</option>
                             @foreach ($mapel as $data)
                                 <option value="{{ $data->id }}">{{ $data->nama_mapel }}</option>

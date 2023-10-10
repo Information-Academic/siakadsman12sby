@@ -24,7 +24,6 @@ class RaporController extends Controller
         $guru = Guru::where('nip', Auth::user()->nip)->first();
         $jadwal = Jadwal::where('gurus_id', $guru->id)->orderBy('kelas_id')->get();
         $kelas = $jadwal->groupBy('kelas_id');
-
         return view('guru.rapor.kelas', compact('kelas', 'guru'));
     }
 
@@ -84,7 +83,8 @@ class RaporController extends Controller
         $guru = Guru::where('nip', Auth::user()->nip)->first();
         $kelas = Kelas::findorfail($id);
         $siswa = Siswa::where('kelas_id', $id)->get();
-        return view('guru.rapor.rapor', compact('guru', 'kelas', 'siswa'));
+        $rapor = Rapor::where('catatan',Auth::user()->id)->get();
+        return view('guru.rapor.rapor', compact('guru', 'kelas', 'siswa','rapor'));
     }
 
     /**
@@ -144,4 +144,10 @@ class RaporController extends Controller
         return view('siswa.rapor', compact('siswa', 'kelas', 'mapel'));
     }
 
+    public function tambahkanCatatan(Request $request){
+        $rapor = Rapor::findorfail($request->id);
+        $rapor->catatan = $request->catatan;
+        $rapor->save();
+        return response()->json(['success' => 'Catatan berhasil ditambahkan!']);
+    }
 }

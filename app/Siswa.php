@@ -16,7 +16,6 @@ class Siswa extends Model
         return $this->belongsTo('App\Kelas','kelas_id');
     }
 
-
     public function ulangan($id)
     {
         $guru = Guru::where('nip', Auth::user()->nip)->first();

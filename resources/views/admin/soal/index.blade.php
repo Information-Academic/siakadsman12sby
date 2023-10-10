@@ -19,7 +19,7 @@
     <div class="box-body">
     	<button type="button" id="btn-soal" class="btn btn-primary btn-md"><i class="fa fa-pencil-square-o"></i> &nbsp;Tulis Soal</button>
     	<a href="{{ url('/download-file-format/soal') }}" class="btn btn-success btn-md"><i class="fa fa-file-excel-o"></i> &nbsp;Download Format Excel</a>
-    	<button type="button" id="btn-upload-soal" class="btn btn-info btn-md"><i class="fa fa-cloud-upload"></i> &nbsp;Upload Exel</button>
+    	<button type="button" id="btn-upload-soal" class="btn btn-info btn-md"><i class="fa fa-cloud-upload"></i> &nbsp;Upload Excel</button>
       <div class="well" style="margin-top: 15px; display: none;" id="wrap-soal">
         <form class="form-horizontal" id="formSoal">
           {{ csrf_field() }}
@@ -86,7 +86,30 @@
       </div>
     	<hr style="margin: 10px 0 15px 0">
       <table class="table table-hover table-striped" id="table_soal">
+        @php
+            $bulan = date('m');
+            $tahun = date('Y');
+        @endphp
       	@if (Auth::user()->roles == 'Guru' || Auth::user()->roles == 'Admin' )
+            <label for="">Tahun Ajaran</label>
+            &nbsp;
+            <select name="" id="tahunajaran">
+                <option value="">Pilih Tahun Ajaran</option>
+                <option value="">
+                    @if ($bulan > 6)
+                                {{ 'Semester Ganjil' }}
+                            @else
+                                {{ 'Semester Genap' }}
+                    @endif
+                    @if ($bulan > 6)
+                                {{ $tahun }}/{{ $tahun+1 }}
+                            @else
+                                {{ $tahun-1 }}/{{ $tahun }}
+                    @endif
+                </option>
+            </select>
+            &nbsp;
+            <button id="show">Tampilkan</button>
 	        <caption>Data paket soal yang Anda buat</caption>
         @else
         	<caption>Data paket soal</caption>
@@ -96,6 +119,7 @@
             <th>ID Soal</th>
             <th style="text-align: center;">Tipe Ulangan</th>
             <th style="text-align: center;">Materi</th>
+            <th style="text-align: center;">Tahun Ajaran</th>
             <th style="text-align: center; width: 70px">Waktu</th>
             <th style="text-align: center; width: 100px">Aksi</th>
           </tr>
@@ -166,11 +190,16 @@ $(document).ready(function (){
       {data: 'id', name: 'id', orderable: true, searchable: true },
       {data: 'tipe_ulangan', name: 'tipe_ulangan', orderable: true, searchable: true },
       {data: 'nama_mapel', name: 'nama_mapel', orderable:true, searchable:true},
+      {data: 'created_at', name: 'created_at', orderable: true, searchable: true, visible: false },
       {data: 'waktu', name: 'waktu', orderable: true, searchable: true },
       {data: 'action', name: 'action', orderable: false, searchable: false, },
     ],
     "drawCallback": function (setting) {}
   });
+    $('#show').click(function () {
+        var tahunajaran = $('#tahunajaran').val();
+        $('#table_soal').DataTable().ajax.reload();
+   })
   $("#btn-upload-soal").click(function() {
     $("#wrap-soal").hide();
     $("#wrap-upload-soal").slideToggle();

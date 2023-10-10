@@ -12,9 +12,9 @@
                 <tr>
                     <th>No</th>
                     <th>Tanggal Absen</th>
-                    <th>Jarak(Meter)</th>
+                    <th>Jarak(KM)</th>
                     <th>Status Oleh Sistem</th>
-                    <th style="height: 10px;">Keterangan Kehadiran</th>
+                    {{-- <th style="height: 10px;">Keterangan Kehadiran</th> --}}
                 </tr>
             </thead>
             <tbody>
@@ -22,15 +22,17 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $data->created_at->isoFormat('D MMMM Y') }}</td>
-                        <td>{{ number_format($data->distance) }}</td>
+                        <td>{{ number_format($data->distance / 1000, 2, ',', '.') }}</td>
                         <td>
-                            @if ($data->distance <= 10)
+                            @if ($data->distance <= 1000)
                                 <span class="badge badge-success">Hadir</span>
+                            @elseif($data->distance > 1000 && $data->distance <= 10000)
+                                <span class="badge badge-warning">Terlambat</span>
                             @else
                                 <span class="badge badge-danger">Tidak Hadir</span>
                             @endif
                         </td>
-                        <td>{{ $data->kehadiran->keterangan }}</td>
+                        {{-- <td>{{ $data->kehadiran->keterangan }}</td> --}}
                     </tr>
                 @endforeach
             </tbody>
@@ -46,26 +48,43 @@
       <form action="{{route('presensisiswaharian.absen')}}" method="post">
         @csrf
         <div class="card-body">
-            <div class="form-group">
-              <label for="status_kehadiran">Keterangan Kehadiran</label>
-              <select id="kehadirans_id" type="text" class="form-control @error('kehadirans_id') is-invalid @enderror select2bs4" name="kehadirans_id">
-                <option value="">-- Pilih Keterangan Kehadiran --</option>
-                @foreach ($kehadiran as $data)
-                  <option value="{{ $data->id }}">{{ $data->keterangan }}</option>
-                @endforeach
-              </select>
+            <div>
+                {{-- <div class="form-group">
+                <label for="status_kehadiran">Keterangan Kehadiran</label>
+                <select id="kehadirans_id" type="text" class="form-control @error('kehadirans_id') is-invalid @enderror select2bs4" name="kehadirans_id">
+                    <option value="">-- Pilih Keterangan Kehadiran --</option>
+                    @foreach ($kehadiran as $data)
+                    <option value="{{ $data->id }}">{{ $data->keterangan }}</option>
+                    @endforeach
+                </select>
+                </div> --}}
+                <div class="form-group">
+                    <input type="text" name="latitude" id="latitude" readonly hidden>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="longitude" id="longitude" readonly hidden>
+                </div>
+                <div class="form-group">
+                    <label for="">Apabila ingin membuat surat permohonan maka tidak perlu presensi hari ini!</label>
+                </div>
+                <div class="form-group">
+                    <a href="{{route('guru.suratpermohonan')}}"> Ajukan untuk membuat surat izin / sakit </a>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="latitude">Latitude:</label>
-                <input type="text" name="latitude" id="latitude" readonly>
-            </div>
-            <div class="form-group">
-                <label for="longitude">Longitude:</label>
-                <input type="text" name="longitude" id="longitude" readonly>
-            </div>
+            <iframe
+                id="iframe-map"
+                style="border:0; width: 100%; height: 500px"
+                loading="lazy"
+                allowfullscreen>
+            </iframe>
         </div>
         <div class="card-footer">
-            <button name="submit" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> &nbsp; Presensi Sekarang </button>
+            <p id="teks-lokasi">Sedang mendapatkan lokasi Anda...</p>
+            <button name="submit" class="btn btn-primary" id="presensi">
+                <i class="nav-icon fas fa-save"></i>
+                &nbsp;
+                <span id="teks-btn-presensi">Presensi Sekarang</span>
+            </button>
         </div>
       </form>
     </div>
@@ -78,8 +97,31 @@
      <script>
         // Ambil geolocation pengguna
         navigator.geolocation.getCurrentPosition(function(position) {
-            document.getElementById('latitude').value = position.coords.latitude;
-            document.getElementById('longitude').value = position.coords.longitude;
-        });
+            let lat = position.coords.latitude;
+            let lng = position.coords.longitude;
+            console.log(`geolocation.getcp ${lat},${lng}`)
+
+            document.getElementById('latitude').value = lat;
+            document.getElementById('longitude').value = lng;
+
+            $('#iframe-map').attr('src',
+                "https://www.google.com/maps/embed/v1/place?q=" + lat + "%2C%20" + lng +
+                "&key=AIzaSyB0YeB03qphqQUGpbOn2vnjLrpTOUsLHbU"
+            )
+
+            $.ajax({
+                method: 'GET',
+                url: '{{route("presensiValidSiswa")}}',
+                data: { latitude: lat, longitude: lng },
+                success: function(data){
+                    if (data.valid == false) {
+                        $("#teks-lokasi").text("Jarak Anda Sekarang (" + data.distance + " KM) melebihi batas presensi 1KM")
+                        $('#teks-btn-presensi').text("Presensi Sekarang (Tidak Hadir)")
+                    } else {
+                        $("#teks-lokasi").text("Jarak Anda Sekarang " + data.distance + " KM")
+                    }
+                }
+            });
+        }, null, { enableHighAccuracy: true });
     </script>
 @endsection

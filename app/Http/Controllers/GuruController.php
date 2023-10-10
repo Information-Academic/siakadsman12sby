@@ -7,6 +7,7 @@ use App\Jadwal;
 use App\Kehadiran;
 use App\Mapel;
 use App\Presensi;
+use App\SuratPermohonan;
 use App\User;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Http\Request;
@@ -49,7 +50,7 @@ class GuruController extends Controller
         $this->validate($request, [
             'nip' => 'required',
             'nama_guru' => 'required',
-            'mapels_id' => 'required',
+            'mapels_id' => 'required|array',
             'jenis_kelamin' => 'required'
         ]);
 
@@ -62,14 +63,16 @@ class GuruController extends Controller
             if ($request->jenis_kelamin == 'L') {
                 $nameFoto = 'uploads/guru/35251431012020_male.jpg';
             } else {
-                $nameFoto = 'uploads/guru/23171022042020_female.jpg';
+                $nameFoto = 'uploads/guru/21201912072020_female.jpg';
             }
         }
+
+        $mapels = json_encode($request->mapels_id, JSON_NUMERIC_CHECK);
 
         $guru = Guru::create([
             'nip' => $request->nip,
             'nama_guru' => $request->nama_guru,
-            'mapels_id' => $request->mapels_id,
+            'mapels_id' => $mapels,
             'jenis_kelamin' => $request->jenis_kelamin,
             'no_telepon' => $request->no_telepon,
             'alamat' => $request -> alamat,
@@ -79,10 +82,6 @@ class GuruController extends Controller
             'status_guru' => $request->status_guru,
             'status_pegawai' => $request->status_pegawai
         ]);
-        // Ditutup dulu sementara
-        // Nilai::create([
-        //     'gurus_id' => $guru->id
-        // ]);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan data guru baru!');
     }
@@ -113,7 +112,8 @@ class GuruController extends Controller
         $id = Crypt::decrypt($id);
         $guru = Guru::findorfail($id);
         $mapel = Mapel::all();
-        return view('admin.guru.edit', compact('guru', 'mapel'));
+        $mapel_guru = json_decode($guru->mapels_id);
+        return view('admin.guru.edit', compact('guru', 'mapel', 'mapel_guru'));
     }
 
     /**
@@ -128,7 +128,7 @@ class GuruController extends Controller
         //
         $this->validate($request, [
             'nama_guru' => 'required',
-            'mapels_id' => 'required',
+            'mapels_id' => 'required|array',
             'jenis_kelamin' => 'required',
         ]);
 
@@ -136,9 +136,10 @@ class GuruController extends Controller
         if($request->nip == "" || $request->nama_guru == "" || $request->jenis_kelamin == "" || $request->alamat == "" || $request->tempat_lahir == "" || $request->tanggal_lahir == "" || $request->status_guru == "" || $request->status_pegawai == "" || $request->mapels_id == ""){
             return redirect()->route('guru.index')->with('error', 'Data guru gagal diperbarui!');
         }
+        $mapels = json_encode($request->mapels_id, JSON_NUMERIC_CHECK);
         $guru_data = [
             'nama_guru' => $request->nama_guru,
-            'mapels_id' => $request->mapels_id,
+            'mapels_id' => $mapels,
             'jenis_kelamin' => $request->jenis_kelamin,
             'no_telepon' => $request->no_telepon,
             'alamat' => $request ->alamat,
@@ -203,7 +204,9 @@ class GuruController extends Controller
     {
         $id = Crypt::decrypt($id);
         $mapel = Mapel::findorfail($id);
-        $guru = Guru::where('mapels_id', $id)->get();
+        // $guru = Guru::where('mapels_id', $id)->get();
+        $guru = Guru::whereJsonContains('mapels_id', $id)->get();
+        // dd($mapel, $guru);
         return view('admin.guru.show', compact('mapel', 'guru'));
     }
 
@@ -297,4 +300,32 @@ class GuruController extends Controller
     //     $absen = Presensi::all();
     //     return view('admin.guru.kehadiran', compact('guru', 'absen'));
     // }
+
+    public function suratPermohonan(){
+        $kehadiran = Kehadiran::all();
+        return view('guru.suratpermohonan', compact('kehadiran'));
+    }
+
+    public function suratPermohonanStore(Request $request){
+
+        $existingPresence = SuratPermohonan::where('users_id', Auth()->user()->id)
+        ->whereDate('created_at', date('Y-m-d'))
+        ->first();
+        if($existingPresence){
+            return redirect()->route('guru.suratpermohonan')->with('error', 'Anda sudah membuat surat permohonan');
+        }
+        $kehadiran = SuratPermohonan::create([
+            'kehadirans_id' => $request->kehadirans_id,
+            'alasan' => $request->alasan,
+            'users_id' => Auth()->user()->id, // Sesuaikan dengan autentikasi yang Anda gunakan
+        ]);
+        $kehadiran->save();
+        return redirect()->back()->with('success', 'Berhasil mengajukan surat permohonan!');
+    }
+
+    public function status(){
+        $guru = Guru::where('nip',Auth::user()->nip)->get();
+        $status = SuratPermohonan::where('users_id',Auth::user()->id)->get();
+        return view('guru.status', compact('status','guru'));
+    }
 }

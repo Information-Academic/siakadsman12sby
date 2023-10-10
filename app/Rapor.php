@@ -9,5 +9,5 @@ class Rapor extends Model
     //
     protected $table = 'rapors';
 
-    protected $fillable = ['siswas_id', 'kelas_id', 'gurus_id', 'mapels_id', 'nilai_rapor','kkm_nilai'];
+    protected $fillable = ['siswas_id', 'kelas_id', 'gurus_id', 'mapels_id', 'nilai_rapor','kkm_nilai','catatan'];
 }

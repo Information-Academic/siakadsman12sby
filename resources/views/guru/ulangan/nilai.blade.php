@@ -1,14 +1,14 @@
 @extends('template_backend.home')
-@section('heading', 'Entry Nilai Ulangan')
+@section('heading', 'Masukkan Nilai Ulangan')
 @section('page')
-  <li class="breadcrumb-item active">Entry Nilai Ulangan</li>
+  <li class="breadcrumb-item active">Masukkan Nilai Ulangan</li>
 @endsection
 @section('content')
 <div class="col-md-12">
     <!-- general form elements -->
     <div class="card card-primary">
       <div class="card-header">
-        <h3 class="card-title">Entry Nilai Ulangan</h3>
+        <h3 class="card-title">Masukkan Nilai Ulangan</h3>
       </div>
       <!-- /.card-header -->
         <div class="card-body">
@@ -75,6 +75,7 @@
                         <tr>
                             <th class="ctr">No.</th>
                             <th>Nama Siswa</th>
+                            <th class="ctr">NIS</th>
                             <th class="ctr">ULHA 1</th>
                             <th class="ctr">ULHA 2</th>
                             <th class="ctr">UTS</th>
@@ -100,6 +101,7 @@
                                             <input type="hidden" name="ulangans_id" class="ulangans_id_{{$data->id}}" value="">
                                         @endif
                                     </td>
+                                    <td class="ctr">{{ $data->nis }}</td>
                                     <td class="ctr">
                                         @if ($data->ulangan($data->id) && $data->ulangan($data->id)['ulha_1'])
                                             <div class="text-center">{{ $data->ulangan($data->id)['ulha_1'] }}</div>
@@ -194,7 +196,7 @@
                     location.reload();
                 },
                 error: function (data) {
-                    toastr.warning("Errors 404!");
+                    toastr.warning("Error: Data Nilai Ulangan tidak dapat disimpan!");
                 }
             });
         });

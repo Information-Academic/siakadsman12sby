@@ -75,7 +75,15 @@
                         <a href="{{route('presensikehadiran')}}" class="nav-link" id="PresensiData">
                             <i class="nav-icon fas fa-edit"></i>
                             <p>
-                                Presensi Data
+                                Data Presensi
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('rekapdatapermohonan')}}" class="nav-link" id="RekapPermohonanData">
+                            <i class="nav-icon fas fa-check"></i>
+                            <p>
+                                Rekap Data Permohonan
                             </p>
                         </a>
                     </li>
@@ -127,6 +135,12 @@
                             <p>Jadwal</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('status.guru') }}" class="nav-link" id="Status">
+                            <i class="fas fa-check nav-icon"></i>
+                            <p>Data Permohonan Guru</p>
+                        </a>
+                    </li>
                     <li class="nav-item has-treeview" id="liNilaiGuru">
                         <a href="#" class="nav-link" id="NilaiGuru">
                             <i class="nav-icon fas fa-file-signature"></i>
@@ -139,14 +153,14 @@
                             <li class="nav-item">
                                 <a href="{{ route('ulangan.index') }}" class="nav-link" id="UlanganGuru">
                                     <i class="fas fa-file-alt nav-icon"></i>
-                                    <p>Entry Nilai Ulangan</p>
+                                    <p>Nilai Ulangan</p>
                                 </a>
                             </li>
-                            @if (
+                            {{-- @if (
                                 Auth::user()->guru(Auth::user()->nip)->mapel->nama_mapel == "Pendidikan Agama dan Budi Pekerti" ||
                                 Auth::user()->guru(Auth::user()->nip)->mapel->nama_mapel == "Pendidikan Pancasila dan Kewarganegaraan"
                             )
-                            @endif
+                            @endif --}}
                             <li class="nav-item">
                                 <a href="{{ route('rapor.index') }}" class="nav-link" id="RapotGuru">
                                     <i class="fas fa-file-alt nav-icon"></i>
@@ -172,6 +186,12 @@
                         <a href="{{ route('presensisiswaharian') }}" class="nav-link" id="AbsenSiswa">
                             <i class="fas fa-calendar-check nav-icon"></i>
                             <p>Presensi Siswa</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('statussiswa.siswa') }}" class="nav-link" id="StatusSiswa">
+                            <i class="fas fa-check nav-icon"></i>
+                            <p>Data Permohonan Siswa</p>
                         </a>
                     </li>
                     <li class="nav-item">

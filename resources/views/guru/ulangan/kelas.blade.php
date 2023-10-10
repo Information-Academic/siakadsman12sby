@@ -1,7 +1,7 @@
 @extends('template_backend.home')
-@section('heading', 'Entry Nilai Ulangan')
+@section('heading', 'Masukkan Nilai Ulangan')
 @section('page')
-  <li class="breadcrumb-item active">Entry Nilai Ulangan</li>
+  <li class="breadcrumb-item active">Masukkan Nilai Ulangan</li>
 @endsection
 @section('content')
 <div class="col-md-12">
@@ -18,7 +18,7 @@
                     <tr>
                         <td>Mata Pelajaran</td>
                         <td>:</td>
-                        <td>{{ $guru->mapel->nama_mapel }}</td>
+                        <td>{{$guru->mapel->nama_mapel}} </td>
                     </tr>
                 </table>
                 <hr>

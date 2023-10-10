@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -47,9 +48,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/presensisiswaharian', 'PresensiController@siswa')->name('presensisiswaharian');
         Route::post('/presensi/absen', 'PresensiController@absen')->name('presensisiswaharian.absen');
         Route::get('/jadwal/siswa', 'JadwalController@siswa')->name('jadwal.siswa');
+        Route::get('/siswa/suratpermohonan','SiswaController@suratpermohonan')->name('siswa.suratpermohonan');
+        Route::post('/suratpermohonansiswa/store','SiswaController@suratPermohonanSiswaStore')->name('siswa.suratPermohonanSiswaStore');
+        Route::get('/statussiswa','SiswaController@statusSiswa')->name('statussiswa.siswa');
         Route::get('/cetakjadwalpdf', 'JadwalController@cetakJadwal');
         Route::get('/ulangan/siswa', 'UlanganController@siswa')->name('ulangan.siswa');
         Route::get('/rapor/siswa', 'RaporController@siswa')->name('rapor.siswa');
+        Route::get('/presensi/validsiswa','PresensiController@presensiValidSiswa')->name('presensiValidSiswa');
 
 	    Route::get('ujian', 'SiswaController@ujian')->name('soal.ujian');
 	    Route::get('ujian/get-detail-essay', 'SiswaController@getDetailEssay');
@@ -65,6 +70,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/presensi', 'PresensiController@index')->name('presensi.index');
         Route::post('/presensi/store', 'PresensiController@store')->name('presensi.store');
         Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
+        Route::get('/guru/suratpermohonan','GuruController@suratpermohonan')->name('guru.suratpermohonan');
+        Route::post('/suratpermohonan/store','GuruController@suratPermohonanStore')->name('guru.suratPermohonanStore');
+        Route::get('/status','GuruController@status')->name('status.guru');
+        Route::get('/showraporsiswa/{id}','RaporController@showDetailRapor')->name('showraporsiswa');
+        Route::post('/rapor/tambahkancatatan','RaporController@tambahkanCatatan')->name('tambahkanCatatan');
+        Route::get('/presensi/valid','PresensiController@presensiValid')->name('presensiValid');
+
         Route::resource('/ulangan', 'UlanganController');
         Route::resource('/rapor', 'RaporController');
     });
@@ -100,6 +112,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/rapor-kelas', 'RaporController@create')->name('rapor-kelas');
         Route::get('/rapor-siswa/{id}', 'RaporController@edit')->name('rapor-siswa');
         Route::get('/rapor-show/{id}', 'RaporController@rapor')->name('rapor-show');
+        Route::get('/rekappermohonan', 'RekapPermohonanController@index')->name('rekapdatapermohonan');
         Route::resource('/guru', 'GuruController');
         Route::resource('/kelas', 'KelasController');
         Route::resource('/user', 'UserController');

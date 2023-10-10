@@ -30,7 +30,8 @@ class SoalController extends Controller
               ->where('ulangans.users_id', Auth::user()->id)->paginate(5);
             }
             $mapels = Mapel::orderBy('nama_mapel','ASC')->get();
-            return view('admin.soal.index', compact('user', 'soals', 'mapels'));
+            $tahunPembuatan = Soal::select('created_at')->groupBy('created_at')->get();
+            return view('admin.soal.index', compact('user', 'soals', 'mapels','tahunPembuatan'));
           } else {
             return redirect()->route('home.index');
         }
@@ -224,7 +225,7 @@ class SoalController extends Controller
 
   public function detail(Request $request)
   {
-    if (Auth::user()->roles == 'Guru' || Auth::user()->roles == 'Admin') {
+    if (Auth::user()->roles == 'Admin') {
       $ulangans_id = $request->id;
       $user = User::where('id', Auth::user()->id)->first();
       $soal = Soal::where('id', $request->id)->first();
@@ -234,6 +235,7 @@ class SoalController extends Controller
         $kelas = Kelas::leftjoin('distribusisoalulangans', 'kelas.id', '=', 'distribusisoalulangans.kelas_id')
           ->select('distribusisoalulangans.ulangans_id', 'kelas.*')
           ->orderBy('kelas.id','ASC')
+          ->groupBy('kelas.id','kelas.kelas','kelas.tipe_kelas','kelas.tahun','kelas.status_kelas','kelas.gurus_id','kelas.created_at','kelas.updated_at','distribusisoalulangans.ulangans_id')
           ->get();
       } else {
         $kelas = Kelas::get();
@@ -289,7 +291,7 @@ class SoalController extends Controller
       DistribusiSoal::where('ulangans_id', $request->ulangans_id)->where('kelas_id', $request->kelas_id)->delete();
       return 'N';
     } else {
-      $query = new DistribusiSoal;
+      $query = new DistribusiSoal();
       $query->ulangans_id = $request->ulangans_id;
       $query->kelas_id = $request->kelas_id;
       $query->save();

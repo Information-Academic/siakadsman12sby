@@ -75,12 +75,15 @@
                         <tr>
                             <th class="ctr" rowspan="2">No.</th>
                             <th rowspan="2">Nama Siswa</th>
-                            <th class="ctr" colspan="2">Nilai Rapor</th>
-                            <th class="ctr" rowspan="2">Aksi</th>
+                            <th rowspan="2">NIS</th>
+                            <th class="ctr" colspan="4">Nilai Rapor</th>
                         </tr>
                         <tr>
                             <th class="ctr" >KKM Nilai</th>
                             <th class="ctr">Nilai</th>
+                            <th class="ctr">Predikat</th>
+                            {{-- <th class="ctr">Catatan Wali Kelas</th> --}}
+                        </tr>
                         </tr>
                     </thead>
                     <tbody>
@@ -93,6 +96,7 @@
                                 <tr>
                                     <td class="ctr">{{ $loop->iteration }}</td>
                                     <td>{{ $data->nama_siswa }}</td>
+                                    <td>{{$data->nis}}</td>
                                     @if ($data->nilai($data->id))
                                         <td class="ctr">
                                             <input type="hidden" class="rapot_{{$data->id}}" value="{{ $data->nilai($data->id)->id }}">
@@ -102,8 +106,23 @@
                                             <div class="text-center">{{ $data->nilai($data->id)->nilai_rapor }}</div>
                                         </td>
                                         <td class="ctr">
-                                            <i class="fas fa-check" style="font-weight:bold;"></i>
+                                            @if ( $data->nilai($data->id)->nilai_rapor > 88)
+                                                <div class="text-center">A (Sangat Baik)</div>
+                                            @elseif ( $data->nilai($data->id)->nilai_rapor > 79 && $data->nilai($data->id)->nilai_rapor <=88)
+                                                <div class="text-center">B (Baik)</div>
+                                            @elseif ( $data->nilai($data->id)->nilai_rapor > 70 && $data->nilai($data->id)->nilai_rapor <=79)
+                                                <div class="text-center">C (Cukup)</div>
+                                            @else
+                                                <div class="text-center">D (Kurang)</div>
+                                            @endif
                                         </td>
+                                        {{-- <td class="ctr">
+                                            <i class="fas fa-check" style="font-weight:bold;"></i>
+                                        </td> --}}
+                                        {{-- <td class="ctr">
+
+                                            <div class="text-center">{{strtoupper($data->nama_siswa)}} {{ $data->catatan }}</div>
+                                        </td> --}}
                                     @else
                                         <td class="ctr">
                                             <div class="text-center"></div>
@@ -115,13 +134,21 @@
                                             <input type="text" name="kkm_nilai" maxlength="2" onkeypress="return inputAngka(event)" class="form-control text-center nilai_{{$data->id}}" data-ids="{{$data->id}}">
                                             <div class="knilai_{{$data->id}} text-center"></div>
                                         </td>
-                                        <td class="ctr sub_{{$data->id}}">
+                                        {{-- <td class="ctr sub_{{$data->id}}">
                                             <button type="button" id="submit-{{$data->id}}" class="btn btn-default btn_click" data-id="{{$data->id}}"><i class="nav-icon fas fa-save"></i></button>
-                                        </td>
+                                        </td> --}}
                                     @endif
                                 </tr>
                             @endforeach
                         </form>
+                        {{-- <form action="" method="get">
+                            @csrf
+                            <div class="form-group">
+                                <label for="catatan">Catatan Wali Kelas:</label>
+                                <textarea class="textarea @error('catatan') is-invalid @enderror" name="catatan" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                                <button name="submit" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> &nbsp; Tambahkan catatan wali kelas </button>
+                        </div>
+                        </form> --}}
                     </tbody>
                 </table>
             </div>
@@ -134,73 +161,72 @@
 @endsection
 @section('script')
     <script>
-        $("input[name=nilai]").keyup(function(){
-            var id = $(this).attr('data-ids');
-		    var gurus_id = $("input[name=gurus_id]").val();
-            var angka = $(".nilai_"+id).val();
-            if (angka.length == 2){
-                $.ajax({
-                    type:"GET",
-                    data: {
-                        id : gurus_id,
-                        nilai : angka
-                    },
-                    dataType:"JSON",
-                    url:"{{ url('/rapot/predikat') }}",
-                    success:function(data){
-                        $(".nilai_"+id).val(data[0]['kkm_nilai']);
-                    },
-                    error:function(){
-                        toastr.warning("Tolong masukkan nilai kkm!");
-                    }
-                });
-            } else {
-                $(".nilai_"+id).val("");
-            }
-        });
+        // $("input[name=nilai]").keyup(function(){
+        //     var id = $(this).attr('data-ids');
+		//     var gurus_id = $("input[name=gurus_id]").val();
+        //     var angka = $(".nilai_"+id).val();
+        //     if (angka.length == 2){
+        //         $.ajax({
+        //             type:"GET",
+        //             data: {
+        //                 id : gurus_id,
+        //                 nilai : angka
+        //             },
+        //             dataType:"JSON",
+        //             url:"{{ url('/rapot/predikat') }}",
+        //             success:function(data){
+        //                 $(".nilai_"+id).val(data[0]['kkm_nilai']);
+        //             },
+        //             error:function(){
+        //                 toastr.warning("Tolong masukkan nilai kkm!");
+        //             }
+        //         });
+        //     } else {
+        //         $(".nilai_"+id).val("");
+        //     }
+        // });
 
-        $(".btn_click").click(function(){
-            var id = $(this).attr('data-id');
-            var rapot = $(".rapot_"+id).val();
-            var nilai = $(".nilai_"+id).val();
-            var predikat = $(".predikat_"+id).val();
-            var deskripsi = $(".deskripsi_"+id).val();
-            var guru_id = $("input[name=guru_id]").val();
-            var kelas_id = $("input[name=kelas_id]").val();
-            var ok = ('<i class="fas fa-check" style="font-weight:bold;"></i>')
+        // $(".btn_click").click(function(){
+        //     var id = $(this).attr('data-id');
+        //     var rapot = $(".rapot_"+id).val();
+        //     var nilai = $(".nilai_"+id).val();
+        //     var predikat = $(".predikat_"+id).val();
+        //     var deskripsi = $(".deskripsi_"+id).val();
+        //     var guru_id = $("input[name=guru_id]").val();
+        //     var kelas_id = $("input[name=kelas_id]").val();
 
-            if (nilai == "") {
-                toastr.error("Form tidak boleh ada yang kosong!");
-            } else {
-                $.ajax({
-                    url: "{{ route('rapor.store') }}",
-                    type: "POST",
-                    dataType: 'json',
-                    data 	: {
-                        _token: '{{ csrf_token() }}',
-                        id : rapot,
-                        siswa_id : id,
-                        kelas_id : kelas_id,
-                        guru_id : guru_id,
-                        nilai : nilai,
-                        predikat : predikat,
-                        deskripsi : deskripsi,
-                    },
-                    success: function(data){
-                        $(".nilai_"+id).remove();
-                        $(".predikat_"+id).remove();
-                        $("#submit-"+id).remove();
-                        $(".knilai_"+id).append(nilai);
-                        $(".kpredikat_"+id).append(predikat);
-                        $(".sub_"+id).append(ok);
-                        toastr.success("Nilai rapot siswa berhasil ditambahkan!");
-                    },
-                    error: function (data) {
-                        toastr.warning("Errors 404!");
-                    }
-                });
-            }
-        });
+        //     if (nilai == "") {
+        //         toastr.error("Form tidak boleh ada yang kosong!");
+        //     } else {
+        //         $.ajax({
+        //             url: "{{ route('rapor.store') }}",
+        //             type: "POST",
+        //             dataType: 'json',
+        //             data 	: {
+        //                 _token: '{{ csrf_token() }}',
+        //                 id : rapot,
+        //                 siswa_id : id,
+        //                 kelas_id : kelas_id,
+        //                 guru_id : guru_id,
+        //                 nilai : nilai,
+        //                 predikat : predikat,
+        //                 deskripsi : deskripsi,
+        //             },
+        //             success: function(data){
+        //                 $(".nilai_"+id).remove();
+        //                 $(".predikat_"+id).remove();
+        //                 $("#submit-"+id).remove();
+        //                 $(".knilai_"+id).append(nilai);
+        //                 $(".kpredikat_"+id).append(predikat);
+        //                 $(".sub_"+id).append(ok);
+        //                 toastr.success("Nilai rapot siswa berhasil ditambahkan!");
+        //             },
+        //             error: function (data) {
+        //                 toastr.warning("Errors 404!");
+        //             }
+        //         });
+        //     }
+        // });
 
         $("#NilaiGuru").addClass("active");
         $("#liNilaiGuru").addClass("menu-open");

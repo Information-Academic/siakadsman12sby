@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Guru;
 use App\Kehadiran;
 use App\Presensi;
+use App\Setting;
 use App\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -44,7 +45,6 @@ class PresensiController extends Controller
     $request->validate([
         'latitude' => 'required',
         'longitude' => 'required',
-        'kehadirans_id' => 'required',
     ]);
 
     $existingPresence = Presensi::where('users_id', Auth()->user()->id)
@@ -54,19 +54,22 @@ class PresensiController extends Controller
         return redirect()->route('presensi.index')->with('error', 'Anda sudah melakukan presensi');
     }
 
+    $settings = Setting::first();
+    $latSekolah = $settings->latitude;
+    $longSekolah = $settings->longitude;
+
     // Simpan presensi ke database
     $presensi = Presensi::create([
         'users_id' => Auth()->user()->id, // Sesuaikan dengan autentikasi yang Anda gunakan
         'latitude' => $request->latitude,
         'longitude' => $request->longitude,
-        'kehadirans_id' => $request->kehadirans_id,
     ]);
 
     // Hitung jarak dari koordinat yang telah ditentukan (contoh: 0.0, 0.0)
     $distance = $this->calculateDistance(
         $request->latitude,
         $request->longitude,
-        -7.242212488768065, 112.63662739702816
+        floatval($latSekolah), floatval($longSekolah)
     );
 
     if($request->latitude && $request->longitude > $distance){
@@ -91,7 +94,6 @@ class PresensiController extends Controller
     $request->validate([
         'latitude' => 'required',
         'longitude' => 'required',
-        'kehadirans_id' => 'required',
     ]);
 
     $existingPresence = Presensi::where('users_id', Auth()->user()->id)
@@ -100,6 +102,10 @@ class PresensiController extends Controller
     if($existingPresence){
         return redirect()->route('presensisiswaharian')->with('error', 'Anda sudah melakukan presensi');
     }
+
+    $settings = Setting::first();
+    $latSekolah = $settings->latitude;
+    $longSekolah = $settings->longitude;
 
     // Simpan presensi ke database
     $presensi = Presensi::create([
@@ -113,7 +119,7 @@ class PresensiController extends Controller
     $distance = $this->calculateDistance(
         $request->latitude,
         $request->longitude,
-        -7.242212488768065, 112.63662739702816
+        floatval($latSekolah), floatval($longSekolah)
     );
 
     if($request->latitude && $request->longitude > $distance){
@@ -122,12 +128,56 @@ class PresensiController extends Controller
 
     $presensi->distance = $distance;
     $presensi->save();
-    return redirect()->route('presensi.index')->with('success', 'Presensi berhasil disimpan');
+    return redirect()->route('presensisiswaharian')->with('success', 'Presensi berhasil disimpan');
     }
 
     public function presensikehadiran()
     {
         $absen = Presensi::all();
         return view('admin.kehadiran', compact('absen'));
+    }
+
+    public function presensiValid(Request $request){
+        $request->validate([
+            'latitude' => 'required',
+            'longitude' => 'required',
+        ]);
+
+        $settings = Setting::first();
+        $latSekolah = $settings->latitude;
+        $longSekolah = $settings->longitude;
+
+        $distance = $this->calculateDistance(
+            $request->latitude,
+            $request->longitude,
+            floatval($latSekolah), floatval($longSekolah)
+        );
+
+        return [
+            "valid" => $distance <= 1000,
+            "distance" => round($distance / 1000, 2)
+        ];
+    }
+
+    public function presensiValidSiswa(Request $request){
+        $request->validate([
+            'latitude' => 'required',
+            'longitude' => 'required',
+        ]);
+
+        $settings = Setting::first();
+        $latSekolah = $settings->latitude;
+        $longSekolah = $settings->longitude;
+
+        $distance = $this->calculateDistance(
+            $request->latitude,
+            $request->longitude,
+            floatval($latSekolah), floatval($longSekolah)
+        );
+
+        return [
+            "valid" => $distance <= 1000,
+            "distance" => round($distance / 1000, 2)
+        ];
     }
 }

@@ -103,7 +103,7 @@ class UserController extends Controller
     {
         $user = User::findorfail($id);
         if ($user->roles == 'Admin') {
-            if ($user->id == Auth::user()->id) {
+            if ($user->id == Auth()->user()->id) {
                 $user->delete();
                 return redirect()->back()->with('warning', 'Data user berhasil dihapus!');
             } else {

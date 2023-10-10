@@ -241,9 +241,9 @@
       <ul class="sidebar-menu">
         <li class="header" style="background-color: #a2c4c9;">MAIN NAVIGATION</li>
         <li class="{{ Request::is('home*') == true  ? 'active' : '' }}"><a href="{{ url('/soal') }}"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
-        @if(Auth::user()->roles == 'Admin')
+        {{-- @if(Auth::user()->roles == 'Admin')
             <li class="{{Request::is('/laporan*') == true  ? 'active' : '' }}"><a href="{{ url('/laporan') }}"><i class="fa fa-print"></i>Nilai Laporan Ulangan</a></li>
-        @endif
+        @endif --}}
       </ul>
     </section>
     <!-- /.sidebar -->

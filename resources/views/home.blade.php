@@ -48,8 +48,8 @@
                         <tr>
                           <td>{{ $data->jam_mulai.' - '.$data->jam_selesai }}</td>
                           <td>
-                              <h5 class="card-title">{{ $data->mapels['nama_mapel'] }}</h5>
-                              <p class="card-text"><small class="text-muted">{{ $data->gurus['nama_guru'] }}</small></p>
+                              <h5 class="card-title">{{ $data->mapel->nama_mapel }}</h5>
+                              <p class="card-text"><small class="text-muted">{{ $data->guru->nama_guru }}</small></p>
                           </td>
                           <td>{{ $data->kelas->kelas}}</td>
                           <td>{{ $data->kelas->tipe_kelas}}</td>
@@ -97,13 +97,13 @@
           </h3>
         </div>
         <div class="card-body">
-          <div class="tab-content p-0" style="font-weight: bold; text-align: center;">
-            {!! $pengumuman['judul_pengumuman'] !!}
-          </div>
-          <br>
-          <div class="tab-content p-0">
+            <div class="tab-content p-0" style="font-weight: bold; text-align: center;">
+                {!! $pengumuman['judul_pengumuman'] !!}
+            </div>
+            <div class="tab-content p-0">
             {!! $pengumuman['isi_pengumuman'] !!}
-          </div>
+            </div>
+          <br>
         </div>
       </div>
     </div>
@@ -203,7 +203,7 @@
               }
             }
           }
-        }, 60 * 1000);
+        }, 60 * 1);
       });
 
       $("#Dashboard").addClass("active");
