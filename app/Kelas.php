@@ -31,7 +31,7 @@ class Kelas extends Model
 
     public function kelas()
     {
-    return $this->belongsTo('App\Kelas', 'id');
+        return $this->belongsTo('App\Kelas', 'kelas_id');
     }
 
 }

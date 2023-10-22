@@ -285,7 +285,6 @@
 					ulangans_id: ulangans_id
 				},
 				success: function(data) {
-					console.log(data);
 					if (data == 1) {
 						$("#notif-essay").html('Jawaban berhasil disimpan.').show();
 					}

@@ -166,7 +166,7 @@ $(document).ready(function (){
         $("#wrap-btn").show();
         if (data == 'ok') {
           $("#notif-soal").removeClass('alert alert-danger').addClass('alert alert-info').html("Soal berhasil disimpan.").show();
-          window.location.href = "{{ url('/soal/detail/'.$soal->id) }}";
+          window.location.href = "{{ url('/soal') }}";
         }else{
           $("#notif-soal").removeClass('alert alert-info').addClass('alert alert-danger').html(data).show();
         }

@@ -1,7 +1,7 @@
 @extends('template_backend.home')
-@section('heading', 'Data Permohonan')
+@section('heading', 'Data Permohonan Siswa')
 @section('page')
-  <li class="breadcrumb-item active">Data Permohonan</li>
+  <li class="breadcrumb-item active">Data Permohonan Siswa</li>
 @endsection
 @section('content')
 <div class="col-md-12">

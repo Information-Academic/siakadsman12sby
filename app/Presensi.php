@@ -9,7 +9,7 @@ class Presensi extends Model
 {
     //
     protected $table = 'presensis';
-    protected $fillable = ['latitude','longitude','distance','kehadirans_id','users_id'];
+    protected $fillable = ['latitude','longitude','distance','users_id'];
 
     public function guru(){
         return $this->belongsTo('App\Guru','gurus_id');

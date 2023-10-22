@@ -8,6 +8,7 @@ use App\Kelas;
 use App\Mapel;
 use App\Rapor;
 use App\Siswa;
+use App\Soal;
 use App\Ulangan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,7 +63,6 @@ class UlanganController extends Controller
 
         $guru = Guru::findorfail($request->gurus_id);
         $cekJadwal = Jadwal::where('gurus_id',$request->gurus_id)->where('kelas_id',$request->kelas_id)->count();
-
         if($cekJadwal >=1){
             if($request->ulha_1 && $request->ulha_2 && $request->uts && $request->ulha_3 && $request->uas){
                 $nilai = ($request->ulha_1 + $request->ulha_2 + $request->uts + $request->ulha_3 + (2 * $request->uas)) / 6;

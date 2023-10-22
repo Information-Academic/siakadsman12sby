@@ -7,6 +7,7 @@ use App\Jadwal;
 use App\Kelas;
 use App\Rapor;
 use App\Siswa;
+use App\SuratPermohonan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -83,8 +84,7 @@ class RaporController extends Controller
         $guru = Guru::where('nip', Auth::user()->nip)->first();
         $kelas = Kelas::findorfail($id);
         $siswa = Siswa::where('kelas_id', $id)->get();
-        $rapor = Rapor::where('catatan',Auth::user()->id)->get();
-        return view('guru.rapor.rapor', compact('guru', 'kelas', 'siswa','rapor'));
+        return view('guru.rapor.rapor', compact('guru', 'kelas', 'siswa'));
     }
 
     /**
@@ -141,13 +141,18 @@ class RaporController extends Controller
         $kelas = Kelas::findorfail($siswa->kelas_id);
         $jadwal = Jadwal::where('kelas_id', $kelas->id)->orderBy('mapels_id')->get();
         $mapel = $jadwal->groupBy('mapels_id');
-        return view('siswa.rapor', compact('siswa', 'kelas', 'mapel'));
+        $rapor = Rapor::where('siswas_id', $siswa->id)->get();
+        $surat = SuratPermohonan::where('users_id', Auth::user()->id)->get();
+        // dd($surat);
+        return view('siswa.rapor', compact('siswa', 'kelas', 'mapel','rapor','surat'));
     }
 
-    public function tambahkanCatatan(Request $request){
-        $rapor = Rapor::findorfail($request->id);
-        $rapor->catatan = $request->catatan;
-        $rapor->save();
-        return response()->json(['success' => 'Catatan berhasil ditambahkan!']);
+    public function detailRaporSiswa($id){
+        $id = Crypt::decrypt($id);
+        $siswa = Siswa::where('nis', Auth::user()->nis)->first();
+        $kelas = Kelas::findorfail($siswa->kelas_id);
+        $jadwal = Jadwal::where('kelas_id', $kelas->id)->orderBy('mapels_id')->get();
+        $mapel = $jadwal->groupBy('mapels_id');
+        return view('siswa.detailrapor', compact('siswa','kelas','mapel'));
     }
 }

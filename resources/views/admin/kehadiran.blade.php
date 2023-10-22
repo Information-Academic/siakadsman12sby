@@ -14,27 +14,33 @@
                 <tr>
                     <th>No.</th>
                     <th>Nama</th>
+                    <th>NIS</th>
+                    <th>NIP</th>
                     <th>Tanggal</th>
-                    <th>Status & Jarak</th>
+                    <th>Status</th>
                     <th>Roles</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($absen as $data)
+                @if ($data->distance <=1000)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{$data->user->nama_depan. ' '.$data->user->nama_belakang}}</td>
+                    <td>{{$data->user->nis}}</td>
+                    <td>{{$data->user->nip}}</td>
                     <td>{{ date('l, d F Y', strtotime($data->created_at)) }}</td>
                     <td>
-                        @if ($data->distance <= 10)
-                            <span class="badge badge-success">Hadir dengan jarak {{number_format($data->distance)}} m</span>
-                        @else
-                            <span class="badge badge-danger">Tidak Hadir. Jarak sekolah dengan user {{number_format($data->distance)}} m</span>
+                        @if ($data->distance <= 1000)
+                            <span class="badge badge-success">Hadir dengan jarak {{number_format($data->distance)}} KM</span>
+                        {{-- @else
+                            <span class="badge badge-danger">Tidak Hadir. Jarak sekolah dengan user {{number_format($data->distance)}} KM</span> --}}
                         @endif
                     </td>
                     {{-- <td>{{$data->kehadiran->keterangan}}</td> --}}
                     <td>{{$data->user->roles}}</td>
                 </tr>
+                @endif
                 @endforeach
             </tbody>
           </table>

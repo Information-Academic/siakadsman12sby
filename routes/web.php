@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/ulangan/siswa', 'UlanganController@siswa')->name('ulangan.siswa');
         Route::get('/rapor/siswa', 'RaporController@siswa')->name('rapor.siswa');
         Route::get('/presensi/validsiswa','PresensiController@presensiValidSiswa')->name('presensiValidSiswa');
+        Route::get('/detailraporsiswa/{id}','RaporController@detailRaporSiswa')->name('detailraporsiswa');
 
 	    Route::get('ujian', 'SiswaController@ujian')->name('soal.ujian');
 	    Route::get('ujian/get-detail-essay', 'SiswaController@getDetailEssay');
@@ -73,10 +74,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/guru/suratpermohonan','GuruController@suratpermohonan')->name('guru.suratpermohonan');
         Route::post('/suratpermohonan/store','GuruController@suratPermohonanStore')->name('guru.suratPermohonanStore');
         Route::get('/status','GuruController@status')->name('status.guru');
-        Route::get('/showraporsiswa/{id}','RaporController@showDetailRapor')->name('showraporsiswa');
-        Route::post('/rapor/tambahkancatatan','RaporController@tambahkanCatatan')->name('tambahkanCatatan');
         Route::get('/presensi/valid','PresensiController@presensiValid')->name('presensiValid');
-
         Route::resource('/ulangan', 'UlanganController');
         Route::resource('/rapor', 'RaporController');
     });

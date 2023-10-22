@@ -79,6 +79,8 @@
                         <tr>
                             <th class="ctr">KKM</th>
                             <th class="ctr">Nilai</th>
+                            <th class="ctr">Predikat</th>
+                            <th class="ctr">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -93,6 +95,17 @@
                                     @endphp
                                     <td class="ctr">75</td>
                                     <td class="ctr">{{ $data->cekRapot($jsonData)['nilai_rapor'] }}</td>
+                                    <td class="ctr">
+                                        @if ( $data->cekRapot($jsonData)['nilai_rapor ']> 88)
+                                        <div class="text-center">A (Sangat Baik)</div>
+                                        @elseif ( $data->cekRapot($jsonData)['nilai_rapor'] > 79 && $data->cekRapot($jsonData)['nilai_rapor'] <=88)
+                                        <div class="text-center">B (Baik)</div>
+                                        @elseif ( $data->cekRapot($jsonData)['nilai_rapor'] > 70 && $data->cekRapot($jsonData)['nilai_rapor'] <=79)
+                                        <div class="text-center">C (Cukup)</div>
+                                        @else
+                                        <div class="text-center">D (Kurang)</div>
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                     </tbody>

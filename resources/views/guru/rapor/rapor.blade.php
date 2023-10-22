@@ -35,11 +35,6 @@
                         <td>:</td>
                         <td>{{ $guru->mapel->nama_mapel }}</td>
                     </tr>
-                    <tr>
-                        <td>Guru Mata Pelajaran</td>
-                        <td>:</td>
-                        <td>{{ $guru->nama_guru }}</td>
-                    </tr>
                     @php
                         $bulan = date('m');
                         $tahun = date('Y');
@@ -82,17 +77,16 @@
                             <th class="ctr" >KKM Nilai</th>
                             <th class="ctr">Nilai</th>
                             <th class="ctr">Predikat</th>
-                            {{-- <th class="ctr">Catatan Wali Kelas</th> --}}
                         </tr>
                         </tr>
                     </thead>
                     <tbody>
-                        <form action="" method="post" id="formRapot">
-                            @csrf
-                            <input type="hidden" name="gurus_id" value="{{$guru->id}}">
-                            <input type="hidden" name="kelas_id" value="{{$kelas->id}}">
-                            @foreach ($siswa as $data)
-                                <input type="hidden" name="siswas_id" value="{{$data->id}}">
+                        {{-- <form action="" method="post" id="formRapot"> --}}
+                            {{-- @csrf --}}
+                            {{-- <input type="hidden" name="gurus_id" value="{{$guru->id}}">
+                            <input type="hidden" name="kelas_id" value="{{$kelas->id}}"> --}}
+                            @foreach ($siswa as $val => $data)
+                                {{-- <input type="hidden" name="siswas_id" value="{{$data->id}}"> --}}
                                 <tr>
                                     <td class="ctr">{{ $loop->iteration }}</td>
                                     <td>{{ $data->nama_siswa }}</td>
@@ -116,39 +110,10 @@
                                                 <div class="text-center">D (Kurang)</div>
                                             @endif
                                         </td>
-                                        {{-- <td class="ctr">
-                                            <i class="fas fa-check" style="font-weight:bold;"></i>
-                                        </td> --}}
-                                        {{-- <td class="ctr">
-
-                                            <div class="text-center">{{strtoupper($data->nama_siswa)}} {{ $data->catatan }}</div>
-                                        </td> --}}
-                                    @else
-                                        <td class="ctr">
-                                            <div class="text-center"></div>
-                                        </td>
-                                        <td class="ctr">
-                                            <div class="text-center"></div>
-                                        </td>
-                                        <td class="ctr">
-                                            <input type="text" name="kkm_nilai" maxlength="2" onkeypress="return inputAngka(event)" class="form-control text-center nilai_{{$data->id}}" data-ids="{{$data->id}}">
-                                            <div class="knilai_{{$data->id}} text-center"></div>
-                                        </td>
-                                        {{-- <td class="ctr sub_{{$data->id}}">
-                                            <button type="button" id="submit-{{$data->id}}" class="btn btn-default btn_click" data-id="{{$data->id}}"><i class="nav-icon fas fa-save"></i></button>
-                                        </td> --}}
                                     @endif
                                 </tr>
                             @endforeach
-                        </form>
-                        {{-- <form action="" method="get">
-                            @csrf
-                            <div class="form-group">
-                                <label for="catatan">Catatan Wali Kelas:</label>
-                                <textarea class="textarea @error('catatan') is-invalid @enderror" name="catatan" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                                <button name="submit" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> &nbsp; Tambahkan catatan wali kelas </button>
-                        </div>
-                        </form> --}}
+                        {{-- </form> --}}
                     </tbody>
                 </table>
             </div>

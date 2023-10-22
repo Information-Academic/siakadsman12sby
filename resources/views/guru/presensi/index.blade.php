@@ -12,28 +12,30 @@
                 <tr>
                     <th>No</th>
                     <th>Tanggal Absen</th>
-                    <th>Jarak(KM)</th>
+                    {{-- <th>Jarak(KM)</th> --}}
                     <th>Status Oleh Sistem</th>
                     {{-- <th style="height: 10px;">Keterangan</th> --}}
                 </tr>
             </thead>
             <tbody>
                 @foreach ($presensi as $data)
+                    @if ($data->distance <= 1000)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $data->created_at->isoFormat('D MMMM Y') }}</td>
-                        <td>{{ number_format($data->distance / 1000, 2, ',', '.') }}</td>
+                        {{-- <td>{{ number_format($data->distance / 1000, 2, ',', '.') }}</td> --}}
                         <td>
                             @if ($data->distance <= 1000)
                                 <span class="badge badge-success">Hadir</span>
-                            @elseif($data->distance > 1000 && $data->distance <= 100000)
+                            {{-- @elseif($data->distance > 1000 && $data->distance <= 2000)
                                 <span class="badge badge-warning">Terlambat</span>
                             @else
-                                <span class="badge badge-danger">Tidak Hadir</span>
+                                <span class="badge badge-danger">Tidak Hadir</span> --}}
                             @endif
                         </td>
                         {{-- <td>{{ $data->kehadiran->keterangan }}</td> --}}
                     </tr>
+                    @endif
                 @endforeach
             </tbody>
           </table>
@@ -79,27 +81,6 @@
             </iframe>
         </div>
         <div class="card-footer">
-            {{-- @if (
-                $presensi->count() > 0 &&
-                $presensi->last()->created_at->isoFormat('D MMMM Y') == \Carbon\Carbon::now()->isoFormat('D MMMM Y') &&
-                $presensi->last()->distance <= 1)
-                <button name="submit" class="btn btn-primary" disabled><i class="nav-icon fas fa-save"></i> &nbsp; Presensi Sekarang </button>
-                <span class="badge badge-success">Hadir</span>
-
-            @elseif(
-                $presensi->count() > 0 &&
-                $presensi->last()->created_at->isoFormat('D MMMM Y') == \Carbon\Carbon::now()->isoFormat('D MMMM Y') &&
-                $presensi->last()->distance > 1 &&
-                $presensi->last()->distance <= 10)
-                <button name="submit" class="btn btn-primary" disabled><i class="nav-icon fas fa-save"></i> &nbsp; Presensi Sekarang </button>
-                <span class="badge badge-warning">Terlambat</span>
-            @elseif(
-                $presensi->count() > 0 &&
-                $presensi->last()->created_at->isoFormat('D MMMM Y') == \Carbon\Carbon::now()->isoFormat('D MMMM Y') &&
-                $presensi->last()->distance > 10)
-                <button name="submit" class="btn btn-primary" disabled><i class="nav-icon fas fa-save"></i> &nbsp; Presensi Sekarang </button>
-                <span class="badge badge-danger">Tidak Hadir</span>
-            @endif --}}
             <p id="teks-lokasi">Sedang mendapatkan lokasi Anda...</p>
             <button name="submit" class="btn btn-primary" id="presensi">
                 <i class="nav-icon fas fa-save"></i>
@@ -120,7 +101,6 @@
         navigator.geolocation.getCurrentPosition(function(position) {
             let lat = position.coords.latitude;
             let lng = position.coords.longitude;
-            console.log(`geolocation.getcp ${lat},${lng}`)
 
             document.getElementById('latitude').value = lat;
             document.getElementById('longitude').value = lng;
@@ -137,9 +117,11 @@
                 success: function(data){
                     if (data.valid == false) {
                         $("#teks-lokasi").text("Jarak Anda Sekarang (" + data.distance + " KM) melebihi batas presensi 1KM")
-                        $('#teks-btn-presensi').text("Presensi Sekarang (Tidak Hadir)")
+                        $('#presensi').hide()
                     } else {
                         $("#teks-lokasi").text("Jarak Anda Sekarang " + data.distance + " KM")
+                        $('#teks-btn-presensi').text("Presensi Sekarang (Hadir)")
+                        $('#presensi').prop('disabled', false)
                     }
                 }
             });

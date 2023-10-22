@@ -63,6 +63,48 @@
                             @endif
                         </td>
                     </tr>
+                    <tr>
+                        <td>Sakit</td>
+                        <td>:</td>
+                        <td>
+                           @if ($surat['0']['kehadirans_id'] == '3')
+                               {{$surat->count()}} hari
+                            @else
+                                {{'0'}} hari
+                           @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izin</td>
+                        <td>:</td>
+                        <td>
+                            @if ($surat['1']['kehadirans_id'] == '2')
+                                {{$surat->count()}} hari
+                            @else
+                                {{'0'}} hari
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Tanpa Keterangan</td>
+                        <td>:</td>
+                        <td>
+                            @if ($surat['1']['kehadirans_id'] == '2')
+                                {{$surat->count()}} hari
+                            @else
+                                {{'0'}} hari
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Catatan Wali Kelas</td>
+                        <td>:</td>
+                        <td>
+                            @foreach ($rapor as $r)
+                            {{ strtoupper(Auth::user()->nama_depan. ' '.Auth::user()->nama_belakang)}} {{$r->catatan}}
+                            @endforeach
+                        </td>
+                    </tr>
                 </table>
                 <hr>
             </div>
@@ -78,6 +120,7 @@
                                     <th rowspan="2">KKM</th>
                                     <th rowspan="2">Nilai</th>
                                     <th rowspan="2">Predikat</th>
+                                    <th rowspan="2">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -98,6 +141,9 @@
                                             @else
                                                 <div class="text-center">D (Kurang)</div>
                                             @endif
+                                        </td>
+                                        <td class="ctr">
+                                            <a href="{{route('detailraporsiswa',Crypt::encrypt($val))}}" class="text-center" type="button">Detail Nilai</a>
                                         </td>
                                     </tr>
                                 @endforeach

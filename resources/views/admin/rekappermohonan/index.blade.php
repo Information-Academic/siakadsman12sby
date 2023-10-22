@@ -12,6 +12,8 @@
                 <tr>
                     <th>Tanggal</th>
                     <th>Nama</th>
+                    <th>NIS</th>
+                    <th>NIP</th>
                     <th>Keterangan</th>
                     <th>Alasan</th>
                     <th>Roles</th>
@@ -22,6 +24,16 @@
                 <tr>
                     <td>{{$data->created_at->format('d M Y')}}</td>
                     <td>{{ $data->user->nama_depan }} {{$data->user->nama_belakang}}</td>
+                    @if ($data->user->nis)
+                    <td>{{$data->user->nis}}</td>
+                    @else
+                    <td>-</td>
+                    @endif
+                    @if ($data->user->nip)
+                    <td>{{$data->user->nip}}</td>
+                    @else
+                    <td>-</td>
+                    @endif
                     <td>{{ $data->kehadiran->keterangan }}</td>
                     <td> {!! $data->alasan !!}</td>
                     <td>{{$data->user->roles}}</td>

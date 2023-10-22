@@ -12,28 +12,29 @@
                 <tr>
                     <th>No</th>
                     <th>Tanggal Absen</th>
-                    <th>Jarak(KM)</th>
                     <th>Status Oleh Sistem</th>
                     {{-- <th style="height: 10px;">Keterangan Kehadiran</th> --}}
                 </tr>
             </thead>
             <tbody>
                 @foreach ($presensi as $data)
+                    @if ($data->distance <= 1000)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $data->created_at->isoFormat('D MMMM Y') }}</td>
-                        <td>{{ number_format($data->distance / 1000, 2, ',', '.') }}</td>
+                        {{-- <td>{{ number_format($data->distance / 1000, 2, ',', '.') }}</td> --}}
                         <td>
                             @if ($data->distance <= 1000)
                                 <span class="badge badge-success">Hadir</span>
-                            @elseif($data->distance > 1000 && $data->distance <= 10000)
+                            {{-- @elseif($data->distance > 1000 && $data->distance <= 2000)
                                 <span class="badge badge-warning">Terlambat</span>
                             @else
-                                <span class="badge badge-danger">Tidak Hadir</span>
+                                <span class="badge badge-danger">Tidak Hadir</span> --}}
                             @endif
                         </td>
                         {{-- <td>{{ $data->kehadiran->keterangan }}</td> --}}
                     </tr>
+                    @endif
                 @endforeach
             </tbody>
           </table>
@@ -68,7 +69,7 @@
                     <label for="">Apabila ingin membuat surat permohonan maka tidak perlu presensi hari ini!</label>
                 </div>
                 <div class="form-group">
-                    <a href="{{route('guru.suratpermohonan')}}"> Ajukan untuk membuat surat izin / sakit </a>
+                    <a href="{{route('siswa.suratpermohonan')}}"> Ajukan untuk membuat surat izin / sakit </a>
                 </div>
             </div>
             <iframe
@@ -92,14 +93,13 @@
 @endsection
 @section('script')
     <script>
-        $("#AbsenGuru").addClass("active");
+        $("#AbsenSiswa").addClass("active");
     </script>
      <script>
         // Ambil geolocation pengguna
         navigator.geolocation.getCurrentPosition(function(position) {
             let lat = position.coords.latitude;
             let lng = position.coords.longitude;
-            console.log(`geolocation.getcp ${lat},${lng}`)
 
             document.getElementById('latitude').value = lat;
             document.getElementById('longitude').value = lng;
@@ -116,9 +116,12 @@
                 success: function(data){
                     if (data.valid == false) {
                         $("#teks-lokasi").text("Jarak Anda Sekarang (" + data.distance + " KM) melebihi batas presensi 1KM")
-                        $('#teks-btn-presensi').text("Presensi Sekarang (Tidak Hadir)")
+                        // $('#teks-btn-presensi').text("Presensi Sekarang (Tidak Hadir)")
+                        $('#presensi').hide()
                     } else {
                         $("#teks-lokasi").text("Jarak Anda Sekarang " + data.distance + " KM")
+                        $('#teks-btn-presensi').text("Presensi Sekarang (Hadir)")
+                        $('#presensi').attr('disabled', false)
                     }
                 }
             });

@@ -339,6 +339,7 @@ class SiswaController extends Controller
     $user = User::where('id', Auth()->user()->id)->first();
     $distribusi = DistribusiSoal::all();
     $kelas = Kelas::all();
+    // dd($kelas2);
     return view('halaman-siswa.ujian', compact('user', 'distribusi','kelas'));
     }
 
@@ -364,7 +365,7 @@ class SiswaController extends Controller
     if ($request->jawab == '' || $request->jawab == null) {
       return '';
     }
-    $check_jawaban = JawabanEssay::where('users_id', auth()->user()->id)->where('detailsoalessays_id', $request->ulangans_id)->first();
+    $check_jawaban = JawabanEssay::where('users_id', Auth::user()->id)->where('detailsoalessays_id', $request->ulangans_id)->first();
     if (!$check_jawaban) {
       $save = new JawabanEssay();
       $save->detailsoalessays_id = $request->ulangans_id;

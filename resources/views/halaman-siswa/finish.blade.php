@@ -26,6 +26,7 @@
 	    		<p style="color: #848383; font-size: 14pt; margin: 0"><small>Nilai yang kamu dapat:</small> <b>{{ number_format($nilai) }}</b></p>
 	    		<p style="color: #848383; font-size: 14pt; margin: 0">
 	    			Nilai kamu sudah keluar, {{Auth::user()->nama_depan}} {{Auth::user()->nama_belakang}}. Dan jangan lupa selalu belajar dengan giat ya!
+                    <p style="color: #848383; font-size: 14pt; margin: 0"><small>Untuk soal essay, akan dicek secara manual oleh guru yang mengadakan ujian ya.</small></p>
 	    		</p>
 	    	</center>
 	    </div>

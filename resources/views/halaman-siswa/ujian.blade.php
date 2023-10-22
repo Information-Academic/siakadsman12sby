@@ -48,7 +48,7 @@
 					              <div class="progress">
 					                <div class="progress-bar" style="width: 100%"></div>
 					              </div>
-                                  <span class="progress-description">Kelas {{$kelas['3']['kelas']}} {{$kelas['2']['tipe_kelas']}}</span>
+                                  <span class="progress-description">Kelas {{$kelas['3']['kelas']}} {{$kelas['0']['tipe_kelas']}}</span>
 				                <span class="progress-description">Waktu Pengerjaan: {{ $paket_soal->soal->waktu }} menit</span>
 					            </div>
 					          </div>
