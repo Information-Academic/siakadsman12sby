@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Guru;
 use App\Jadwal;
+use App\JawabanEssay;
 use App\Kelas;
 use App\Rapor;
 use App\Siswa;
@@ -11,6 +12,7 @@ use App\SuratPermohonan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class RaporController extends Controller
 {
@@ -52,7 +54,7 @@ class RaporController extends Controller
         $guru = Guru::findorfail($request->gurus_id);
         $cekJadwal = Jadwal::where('gurus_id', $guru->id)->where('kelas_id', $request->kelas_id)->count();
         if ($cekJadwal >= 1) {
-            Rapor::updateOrCreate(
+            Rapor::create(
                 [
                     'id' => $request->id
                 ],
@@ -63,6 +65,7 @@ class RaporController extends Controller
                     'mapels_id' => $guru->mapels_id,
                     'kkm_nilai' => $request->kkm_nilai,
                     'nilai_rapor' => $request->nilai_rapor,
+                    'catatan' => $request->catatan
                 ]
             );
             return response()->json(['success' => 'Nilai rapor siswa berhasil ditambahkan!']);
@@ -77,14 +80,15 @@ class RaporController extends Controller
      * @param  \App\Rapor  $rapor
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
         //
         $id = Crypt::decrypt($id);
         $guru = Guru::where('nip', Auth::user()->nip)->first();
         $kelas = Kelas::findorfail($id);
         $siswa = Siswa::where('kelas_id', $id)->get();
-        return view('guru.rapor.rapor', compact('guru', 'kelas', 'siswa'));
+        $rapor = Rapor::where('siswas_id',$id)->get();
+        return view('guru.rapor.rapor', compact('guru', 'kelas', 'siswa','rapor'));
     }
 
     /**
@@ -142,9 +146,23 @@ class RaporController extends Controller
         $jadwal = Jadwal::where('kelas_id', $kelas->id)->orderBy('mapels_id')->get();
         $mapel = $jadwal->groupBy('mapels_id');
         $rapor = Rapor::where('siswas_id', $siswa->id)->get();
-        $surat = SuratPermohonan::where('users_id', Auth::user()->id)->get();
-        // dd($surat);
-        return view('siswa.rapor', compact('siswa', 'kelas', 'mapel','rapor','surat'));
+        DB::statement("SET SQL_MODE=''");
+        $surat = SuratPermohonan::select(DB::raw('count(surats.kehadirans_id) AS kehadiranSiswa,kehadirans.keterangan'))
+        ->join('kehadirans','kehadirans.id','=','surats.kehadirans_id')
+        ->where('surats.users_id', Auth::user()->id)
+        ->where('kehadirans.keterangan','=','Sakit')
+        ->orderBy('kehadirans.keterangan','ASC')
+        ->groupBy('kehadirans.keterangan');
+
+        $surat2 = SuratPermohonan::select(DB::raw('count(surats.kehadirans_id) AS hadirSiswa,kehadirans.keterangan'))
+        ->join('kehadirans','kehadirans.id','=','surats.kehadirans_id')
+        ->where('surats.users_id', Auth::user()->id)
+        ->where('kehadirans.keterangan','=','Izin')
+        ->orderBy('kehadirans.keterangan','ASC')
+        ->groupBy('kehadirans.keterangan');
+        // dd($surat2);
+
+        return view('siswa.rapor', compact('siswa', 'kelas', 'mapel','rapor','surat','surat2'));
     }
 
     public function detailRaporSiswa($id){
@@ -154,5 +172,39 @@ class RaporController extends Controller
         $jadwal = Jadwal::where('kelas_id', $kelas->id)->orderBy('mapels_id')->get();
         $mapel = $jadwal->groupBy('mapels_id');
         return view('siswa.detailrapor', compact('siswa','kelas','mapel'));
+    }
+
+    public function catatan(Request $request){
+        if($request->siswas_id != null){
+            $rapor = Rapor::where('siswas_id', $request->siswas_id)->first();
+            if($rapor != null){
+                $rapor->catatan = $request->catatan;
+                $rapor->save();
+                return response()->json(['success' => 'Catatan berhasil diubah!']);
+            }else{
+                $rapor = new Rapor();
+                $rapor->siswas_id = $request->siswas_id;
+                $rapor->catatan = $request->catatan;
+                $rapor->save();
+                return response()->json(['success' => 'Catatan berhasil ditambahkan!']);
+            }
+        }
+    }
+
+    public function kesimpulan(Request $request){
+        if($request->siswas_id != null){
+            $rapor = Rapor::where('siswas_id', $request->siswas_id)->first();
+            if($rapor != null){
+                $rapor->kesimpulan = $request->kesimpulan;
+                $rapor->save();
+                return response()->json(['success' => 'Kesimpulan berhasil diubah!']);
+            }else{
+                $rapor = new Rapor();
+                $rapor->siswas_id = $request->siswas_id;
+                $rapor->kesimpulan = $request->kesimpulan;
+                $rapor->save();
+                return response()->json(['success' => 'Kesimpulan berhasil ditambahkan!']);
+            }
+        }
     }
 }

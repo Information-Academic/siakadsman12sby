@@ -97,6 +97,9 @@ class DetailSoalEssayController extends Controller
         ->editColumn('soal', function ($soal_essays) {
           return $soal_essays->soal ?? '-';
         })
+        ->editColumn('nilai', function ($soal_essays) {
+            return $soal_essays->nilai ?? '-';
+        })
         ->editColumn('status', function ($soal_essays) {
           if ($soal_essays->status == 'Y') {
             return "<center><span class='label label-success'>Tampil</span></center>";
@@ -109,7 +112,7 @@ class DetailSoalEssayController extends Controller
         ->addColumn('action', function ($soal_essays) {
           return '<div style="text-align:center"><a href="../essay/' . $soal_essays->id . '/edit" class="btn btn-success btn-xs">Ubah</a></div>';
         })
-        ->rawColumns(['soal', 'status', 'action'])
+        ->rawColumns(['soal', 'nilai', 'status', 'action'])
         ->make(true);
     }
 }

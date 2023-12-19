@@ -5,15 +5,19 @@ namespace App\Http\Controllers;
 use App\DetailSoal;
 use App\DetailSoalEssay;
 use App\DistribusiSoal;
+use App\Guru;
 use App\Jawaban;
 use App\JawabanEssay;
 use App\Kehadiran;
 use App\Kelas;
 use App\Mapel;
+use App\Nilai;
 use App\Presensi;
+use App\Rapor;
 use App\Siswa;
 use App\Soal;
 use App\SuratPermohonan;
+use App\Ulangan;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -356,7 +360,7 @@ class SiswaController extends Controller
 
     public function getDetailEssay(Request $request)
     {
-    $soal_essay = DetailSoalEssay::with('userJawab')->find($request->ulangans_id);
+    $soal_essay = DetailSoalEssay::with('userJawab')->find($request->detailsoalessays_id);
     return view('halaman-siswa.get_soal_essay', compact('soal_essay'));
     }
 
@@ -365,11 +369,10 @@ class SiswaController extends Controller
     if ($request->jawab == '' || $request->jawab == null) {
       return '';
     }
-    $check_jawaban = JawabanEssay::where('users_id', Auth::user()->id)->where('detailsoalessays_id', $request->ulangans_id)->first();
+    $check_jawaban = JawabanEssay::where('users_id', Auth::user()->id)->where('detailsoalessays_id', $request->detailsoalessays_id)->first();
     if (!$check_jawaban) {
-      $save = new JawabanEssay();
-      $save->detailsoalessays_id = $request->ulangans_id;
-      $save->nilai = $request->nilai;
+      $save = new JawabanEssay;
+      $save->detailsoalessays_id = $request->detailsoalessays_id;
       $save->users_id = auth()->user()->id;
     } else {
       $save = $check_jawaban;
@@ -388,7 +391,7 @@ class SiswaController extends Controller
 
   public function kirimJawaban(Request $request)
   {
-    Jawaban::where('ulangans_id', $request->id_soal)->where('users_id', auth()->user()->id)->update(['status' => 1]);
+    $jawaban = Jawaban::where('ulangans_id', $request->id_soal)->where('users_id', Auth::user()->id)->update(['status' => 1]);
   }
 
   public function jawab(Request $request)
@@ -398,15 +401,15 @@ class SiswaController extends Controller
     $id_detail_soal = $get_jawab[1];
     $id_siswa = $get_jawab[2];
     $detail_soal = DetailSoal::find($id_detail_soal);
+    $jawab = Jawaban::where('ulangans_id', $id_detail_soal)->where('users_id', Auth::user()->id)->first();
 
-    $jawab = Jawaban::where('ulangans_id', $id_detail_soal)->where('users_id', auth()->user()->id)->first();
     if (!$jawab) {
       $jawab = new Jawaban();
     }
     $jawab->id = $id_detail_soal;
     $jawab->ulangans_id = $detail_soal->ulangans_id;
-    $jawab->users_id = auth()->user()->users_id;
-    $jawab->kelas_id = auth()->user()->kelas_id;
+    $jawab->users_id = Auth::user()->id;
+    $jawab->kelas_id = Auth::user()->kelas_id;
     $jawab->nama_depan = auth()->user()->nama_depan;
     $jawab->nama_belakang = auth()->user()->nama_belakang;
     $jawab->pilihan = $pilihan;
@@ -422,11 +425,127 @@ class SiswaController extends Controller
     return 1;
   }
 
-  public function finishUjian($id)
+  public function finishUjian(Request $request, $id)
   {
     $soal = Soal::find($id);
-    $nilai = Jawaban::where('ulangans_id', $id)->sum('nilai');
-    return view('halaman-siswa.finish', compact('soal', 'nilai'));
+    $siswa = Siswa::where('nis',Auth::user()->nis)->first();
+    $kelas = Kelas::find($siswa->kelas_id);
+    $guru = Guru::where('nip', Auth::user()->nip)->first();
+    $nilai = Jawaban::where('ulangans_id', $id)->where('users_id',Auth::user()->id)->sum('nilai');
+    DB::statement("SET SQL_MODE=''");
+    // UPDATE jawabanessays
+    // JOIN detailsoalessays on detailsoalessays.id = jawabanessays.detailsoalessays_id
+    // SET nilai = ()
+    // WHERE jawabanessays.users_id = 11 detailsoalessays.ulangans_id = 1;
+    DB::table('jawabanessays')
+        ->join('detailsoalessays', 'detailsoalessays.id', '=', 'jawabanessays.detailsoalessays_id')
+        ->where([
+            ['detailsoalessays.ulangans_id', '=', $id],
+            ['jawabanessays.users_id', '=', Auth::user()->id]
+        ])
+        ->update([
+            'jawabanessays.nilai' =>
+                DB::raw('(SELECT nilai FROM detailsoalessays WHERE detailsoalessays.id = jawabanessays.detailsoalessays_id)')
+        ]);
+    // SELECT SUM(jawabanessays.nilai)
+    // FROM jawabanessays
+    // JOIN detailsoalessays
+    //     ON detailsoalessays.id = jawabanessays.detailsoalessays_id
+    // WHERE jawabanessays.users_id = 11
+    // AND
+    // detailsoalessays.ulangans_id = 1;
+    $nilaiEssay = DB::table('jawabanessays')
+        ->join('detailsoalessays', 'detailsoalessays.id', '=', 'jawabanessays.detailsoalessays_id')
+        ->where([
+            ['detailsoalessays.ulangans_id', '=', $id],
+            ['jawabanessays.users_id', '=', Auth::user()->id]
+        ])
+        ->sum('jawabanessays.nilai');
+
+    $nilaiSiswa = Ulangan::where('siswas_id', $request->siswas_id)->where('kelas_id', $request->kelas_id)->where('mapels_id',$request->mapels_id)->first();
+    if($nilaiSiswa!=null){
+        $nilaiSiswa->siswas_id = $siswa->id;
+        $nilaiSiswa->mapels_id = $soal->mapels_id;
+        $nilaiSiswa->kelas_id = $kelas->id;
+        if($soal->tipe_ulangan=='UH1'){
+            $nilaiSiswa->ulha_1 = $nilai + $nilaiEssay;
+            if ($nilaiSiswa->ulha_1 > 100) {
+                $nilaiSiswa->ulha_1 = 100;
+            }
+        }
+        if($soal->tipe_ulangan=='UH2'){
+            $nilaiSiswa->ulha_2 = $nilai + $nilaiEssay;
+            if ($nilaiSiswa->ulha_2 > 100) {
+                $nilaiSiswa->ulha_2 = 100;
+            }
+        }
+        if($soal->tipe_ulangan=='UH3'){
+            $nilaiSiswa->ulha_3 = $nilai + $nilaiEssay;
+            if ($nilaiSiswa->ulha_3 > 100) {
+                $nilaiSiswa->ulha_3 = 100;
+            }
+        }
+        if($soal->tipe_ulangan=='UTS'){
+            $nilaiSiswa->uts = $nilai + $nilaiEssay;
+            if ($nilaiSiswa->uts > 100) {
+                $nilaiSiswa->uts = 100;
+            }
+        }
+        if($soal->tipe_ulangan=='UAS'){
+            $nilaiSiswa->uas = $nilai + $nilaiEssay;
+            if ($nilaiSiswa->uas > 100) {
+                $nilaiSiswa->uas = 100;
+            }
+        }
+        $nilaiSiswa->save();
+    }
+    else{
+        $nilaiSiswa = Ulangan::updateOrCreate([
+            'siswas_id' => $siswa->id,
+        ],
+        [
+            'kelas_id' => $kelas->id,
+        ],
+        [
+            'mapels_id' => $soal->mapels_id,
+        ]
+    );
+        $nilaiSiswa->siswas_id = $siswa->id;
+        $nilaiSiswa->mapels_id = $soal->mapels_id;
+        $nilaiSiswa->kelas_id = $kelas->id;
+        if($soal->tipe_ulangan=='UH1'){
+            $nilaiSiswa->ulha_1 = $nilai + $nilaiEssay;
+            if ($nilaiSiswa->ulha_1 > 100) {
+                $nilaiSiswa->ulha_1 = 100;
+            }
+        }
+        if($soal->tipe_ulangan=='UH2'){
+            $nilaiSiswa->ulha_2 = $nilai + $nilaiEssay;
+            if ($nilaiSiswa->ulha_2 > 100) {
+                $nilaiSiswa->ulha_2 = 100;
+            }
+        }
+        if($soal->tipe_ulangan=='UH3'){
+            $nilaiSiswa->ulha_3 = $nilai + $nilaiEssay;
+            if ($nilaiSiswa->ulha_3 > 100) {
+                $nilaiSiswa->ulha_3 = 100;
+            }
+        }
+        if($soal->tipe_ulangan=='UTS'){
+            $nilaiSiswa->uts = $nilai + $nilaiEssay;
+            if ($nilaiSiswa->uts > 100) {
+                $nilaiSiswa->uts = 100;
+            }
+        }
+        if($soal->tipe_ulangan=='UAS'){
+            $nilaiSiswa->uas = $nilai + $nilaiEssay;
+            if ($nilaiSiswa->uas > 100) {
+                $nilaiSiswa->uas = 100;
+            }
+        }
+        $nilaiSiswa->save();
+    }
+    return view('halaman-siswa.finish', compact('soal', 'nilai','nilaiSiswa','nilaiEssay'));
   }
 
   public function suratPermohonan(){
@@ -440,7 +559,7 @@ class SiswaController extends Controller
     ->whereDate('created_at', date('Y-m-d'))
     ->first();
     if($existingPresence){
-        return redirect()->route('siswa.suratpermohonan')->with('error', 'Anda sudah membuat surat permohonan');
+        return redirect()->route('statussiswa.siswa')->with('error', 'Anda sudah membuat surat permohonan');
     }
     $kehadiran = SuratPermohonan::create([
         'kehadirans_id' => $request->kehadirans_id,
@@ -448,7 +567,7 @@ class SiswaController extends Controller
         'users_id' => Auth()->user()->id, // Sesuaikan dengan autentikasi yang Anda gunakan
     ]);
     $kehadiran->save();
-    return redirect()->back()->with('success', 'Berhasil mengajukan surat permohonan!');
+    return redirect()->route('statussiswa.siswa')->with('success', 'Berhasil mengajukan surat permohonan!');
 }
 
 public function statusSiswa(){

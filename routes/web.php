@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DetailSoalEssayController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -75,8 +76,38 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/suratpermohonan/store','GuruController@suratPermohonanStore')->name('guru.suratPermohonanStore');
         Route::get('/status','GuruController@status')->name('status.guru');
         Route::get('/presensi/valid','PresensiController@presensiValid')->name('presensiValid');
+        Route::get('/presensikehadiransiswa', 'PresensiController@presensiKehadiranSiswa')->name('presensikehadiransiswa');
+        Route::get('/ubahstatus/{id}','PresensiController@ubahStatusSiswa')->name('ubahstatussiswa');
         Route::resource('/ulangan', 'UlanganController');
         Route::resource('/rapor', 'RaporController');
+        Route::post('/catatan','RaporController@catatan')->name('rapor.catatan');
+        Route::post('/kesimpulan','RaporController@kesimpulan')->name('rapor.kesimpulan');
+        Route::get('/daftarulangan','GuruController@daftarUlangan')->name('daftarulangan');
+        Route::get('data-siswa', 'GuruController@dataSiswa')->name('guru.data_siswa');
+        Route::get('detail/{id}','GuruController@detailSiswa')->name('guru.detail_siswa');
+        Route::group(['prefix' => 'laporan'], function () {
+            Route::get('/', 'LaporanUlanganController@index')->name('guru.laporan');
+            Route::get('/{id_soal}/{id_user}', 'LaporanUlanganController@detailLaporanSiswa')->name('guru.detailLaporanSiswa');
+            Route::get('hasil-siswa-ulangan', 'LaporanUlanganController@hasilSiswa')->name('guru.hasilSiswa');
+        });
+        Route::get('/essay/simpan-score', 'LaporanUlanganController@simpanScore')->name('guru.simpan-score');
+        Route::group(['prefix' => 'soalsiswa'], function (){
+            Route::get('/soal', 'SoalController@soalUlangan')->name('soalulangan');
+            Route::get('/get-soal', 'SoalController@dataSoalSiswa')->name('datasoalsiswa');
+            Route::get('/ubah/{id}', 'SoalController@ubahSoalSiswa')->name('soalulangan.ubah');
+            Route::get('/detail/ubah/{id}', 'SoalController@ubahDetailSoalSiswa')->name('soalulangan.ubah-detail-soal');
+            Route::get('/detail/{id}', 'SoalController@detailSoalSiswa')->name('soalulangan.detail-soal');
+            Route::get('/detail/data-soal/{id}', 'SoalController@detailDataSoalSiswa')->name('soalulangan.detail-data-soal');
+            Route::get('/get-detail-soal', 'SoalController@dataDetailSoalSiswa')->name('soalulangan.get-detail-soal');
+            Route::post('/essay/data', 'DetailSoalEssaySiswaController@dataSiswa');
+            Route::resource('/essay', 'DetailSoalEssaySiswaController');
+        });
+        Route::group(['prefix' => 'crudsiswa'], function (){
+            Route::post('simpan-soal', 'SoalController@simpanSoalSiswa');
+            Route::post('terbit-soal', 'SoalController@terbitSoalSiswa');
+            Route::post('simpan-detail-soal', 'SoalController@simpanDetailSoalSiswa')->name('crudsiswa.simpan-detail-soal');
+            Route::post('simpan-detail-soal-via-excel', 'SoalController@simpanDetailSoalSiswaExcel');
+        });
     });
 
     Route::middleware(['admin'])->group(function(){
@@ -135,20 +166,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/detail/data-soal/{id}', 'SoalController@detailDataSoal')->name('elearning.detail-data-soal');
             Route::resource('/essay', 'DetailSoalEssayController');
         });
-        Route::group(['prefix' => 'laporan'], function () {
-            Route::get('/', 'LaporanController@index')->name('elearning.laporan');
-            Route::get('/detail-kelas/{id}', 'LaporanController@detailKelas')->name('elearning.laporan');
-            Route::get('data-paket-soal', 'LaporanController@data_paket_soal')->name('elearning.laporan.data_paket_soal');
-            Route::get('detail-kelas/{id_kelas}/paket-soal/{id_soal}', 'LaporanController@detailPaketSoalPerKelas');
-            Route::get('data-kelas-paket-soal', 'LaporanController@dataKelasPaketSoal')->name('elearning.laporan.data_kelas_paket_soal');
-            Route::get('{id_soal}', 'LaporanController@detailLaporanSiswa')->name('elearning.detailLaporanSiswa');
-            Route::get('hasil-siswa', 'LaporanController@hasilSiswa')->name('elearning.hasilSiswa');
-        });
-        Route::group(['prefix' => 'cetak'], function () {
-            Route::get('/pdf/hasil-ujian-persiswa/{siswa}/{soal}', 'LaporanController@pdfHasilUjianPersiswa');
-        });
     });
 });
 
 Route::get('/download-file-format/{filename}', 'DownloadController@download')->name('download');
-

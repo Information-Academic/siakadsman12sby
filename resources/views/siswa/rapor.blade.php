@@ -67,7 +67,7 @@
                         <td>Sakit</td>
                         <td>:</td>
                         <td>
-                           @if ($surat['0']['kehadirans_id'] == '3')
+                           @if ($surat->kehadirans_id='2')
                                {{$surat->count()}} hari
                             @else
                                 {{'0'}} hari
@@ -78,14 +78,14 @@
                         <td>Izin</td>
                         <td>:</td>
                         <td>
-                            @if ($surat['1']['kehadirans_id'] == '2')
-                                {{$surat->count()}} hari
+                            @if ($surat2->kehadirans_id='3')
+                               {{$surat2->count()}} hari
                             @else
                                 {{'0'}} hari
-                            @endif
+                           @endif
                         </td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <td>Tanpa Keterangan</td>
                         <td>:</td>
                         <td>
@@ -95,13 +95,23 @@
                                 {{'0'}} hari
                             @endif
                         </td>
-                    </tr>
+                    </tr> --}}
                     <tr>
                         <td>Catatan Wali Kelas</td>
                         <td>:</td>
                         <td>
                             @foreach ($rapor as $r)
-                            {{ strtoupper(Auth::user()->nama_depan. ' '.Auth::user()->nama_belakang)}} {{$r->catatan}}
+                             {{strtoupper($r->catatan)}}
+                            @endforeach
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Kesimpulan</td>
+                        <td>:</td>
+                        <td>
+                            @foreach ($rapor as $r)
+                             {{strtoupper($r->kesimpulan)}}
                             @endforeach
                         </td>
                     </tr>
@@ -130,7 +140,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $data->mapel->nama_mapel }}</td>
                                         <td class="ctr">75</td>
-                                        <td class="ctr">{{ $data->nilai($val)['nilai_rapor'] }}</td>
+                                        <td class="ctr">{{ round($data->nilai($val)['nilai_rapor'] ,2) }}</td>
                                         <td class="ctr">
                                             @if ( $data->nilai($data->id)['nilai_rapor ']> 88)
                                                 <div class="text-center">A (Sangat Baik)</div>

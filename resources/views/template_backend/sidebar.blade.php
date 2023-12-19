@@ -136,9 +136,23 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{route('presensikehadiransiswa')}}" class="nav-link" id="PresensiKehadiranSiswa">
+                            <i class="nav-icon fas fa-edit"></i>
+                            <p>
+                                Data Presensi Siswa
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ route('status.guru') }}" class="nav-link" id="Status">
                             <i class="fas fa-check nav-icon"></i>
                             <p>Data Permohonan Guru</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('soalulangan') }}" class="nav-link" id="SoalUlangan" target="_blank">
+                            <i class="fas fa-paperclip nav-icon"></i>
+                            <p>Soal Ulangan</p>
                         </a>
                     </li>
                     <li class="nav-item has-treeview" id="liNilaiGuru">
@@ -151,16 +165,17 @@
                         </a>
                         <ul class="nav nav-treeview ml-4">
                             <li class="nav-item">
+                                <a href="{{ route('daftarulangan') }}" class="nav-link" id="DaftarUlanganSiswa" target="_blank">
+                                    <i class="fas fa-file-alt nav-icon"></i>
+                                    <p>Daftar Ulangan Siswa</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('ulangan.index') }}" class="nav-link" id="UlanganGuru">
                                     <i class="fas fa-file-alt nav-icon"></i>
                                     <p>Nilai Ulangan</p>
                                 </a>
                             </li>
-                            {{-- @if (
-                                Auth::user()->guru(Auth::user()->nip)->mapel->nama_mapel == "Pendidikan Agama dan Budi Pekerti" ||
-                                Auth::user()->guru(Auth::user()->nip)->mapel->nama_mapel == "Pendidikan Pancasila dan Kewarganegaraan"
-                            )
-                            @endif --}}
                             <li class="nav-item">
                                 <a href="{{ route('rapor.index') }}" class="nav-link" id="RapotGuru">
                                     <i class="fas fa-file-alt nav-icon"></i>

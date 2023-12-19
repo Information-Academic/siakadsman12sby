@@ -72,9 +72,9 @@ class PresensiController extends Controller
         floatval($latSekolah), floatval($longSekolah)
     );
 
-    if($request->latitude && $request->longitude > $distance){
-        return redirect()->route('presensi.index')->with('error', 'Anda tidak berada di sekolah');
-    }
+    // if($request->latitude && $request->longitude > $distance){
+    //     return redirect()->route('presensi.index')->with('error', 'Anda tidak berada di sekolah');
+    // }
 
     $presensi->distance = $distance;
     $presensi->save();
@@ -122,9 +122,9 @@ class PresensiController extends Controller
         floatval($latSekolah), floatval($longSekolah)
     );
 
-    if($request->latitude && $request->longitude > $distance){
-        return redirect()->route('presensisiswaharian')->with('error', 'Anda tidak berada di sekolah');
-    }
+    // if($request->latitude && $request->longitude > $distance){
+    //     return redirect()->route('presensisiswaharian')->with('error', 'Anda tidak berada di sekolah');
+    // }
 
     $presensi->distance = $distance;
     $presensi->save();
@@ -154,7 +154,7 @@ class PresensiController extends Controller
         );
 
         return [
-            "valid" => $distance <= 1000,
+            "valid" => $distance <= 2,
             "distance" => round($distance / 1000, 2)
         ];
     }
@@ -176,8 +176,21 @@ class PresensiController extends Controller
         );
 
         return [
-            "valid" => $distance <= 1000,
+            "valid" => $distance <= 2,
             "distance" => round($distance / 1000, 2)
         ];
+    }
+
+    public function presensiKehadiranSiswa()
+    {
+        $absen = Presensi::all();
+        return view('guru.kehadiran_siswa', compact('absen'));
+    }
+
+    public function ubahStatusSiswa(Request $request,$id){
+        // session(['status_siswas_id' .$id=> 'Tidak Hadir']);
+        $request->session()->put('siswas_id',$request->all());
+        // dd($presensi);
+        return redirect()->back()->with('success','Tidak Hadir');
     }
 }

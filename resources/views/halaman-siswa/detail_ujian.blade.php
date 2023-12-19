@@ -20,7 +20,7 @@
 		<div class="box-body">
 			<div class="row">
 				<div class="col-sm-12">
-					<h1 style="margin:  0 0 0 0; color: #292e38; font-size: 24pt;">{{ $soal->mapel->nama_mapel }} kelas {{$kelas['0']['kelas']}} {{$kelas['2']['tipe_kelas']}}</h1>
+					<h1 style="margin:  0 0 0 0; color: #292e38; font-size: 24pt;">{{ $soal->mapel->nama_mapel }} kelas {{$kelas['0']['kelas']}} {{$kelas['0']['tipe_kelas']}}</h1>
 					<div id="fsstatus" style="font-size: 14pt; margin: 0 0 20px 0; color: #888c8e"></div>
 					<div style="border: dotted #0723e8; padding: 10px; margin-bottom: 15px;">
 						<table class="table table-striped">
@@ -142,7 +142,7 @@
 						<!-- <td width="33%" align="center"><button class="btn btn-primary">Soal Berikutnya <i class="fa fa-angle-double-right"></i></button></td> -->
 						<td>
 							<button type="button" class="btn pull-left" id="keluar" style="background-image: linear-gradient(to right, #f31515 , #c12704); border: none; color: #fff;" onclick="$('#specialstuff').fullScreen(false)"><i class="fa fa-times-circle" aria-hidden="true"></i> Keluar</button>
-							<button type="button" class="btn pull-right" id="kirim" style="background-image: linear-gradient(to right, #1523f3 , #0495c1); border: none; color: #fff;"><i class="fa fa-paper-plane" aria-hidden="true"></i> Kirim Hasil Ujian</button>
+							<button type="button" class="btn pull-right" id="kirim" style="background-image: linear-gradient(to right, #1523f3 , #0495c1); border: none; color: #fff;"><i class="fa fa-paper-plane" aria-hidden="true" data-id="{{$data->id}}"></i> Kirim Hasil Ujian</button>
 						</td>
 					</tr>
 				</table>
@@ -261,12 +261,12 @@
 		}
 
 		$(document).on('click', '.no_soal_essay', function() {
-			const ulangans_id = $(this).data('id');
+			const detailsoalessays_id = $(this).data('id');
 			$.ajax({
 				url: "{{ url('ujian/get-detail-essay') }}",
 				type: "GET",
 				data: {
-					ulangans_id: ulangans_id
+					detailsoalessays_id: detailsoalessays_id
 				},
 				success: function(data) {
 					$("#wrap-soal").html(data);
@@ -276,13 +276,13 @@
 
 		$(document).on('click', '#simpan-essay', function() {
 			const jawab = $("#jawab").val();
-			const ulangans_id = $(this).data('id');
+			const detailsoalessays_id = $(this).data('id');
 			$.ajax({
 				type: "GET",
 				url: "{{ url('ujian/simpan-jawaban-essay') }}",
 				data: {
 					jawab: jawab,
-					ulangans_id: ulangans_id
+					detailsoalessays_id: detailsoalessays_id
 				},
 				success: function(data) {
 					if (data == 1) {
@@ -321,12 +321,15 @@
 
 		$(document).on('click', '#kirim-jawaban', function() {
 			var $this = $(this);
+            var id = $this.attr('data-id');
 			var id_soal = $this.attr('data-id');
 			$.ajax({
 				type: "POST",
 				url: "{{ url('ujian/kirim-jawaban') }}",
 				data: {
-					id_soal: id_soal
+					id_soal: id_soal,
+                    _token: "{{ csrf_token() }}",
+                    siswas_id: id,
 				},
 				success: function(data) {
 					window.location.href = "{{ url('/ujian/finish/'.$soal->id) }}";

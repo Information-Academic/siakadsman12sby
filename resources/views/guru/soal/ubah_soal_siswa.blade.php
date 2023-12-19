@@ -4,7 +4,7 @@
   <h1>Dashboard</h1>
   <ol class="breadcrumb">
     <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i> Home</a></li>
-    <li><a href="{{ url('/soal') }}">Soal</a></li>
+    <li><a href="{{ url('/soalsiswa') }}">Soal</a></li>
     <li class="active">Ubah data soal</li>
   </ol>
 @endsection
@@ -85,15 +85,14 @@ $(document).ready(function(){
     var dataString = $("#formSoal").serialize();
     $.ajax({
       type: "POST",
-      url: "{{ url('/crud/simpan-soal') }}",
+      url: "{{ url('/crudsiswa/simpan-soal') }}",
       data: dataString,
       success: function(data){
-        console.log(data);
         if (data == 'ok') {
           $("#loading").hide();
           $("#wrap-btn").show();
           $("#notif").removeClass('alert alert-danger').addClass('alert alert-info').html("<i class='fa fa-info-circle'></i> Data berhasil disimpan.").fadeIn(350);
-          window.location.href = "{{ url('/soal/detail/'.$soal->id) }}";
+          window.location.href = "{{ url('/soalsiswa/soal') }}";
         }else{
           $("#loading").hide();
           $("#wrap-btn").show();

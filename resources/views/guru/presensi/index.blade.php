@@ -19,13 +19,13 @@
             </thead>
             <tbody>
                 @foreach ($presensi as $data)
-                    @if ($data->distance <= 1000)
+                    @if ($data->distance <= 0.0002)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $data->created_at->isoFormat('D MMMM Y') }}</td>
                         {{-- <td>{{ number_format($data->distance / 1000, 2, ',', '.') }}</td> --}}
                         <td>
-                            @if ($data->distance <= 1000)
+                            @if ($data->distance <= 0.0002)
                                 <span class="badge badge-success">Hadir</span>
                             {{-- @elseif($data->distance > 1000 && $data->distance <= 2000)
                                 <span class="badge badge-warning">Terlambat</span>
@@ -116,10 +116,10 @@
                 data: { latitude: lat, longitude: lng },
                 success: function(data){
                     if (data.valid == false) {
-                        $("#teks-lokasi").text("Jarak Anda Sekarang (" + data.distance + " KM) melebihi batas presensi 1KM")
+                        $("#teks-lokasi").text("Jarak Anda Sekarang (" + data.distance + " KM) melebihi batas presensi 2 meter")
                         $('#presensi').hide()
                     } else {
-                        $("#teks-lokasi").text("Jarak Anda Sekarang " + data.distance + " KM")
+                        $("#teks-lokasi").text("Jarak Anda Sekarang " + data.distance + " M")
                         $('#teks-btn-presensi').text("Presensi Sekarang (Hadir)")
                         $('#presensi').prop('disabled', false)
                     }

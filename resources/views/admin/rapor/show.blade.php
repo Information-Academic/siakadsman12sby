@@ -80,7 +80,7 @@
                             <th class="ctr">KKM</th>
                             <th class="ctr">Nilai</th>
                             <th class="ctr">Predikat</th>
-                            <th class="ctr">Aksi</th>
+                            {{-- <th class="ctr">Aksi</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -94,7 +94,7 @@
                                         $jsonData = json_encode($array);
                                     @endphp
                                     <td class="ctr">75</td>
-                                    <td class="ctr">{{ $data->cekRapot($jsonData)['nilai_rapor'] }}</td>
+                                    <td class="ctr">{{ round($data->cekRapot($jsonData)['nilai_rapor'] ,2) }}</td>
                                     <td class="ctr">
                                         @if ( $data->cekRapot($jsonData)['nilai_rapor ']> 88)
                                         <div class="text-center">A (Sangat Baik)</div>

@@ -77,27 +77,23 @@
                             <th class="ctr" >KKM Nilai</th>
                             <th class="ctr">Nilai</th>
                             <th class="ctr">Predikat</th>
+                            <th class="ctr">Catatan Wali Kelas</th>
+                            <th class="ctr">Kesimpulan</th>
                         </tr>
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- <form action="" method="post" id="formRapot"> --}}
-                            {{-- @csrf --}}
-                            {{-- <input type="hidden" name="gurus_id" value="{{$guru->id}}">
-                            <input type="hidden" name="kelas_id" value="{{$kelas->id}}"> --}}
                             @foreach ($siswa as $val => $data)
-                                {{-- <input type="hidden" name="siswas_id" value="{{$data->id}}"> --}}
                                 <tr>
                                     <td class="ctr">{{ $loop->iteration }}</td>
                                     <td>{{ $data->nama_siswa }}</td>
                                     <td>{{$data->nis}}</td>
+                                    <td class="ctr">
+                                        <div class="text-center">75</div>
+                                    </td>
                                     @if ($data->nilai($data->id))
                                         <td class="ctr">
-                                            <input type="hidden" class="rapot_{{$data->id}}" value="{{ $data->nilai($data->id)->id }}">
-                                            <div class="text-center">75</div>
-                                        </td>
-                                        <td class="ctr">
-                                            <div class="text-center">{{ $data->nilai($data->id)->nilai_rapor }}</div>
+                                            <div class="text-center">{{ round($data->nilai($data->id)->nilai_rapor,2) }}</div>
                                         </td>
                                         <td class="ctr">
                                             @if ( $data->nilai($data->id)->nilai_rapor > 88)
@@ -110,10 +106,35 @@
                                                 <div class="text-center">D (Kurang)</div>
                                             @endif
                                         </td>
+                                        @if ($data->nilai($data->id)->catatan)
+                                            <td class="ctr">
+                                                <div class="text-center">{{ $data->nilai($data->id)->catatan }}
+                                                    <button type="submit" id="submit-{{$data->id}}" class="btn btn-primary btn-sm btn-edit" data-id="{{$data->id}}"><i class="nav-icon fas fa-save"></i> &nbsp; Edit</button>
+                                                </div>
+                                            </td>
+                                        @else
+                                        <td>
+                                            @csrf
+                                            <input name="catatan" id="catatan" placeholder="Masukkan catatan wali kelas"></input>
+                                            <button type="submit" id="submit-{{$data->id}}" class="btn btn-primary btn-sm btn-click" data-id="{{$data->id}}"><i class="nav-icon fas fa-save"></i> &nbsp; Simpan</button>
+                                        </td>
+                                        @endif
+                                        @if($data->nilai($data->id)->kesimpulan)
+                                        <td class="ctr">
+                                            <div class="text-center">{{ $data->nilai($data->id)->kesimpulan }}
+                                                <button type="submit" id="submit-{{$data->id}}" class="btn btn-primary btn-sm btn-edit-kesimpulan" data-id="{{$data->id}}"><i class="nav-icon fas fa-save"></i> &nbsp; Edit Kesimpulan</button>
+                                            </div>
+                                        </td>
+                                        @else
+                                        <td>
+                                            @csrf
+                                            <input name="kesimpulan" id="kesimpulan" placeholder="Masukkan kesimpulan"></input>
+                                            <button type="submit" id="submit-{{$data->id}}" class="btn btn-primary btn-sm btn-kesimpulan" data-id="{{$data->id}}"><i class="nav-icon fas fa-save"></i> &nbsp; Simpan Data</button>
+                                        </td>
+                                        @endif
                                     @endif
                                 </tr>
                             @endforeach
-                        {{-- </form> --}}
                     </tbody>
                 </table>
             </div>
@@ -126,72 +147,113 @@
 @endsection
 @section('script')
     <script>
-        // $("input[name=nilai]").keyup(function(){
-        //     var id = $(this).attr('data-ids');
-		//     var gurus_id = $("input[name=gurus_id]").val();
-        //     var angka = $(".nilai_"+id).val();
-        //     if (angka.length == 2){
-        //         $.ajax({
-        //             type:"GET",
-        //             data: {
-        //                 id : gurus_id,
-        //                 nilai : angka
-        //             },
-        //             dataType:"JSON",
-        //             url:"{{ url('/rapot/predikat') }}",
-        //             success:function(data){
-        //                 $(".nilai_"+id).val(data[0]['kkm_nilai']);
-        //             },
-        //             error:function(){
-        //                 toastr.warning("Tolong masukkan nilai kkm!");
-        //             }
-        //         });
-        //     } else {
-        //         $(".nilai_"+id).val("");
-        //     }
-        // });
+        $(".btn-click").click(function(){
+            var id = $(this).attr('data-id');
+            var catatan = $("input[name=catatan]").val();
+            if (catatan == "") {
+                toastr.error("Catatan tidak boleh ada yang kosong!");
+            }
+             else {
+                $.ajax({
+                    url: "{{ route('rapor.catatan') }}",
+                    type: "POST",
+                    dataType: 'json',
+                    data : {
+                        _token: '{{ csrf_token() }}',
+                        siswas_id : id,
+                        catatan: catatan
+                    },
+                    success: function(data){
+                        toastr.success("Catatan siswa berhasil ditambahkan!");
+                        window.location.reload();
+                    },
+                    error: function (data) {
+                        toastr.warning("Errors 404!");
+                    }
+                });
+            }
+        });
 
-        // $(".btn_click").click(function(){
-        //     var id = $(this).attr('data-id');
-        //     var rapot = $(".rapot_"+id).val();
-        //     var nilai = $(".nilai_"+id).val();
-        //     var predikat = $(".predikat_"+id).val();
-        //     var deskripsi = $(".deskripsi_"+id).val();
-        //     var guru_id = $("input[name=guru_id]").val();
-        //     var kelas_id = $("input[name=kelas_id]").val();
+        $(".btn-kesimpulan").click(function(){
+            var id = $(this).attr('data-id');
+            var kesimpulan = $("input[name=kesimpulan]").val();
+            if (kesimpulan == "") {
+                toastr.error("Kesimpulan tidak boleh ada yang kosong!");
+            }
+             else {
+                $.ajax({
+                    url: "{{ route('rapor.kesimpulan') }}",
+                    type: "POST",
+                    dataType: 'json',
+                    data : {
+                        _token: '{{ csrf_token() }}',
+                        siswas_id : id,
+                        kesimpulan: kesimpulan
+                    },
+                    success: function(data){
+                        toastr.success("Kesimpulan siswa berhasil ditambahkan!");
+                        window.location.reload();
+                    },
+                    error: function (data) {
+                        toastr.warning("Errors 404!");
+                    }
+                });
+            }
+        });
 
-        //     if (nilai == "") {
-        //         toastr.error("Form tidak boleh ada yang kosong!");
-        //     } else {
-        //         $.ajax({
-        //             url: "{{ route('rapor.store') }}",
-        //             type: "POST",
-        //             dataType: 'json',
-        //             data 	: {
-        //                 _token: '{{ csrf_token() }}',
-        //                 id : rapot,
-        //                 siswa_id : id,
-        //                 kelas_id : kelas_id,
-        //                 guru_id : guru_id,
-        //                 nilai : nilai,
-        //                 predikat : predikat,
-        //                 deskripsi : deskripsi,
-        //             },
-        //             success: function(data){
-        //                 $(".nilai_"+id).remove();
-        //                 $(".predikat_"+id).remove();
-        //                 $("#submit-"+id).remove();
-        //                 $(".knilai_"+id).append(nilai);
-        //                 $(".kpredikat_"+id).append(predikat);
-        //                 $(".sub_"+id).append(ok);
-        //                 toastr.success("Nilai rapot siswa berhasil ditambahkan!");
-        //             },
-        //             error: function (data) {
-        //                 toastr.warning("Errors 404!");
-        //             }
-        //         });
-        //     }
-        // });
+        $(".btn-edit").click(function(){
+            var id = $(this).attr('data-id');
+            var catatan = $("input[name=catatan]").val();
+            if (catatan == "") {
+                toastr.error("Catatan tidak boleh ada yang kosong!");
+            }
+             else {
+                $.ajax({
+                    url: "{{ route('rapor.catatan') }}",
+                    type: "POST",
+                    dataType: 'json',
+                    data : {
+                        _token: '{{ csrf_token() }}',
+                        siswas_id : id,
+                        catatan: catatan
+                    },
+                    success: function(data){
+                        toastr.warning("Editing in process!");
+                        window.location.reload();
+                    },
+                    error: function (data) {
+                        toastr.warning("Errors 404!");
+                    }
+                });
+            }
+        });
+
+        $(".btn-edit-kesimpulan").click(function(){
+            var id = $(this).attr('data-id');
+            var kesimpulan = $("input[name=kesimpulan]").val();
+            if (kesimpulan == "") {
+                toastr.error("Kesimpulan tidak boleh ada yang kosong!");
+            }
+             else {
+                $.ajax({
+                    url: "{{ route('rapor.kesimpulan') }}",
+                    type: "POST",
+                    dataType: 'json',
+                    data : {
+                        _token: '{{ csrf_token() }}',
+                        siswas_id : id,
+                        kesimpulan: kesimpulan
+                    },
+                    success: function(data){
+                        toastr.warning("Editing Kesimpulan in process!");
+                        window.location.reload();
+                    },
+                    error: function (data) {
+                        toastr.warning("Errors 404!");
+                    }
+                });
+            }
+        });
 
         $("#NilaiGuru").addClass("active");
         $("#liNilaiGuru").addClass("menu-open");

@@ -15,9 +15,16 @@
 	}
 	function getJenisSoal($tu){
 		if ($tu != "") {
-			if ($tu == 'UH') {
-				$tipe_ulangan = 'Soal Ulangan Harian';
-			}else if($tu == 'UTS'){
+			if ($tu == 'UH1') {
+				$tipe_ulangan = 'Soal Ulangan Harian 1';
+			}
+            else if ($tu == 'UH2') {
+				$tipe_ulangan = 'Soal Ulangan Harian 2';
+			}
+            else if ($tu == 'UH3') {
+				$tipe_ulangan = 'Soal Ulangan Harian 3';
+			}
+            else if($tu == 'UTS'){
 				$tipe_ulangan = 'Soal Ulangan Tengah Semester';
 			}
             else if($tu == 'UAS'){

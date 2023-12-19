@@ -18,7 +18,7 @@
     </div>
     <div class="box-body">
     	<button type="button" id="btn-soal" class="btn btn-primary btn-md"><i class="fa fa-pencil-square-o"></i> &nbsp;Tulis Soal</button>
-    	<a href="{{ url('/download-file-format/soal') }}" class="btn btn-success btn-md"><i class="fa fa-file-excel-o"></i> &nbsp;Download Format Excel</a>
+    	<a href="{{ url('/download-file-format/soalsiswa') }}" class="btn btn-success btn-md"><i class="fa fa-file-excel-o"></i> &nbsp;Download Format Excel</a>
     	<button type="button" id="btn-upload-soal" class="btn btn-info btn-md"><i class="fa fa-cloud-upload"></i> &nbsp;Upload Excel</button>
       <div class="well" style="margin-top: 15px; display: none;" id="wrap-soal">
         <form class="form-horizontal" id="formSoal">
@@ -71,7 +71,7 @@
         </form>
       </div>
       <div class="well" style="margin-top: 15px; display: none;" id="wrap-upload-soal">
-        <form class="form-horizontal" action="{{ url('/crud/simpan-detail-soal-via-excel') }}" enctype="multipart/form-data" method="POST">
+        <form class="form-horizontal" action="{{ url('/crudsiswa/simpan-detail-soal-via-excel') }}" enctype="multipart/form-data" method="POST">
           {{ csrf_field() }}
           <div class="box-body">
             <div class="form-group">
@@ -92,7 +92,7 @@
             $bulan = date('m');
             $tahun = date('Y');
         @endphp
-      	@if (Auth::user()->roles == 'Guru' || Auth::user()->roles == 'Admin' )
+      	@if (Auth::user()->roles == 'Guru' )
             <label for="">Tahun Ajaran</label>
             &nbsp;
             <select name="" id="tahunajaran">
@@ -186,7 +186,7 @@ $(document).ready(function (){
     responsive: true,
     lengthChange: true,
     ajax: {
-      url: '{!! route('elearning.get-soal') !!}',
+      url: '{!! route('datasoalsiswa') !!}',
     },
     columns: [
       {data: 'id', name: 'id', orderable: true, searchable: true },
@@ -222,7 +222,7 @@ $(document).ready(function (){
     var dataString = $("#formSoal").serialize();
     $.ajax({
       type: "POST",
-      url: "{{ url('/crud/simpan-soal') }}",
+      url: "{{ url('/crudsiswa/simpan-soal') }}",
       data: dataString,
       success: function(data){
         console.log(data);
@@ -230,7 +230,7 @@ $(document).ready(function (){
           $("#loading").hide();
           $("#wrap-btn").show();
           $("#notif").removeClass('alert alert-danger').addClass('alert alert-info').html("<i class='fa fa-info-circle'></i> Data berhasil disimpan.").fadeIn(350);
-          window.location.href = "{{ url('/soal') }}";
+          window.location.href = "{{ url('/soalsiswa/soal') }}";
         }else{
           $("#loading").hide();
           $("#wrap-btn").show();

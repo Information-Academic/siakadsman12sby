@@ -48,4 +48,9 @@ class User extends Authenticatable
         $siswa = Siswa::where('nis', $id)->first();
         return $siswa;
     }
+
+    public function getKelas()
+    {
+        return $this->belongsTo('App\Siswa', 'kelas_id');
+    }
 }

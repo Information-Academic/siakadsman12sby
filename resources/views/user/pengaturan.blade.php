@@ -117,7 +117,7 @@
                         <p class="text-muted">{{ Auth::user()->guru(Auth::user()->nip)->no_telepon }}</p>
                     @elseif (Auth::user()->roles == 'Siswa')
                         <strong><i class="fas fa-phone mr-1"></i> No Telepon / WA</strong>
-                        <p class="text-muted">{{ Auth::user()->siswa(Auth::user()->nis)->no_telepon }}</p>
+                        <p class="text-muted">{{ Auth::user()->siswa(Auth::user()->nis)->nomor_telepon }}</p>
                     @else
                     @endif
                 </div>

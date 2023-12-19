@@ -9,9 +9,9 @@ class DetailSoalEssay extends Model
 {
     //
     protected $table = 'detailsoalessays';
-    protected $fillable = ['soal','status','ulangans_id'];
+    protected $fillable = ['soal', 'nilai','status','ulangans_id'];
 
-    public function getJawab()
+  public function getJawab()
   {
     return $this->hasOne(JawabanEssay::class, 'detailsoalessays_id', 'id');
   }
@@ -26,6 +26,7 @@ class DetailSoalEssay extends Model
     $save = new DetailSoalEssay;
     $save->ulangans_id = $request->ulangans_id;
     $save->soal = $request->soal;
+    $save->nilai = $request->nilai;
     $save->status = $request->status;
     $save->save();
   }
@@ -33,6 +34,7 @@ class DetailSoalEssay extends Model
   public function updateEssay($request, $essay)
   {
     $essay->soal = $request->soal;
+    $essay->nilai = $request->nilai;
     $essay->status = $request->status;
     $essay->save();
   }

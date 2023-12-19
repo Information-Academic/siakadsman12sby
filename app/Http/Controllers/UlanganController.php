@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\DetailSoalEssay;
 use App\Guru;
 use App\Jadwal;
+use App\JawabanEssay;
 use App\Kelas;
-use App\Mapel;
 use App\Rapor;
 use App\Siswa;
-use App\Soal;
 use App\Ulangan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,8 +27,6 @@ class UlanganController extends Controller
         $guru = Guru::where('nip', Auth::user()->nip)->first();
         $jadwal = Jadwal::where('gurus_id', $guru->id)->orderBy('kelas_id')->get();
         $kelas = $jadwal->groupBy('kelas_id');
-        // $guru2 = json_decode($guru,true);
-        // dd($mapel_guru);
         return view('guru.ulangan.kelas', ['guru'=>$guru,'jadwal'=>$jadwal,'kelas'=>$kelas]);
     }
 
@@ -54,22 +52,21 @@ class UlanganController extends Controller
     {
         //
         $this->validate($request, [
+            'siswas_id' => 'required',
             'ulha_1' => 'required',
             'ulha_2' => 'required',
             'uts' => 'required',
             'ulha_3' => 'required',
             'uas' => 'required',
         ]);
-
         $guru = Guru::findorfail($request->gurus_id);
         $cekJadwal = Jadwal::where('gurus_id',$request->gurus_id)->where('kelas_id',$request->kelas_id)->count();
         if($cekJadwal >=1){
             if($request->ulha_1 && $request->ulha_2 && $request->uts && $request->ulha_3 && $request->uas){
                 $nilai = ($request->ulha_1 + $request->ulha_2 + $request->uts + $request->ulha_3 + (2 * $request->uas)) / 6;
-                $nilai = (int) $nilai;
-
                 if($nilai>90){
                     Rapor::create([
+                        'id' =>$request->id,
                         'siswas_id' => $request->siswas_id,
                         'kelas_id' => $request->kelas_id,
                         'gurus_id' => $request->gurus_id,
@@ -79,6 +76,7 @@ class UlanganController extends Controller
                 }
                 else if($nilai > 80){
                     Rapor::create([
+                        'id' => $request->id,
                         'siswas_id' => $request->siswas_id,
                         'kelas_id' => $request->kelas_id,
                         'gurus_id' => $request->gurus_id,
@@ -88,6 +86,7 @@ class UlanganController extends Controller
                 }
                 else if($nilai > 70){
                     Rapor::create([
+                        'id' => $request->id,
                         'siswas_id' => $request->siswas_id,
                         'kelas_id' => $request->kelas_id,
                         'gurus_id' => $request->gurus_id,
@@ -97,6 +96,7 @@ class UlanganController extends Controller
                 }
                 else {
                     Rapor::create([
+                        'id' => $request->id,
                         'siswas_id' => $request->siswas_id,
                         'kelas_id' => $request->kelas_id,
                         'gurus_id' => $request->gurus_id,
@@ -105,12 +105,12 @@ class UlanganController extends Controller
                     ]);
                 }
         }
-            else{
-
-            }
             Ulangan::updateOrCreate(
                 [
-                    'id' => $request->id
+                    'id' => $request->id,
+                    'siswas_id' => $request->siswas_id,
+                    'kelas_id' => $request->kelas_id,
+                    'mapels_id'=>$guru->mapels_id,
                 ],
                 [
                     'siswas_id' => $request->siswas_id,
@@ -143,7 +143,9 @@ class UlanganController extends Controller
         $guru = Guru::where('nip', Auth::user()->nip)->first();
         $kelas = Kelas::findorfail($id);
         $siswa = Siswa::where('kelas_id', $id)->get();
-        return view('guru.ulangan.nilai', compact('guru', 'kelas', 'siswa'));
+        // dd($siswa);
+        $jawabanEssay = JawabanEssay::where('nilai',$id)->sum('nilai');
+        return view('guru.ulangan.nilai', compact('guru', 'kelas', 'siswa','jawabanEssay'));
     }
 
     /**

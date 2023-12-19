@@ -240,10 +240,12 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
         <li class="header" style="background-color: #a2c4c9;">MAIN NAVIGATION</li>
+        @if (Auth::user()->roles=="Admin")
         <li class="{{ Request::is('home*') == true  ? 'active' : '' }}"><a href="{{ url('/soal') }}"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
-        {{-- @if(Auth::user()->roles == 'Admin')
-            <li class="{{Request::is('/laporan*') == true  ? 'active' : '' }}"><a href="{{ url('/laporan') }}"><i class="fa fa-print"></i>Nilai Laporan Ulangan</a></li>
-        @endif --}}
+        @endif
+        @if (Auth::user()->roles=="Siswa")
+            <li class="{{ Request::is('home*') == true  ? 'active' : '' }}"><a href="{{ url('/ujian') }}"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
+        @endif
       </ul>
     </section>
     <!-- /.sidebar -->

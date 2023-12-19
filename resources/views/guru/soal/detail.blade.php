@@ -4,7 +4,7 @@
 <h1><i class="fa fa-book"></i> Data Soal</h1>
 <ol class="breadcrumb">
   <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i> Home</a></li>
-  <li><a href="{{ url('/soal') }}">Soal</a></li>
+  <li><a href="{{ url('/soalsiswa/soal') }}">Soal</a></li>
   <li class="active">Detail soal</li>
 </ol>
 @endsection
@@ -57,7 +57,7 @@
                 var ulangans_id = $("#ulangans_id").val();
                 $.ajax({
                   type: "POST",
-                  url: "{{ url('/crud/terbit-soal') }}",
+                  url: "{{ url('/crudsiswa/terbit-soal') }}",
                   data: {
                     kelas_id: kelas_id,
                     ulangans_id: ulangans_id
@@ -163,7 +163,7 @@
             <div class="form-group" style="margin-top: 15px">
               <label class="col-sm-2 control-label">Nilai</label>
               <div class="col-sm-2">
-                <input type="text" class="form-control numOnly" name="nilai" placeholder="Nilai" min="20" max="100">
+                <input type="number" class="form-control numOnly" name="nilai" placeholder="Nilai" min="20" max="100">
               </div>
             </div>
             <div class="form-group">
@@ -189,7 +189,7 @@
         </form>
       </div>
       <div class="well" style="margin-top: 15px; display: none;" id="wrap-upload-soal">
-        <form class="form-horizontal" action="{{ url('/crud/simpan-detail-soal-via-excel') }}" enctype="multipart/form-data" method="POST">
+        <form class="form-horizontal" action="{{ url('/crudsiswa/simpan-detail-soal-via-excel') }}" enctype="multipart/form-data" method="POST">
           {{ csrf_field() }}
           <div class="box-body">
             <div class="form-group">
@@ -233,7 +233,7 @@
     </div>
     <div class="box-body">
       <button type="button" id="btn-soal-essay" class="btn btn-primary btn-md">Tulis Soal</button>
-      <form class="form-horizontal" action="{{ url('soal/essay') }}" method="POST" style="display: none" id="form-essay">
+      <form class="form-horizontal" action="{{ url('soalsiswa/essay') }}" method="POST" style="display: none" id="form-essay">
         {{ csrf_field() }}
         <input type="hidden" name="ulangans_id" value="{{ $soal->id }}">
         <div class="box-body">
@@ -246,7 +246,7 @@
           <div class="form-group">
             <label class="col-sm-2 control-label">Nilai</label>
             <div class="col-sm-2">
-              <input type="number" class="form-control numOnly" name="nilai" placeholder="Nilai" min="20" max="100" >
+              <input type="number" class="form-control numOnly" name="nilai" placeholder="Nilai" min="20" max="100">
             </div>
           </div>
           <div class="form-group">
@@ -277,7 +277,6 @@
           </tr>
         </thead>
       </table>
-
     </div>
   </div>
 </div>
@@ -390,7 +389,7 @@
       responsive: true,
       lengthChange: true,
       ajax: {
-        url: '{!! route('elearning.get-detail-soal') !!}',
+        url: '{!! route('soalulangan.get-detail-soal') !!}',
         data: function(d) {
           d.id = id;
         }
@@ -470,13 +469,14 @@
       var dataString = $("#form-soal").serialize();
       $.ajax({
         type: "POST",
-        url: "{{ url('/crud/simpan-detail-soal') }}",
+        url: "{{ url('/crudsiswa/simpan-detail-soal') }}",
         data: dataString + "&ulangans_id=" + id,
         success: function(data) {
           $("#loading-soal").hide();
           $("#wrap-btn").show();
           if (data == 'ok') {
             $("#notif-soal").removeClass('alert alert-danger').addClass('alert alert-info').html("Soal berhasil disimpan.").show();
+            window.location.href = "{{ url('/soalsiswa/soal') }}";
           } else {
             $("#notif-soal").removeClass('alert alert-info').addClass('alert alert-danger').html(data).show();
           }
@@ -499,7 +499,7 @@
       lengthChange: true,
       ajax: {
         type: 'POST',
-        url: "{{ url('soal/essay/data') }}",
+        url: "{{ url('soalsiswa/essay/data') }}",
         data: function(d) {
           d.ulangans_id = "{{ $soal->id }}"
         }
@@ -515,10 +515,12 @@
       {
         data: 'status',
         name: 'status'
-      }, {
+      },
+      {
         data: 'action',
         name: 'action'
-      }]
+      },
+    ]
     });
   });
 </script>

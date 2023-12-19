@@ -4,14 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Guru;
 use App\Jadwal;
+use App\Jawaban;
+use App\JawabanEssay;
 use App\Kehadiran;
+use App\Kelas;
 use App\Mapel;
 use App\Presensi;
+use App\Rapor;
+use App\Siswa;
+use App\Soal;
 use App\SuratPermohonan;
+use App\Ulangan;
 use App\User;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
 
 class GuruController extends Controller
 {
@@ -312,7 +321,7 @@ class GuruController extends Controller
         ->whereDate('created_at', date('Y-m-d'))
         ->first();
         if($existingPresence){
-            return redirect()->route('guru.suratpermohonan')->with('error', 'Anda sudah membuat surat permohonan');
+            return redirect()->route('status.guru')->with('error', 'Anda sudah membuat surat permohonan');
         }
         $kehadiran = SuratPermohonan::create([
             'kehadirans_id' => $request->kehadirans_id,
@@ -320,12 +329,61 @@ class GuruController extends Controller
             'users_id' => Auth()->user()->id, // Sesuaikan dengan autentikasi yang Anda gunakan
         ]);
         $kehadiran->save();
-        return redirect()->back()->with('success', 'Berhasil mengajukan surat permohonan!');
+        return redirect()->route('status.guru')->with('success', 'Berhasil mengajukan surat permohonan!');
     }
 
     public function status(){
         $guru = Guru::where('nip',Auth::user()->nip)->get();
         $status = SuratPermohonan::where('users_id',Auth::user()->id)->get();
         return view('guru.status', compact('status','guru'));
+    }
+
+    public function daftarUlangan(){
+        if (auth()->user()->roles == 'Guru') {
+            $user = User::where('id', Auth::user()->id)->first();
+            return view('guru.daftarulangan.index', compact('user'));
+          } else {
+            return redirect()->route('home.index');
+        }
+    }
+
+    public function dataSiswa(){
+    $siswas = User::where('roles', 'Siswa');
+    $kelas = Kelas::get();
+    if (auth()->user()->roles == 'Guru') {
+      return DataTables::of($siswas, $kelas)
+        ->addColumn('kelas', function ($siswas) {
+          return 'ini kelas';
+        })
+        ->addColumn('kelas', function ($kelas) {
+          if ($kelas->getKelas) {
+            return $kelas->getKelas->kelas;
+          } else {
+            return "-";
+          }
+        })
+        ->addColumn('action', function ($siswas) {
+          return '<div style="text-align:center"><a href="detail/' . $siswas->id . '" class="btn btn-xs btn-success">Detail</a></div>';
+        })
+        ->make(true);
+    }
+    }
+
+    public function detailSiswa(Request $request){
+        if (Auth::user()->roles == 'Guru') {
+            $user = User::where('id', auth()->user()->id)->first();
+            $siswa = User::where('id', $request->id)->first();
+            $siswa2 = Siswa::where('nis', $siswa->nis)->first();
+            DB::statement("SET SQL_MODE=''");
+            $hasil_ujians = Jawaban::join('ulangans', 'jawabans.ulangans_id', '=', 'ulangans.id')
+              ->select('ulangans.tipe_ulangan', 'ulangans.mapels_id', 'jawabans.*', DB::raw('SUM(jawabans.nilai) as jumlah_nilai'))
+              ->where('jawabans.users_id', $siswa->id)
+              ->where('ulangans.users_id', auth()->user()->id)
+              ->orderBy('jawabans.id', 'DESC')->groupBy('jawabans.ulangans_id')->paginate(15);
+            // dd($hasil_ujians);
+            return view('guru.daftarulangan.detail', compact('user', 'siswa', 'hasil_ujians','siswa2'));
+        } else {
+            return redirect()->route('home.index');
+        }
     }
 }

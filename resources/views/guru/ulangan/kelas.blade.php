@@ -1,7 +1,7 @@
 @extends('template_backend.home')
-@section('heading', 'Masukkan Nilai Ulangan')
+@section('heading', 'Nilai Ulangan Siswa')
 @section('page')
-  <li class="breadcrumb-item active">Masukkan Nilai Ulangan</li>
+  <li class="breadcrumb-item active">Nilai Ulangan Siswa</li>
 @endsection
 @section('content')
 <div class="col-md-12">
@@ -11,14 +11,9 @@
             <div class="col-md-12" style="margin-top: -21px;">
                 <table class="table">
                     <tr>
-                        <td>Nama Guru</td>
+                        <td>Nama Wali Kelas</td>
                         <td>:</td>
                         <td>{{ $guru->nama_guru }}</td>
-                    </tr>
-                    <tr>
-                        <td>Mata Pelajaran</td>
-                        <td>:</td>
-                        <td>{{$guru->mapel->nama_mapel}} </td>
                     </tr>
                 </table>
                 <hr>

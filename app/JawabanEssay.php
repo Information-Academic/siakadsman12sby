@@ -9,5 +9,5 @@ class JawabanEssay extends Model
     //
     protected $table = 'jawabanessays';
 
-    protected $fillable = ['jawab','nilai','detailsoalessays_id','users_id'];
+    protected $fillable = ['jawab','detailsoalessays_id','users_id','nilai'];
 }

@@ -19,7 +19,7 @@ class Siswa extends Model
     public function ulangan($id)
     {
         $guru = Guru::where('nip', Auth::user()->nip)->first();
-        $nilai = Ulangan::where('siswas_id', $id)->where('gurus_id', $guru->id)->first();
+        $nilai = Ulangan::where('siswas_id', $id)->first();
         return $nilai;
     }
 
