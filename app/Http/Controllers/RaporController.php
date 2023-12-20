@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 
 class RaporController extends Controller
 {
@@ -206,5 +207,14 @@ class RaporController extends Controller
                 return response()->json(['success' => 'Kesimpulan berhasil ditambahkan!']);
             }
         }
+    }
+
+    public function cetakRapor(){
+        $siswa = Siswa::where('nis', Auth::user()->nis)->first();
+        $kelas = Kelas::findorfail($siswa->kelas_id);
+        $nilai = Rapor::orderBy('mapels_id')->OrderBy('nilai_rapor')->where('kelas_id',$kelas->id)->get();
+        $pdf = FacadePdf::loadView('siswa.cetakrapor',['nilai'=>$nilai]);
+        // dd($nilai);
+        return $pdf->download('nilai.pdf');
     }
 }

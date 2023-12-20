@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Rapor extends Model
 {
@@ -14,5 +15,16 @@ class Rapor extends Model
     public function kehadiran()
     {
         return $this->belongsTo('App\Kehadiran','kehadirans_id');
+    }
+
+    public function mapel(){
+        return $this->belongsTo('App\Mapel','mapels_id');
+    }
+
+    public function nilai($id)
+    {
+        $guru = Guru::where('nip', Auth::user()->nip)->first();
+        $nilai = Rapor::where('siswas_id', $id)->where('gurus_id', $guru['id'])->first();
+        return $nilai;
     }
 }

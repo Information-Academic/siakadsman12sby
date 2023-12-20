@@ -53,6 +53,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/suratpermohonansiswa/store','SiswaController@suratPermohonanSiswaStore')->name('siswa.suratPermohonanSiswaStore');
         Route::get('/statussiswa','SiswaController@statusSiswa')->name('statussiswa.siswa');
         Route::get('/cetakjadwalpdf', 'JadwalController@cetakJadwal');
+        Route::get('/cetakraporpdf', 'RaporController@cetakRapor');
         Route::get('/ulangan/siswa', 'UlanganController@siswa')->name('ulangan.siswa');
         Route::get('/rapor/siswa', 'RaporController@siswa')->name('rapor.siswa');
         Route::get('/presensi/validsiswa','PresensiController@presensiValidSiswa')->name('presensiValidSiswa');

@@ -85,33 +85,21 @@
                            @endif
                         </td>
                     </tr>
-                    {{-- <tr>
-                        <td>Tanpa Keterangan</td>
-                        <td>:</td>
-                        <td>
-                            @if ($surat['1']['kehadirans_id'] == '2')
-                                {{$surat->count()}} hari
-                            @else
-                                {{'0'}} hari
-                            @endif
-                        </td>
-                    </tr> --}}
                     <tr>
                         <td>Catatan Wali Kelas</td>
                         <td>:</td>
                         <td>
                             @foreach ($rapor as $r)
-                             {{strtoupper($r->catatan)}}
+                             {{ucfirst($r->catatan)}}
                             @endforeach
                         </td>
                     </tr>
-
                     <tr>
                         <td>Kesimpulan</td>
                         <td>:</td>
                         <td>
                             @foreach ($rapor as $r)
-                             {{strtoupper($r->kesimpulan)}}
+                             {{ucfirst($r->kesimpulan)}}
                             @endforeach
                         </td>
                     </tr>
@@ -122,6 +110,10 @@
                 <div class="row">
                     <div class="col-12 mb-3">
                         <h4 class="mb-3">Nilai Rapor {{Auth::user()->nama_depan}} {{Auth::user()->nama_belakang}}</h4>
+                        <a href="{{url('cetakraporpdf/')}}" class="btn btn-link text-dark px-3 mb-0">
+                            <i class="nav-icon fas fa-download"></i>
+                            <p>Cetak Rapor</p>
+                        </a>
                         <table class="table table-bordered table-striped table-hover">
                             <thead>
                                 <tr>

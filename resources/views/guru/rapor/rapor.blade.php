@@ -108,7 +108,7 @@
                                         </td>
                                         @if ($data->nilai($data->id)->catatan)
                                             <td class="ctr">
-                                                <div class="text-center">{{ $data->nilai($data->id)->catatan }}
+                                                <div class="text-center">{{ ucfirst($data->nilai($data->id)->catatan) }}
                                                     <button type="submit" id="submit-{{$data->id}}" class="btn btn-primary btn-sm btn-edit" data-id="{{$data->id}}"><i class="nav-icon fas fa-save"></i> &nbsp; Edit</button>
                                                 </div>
                                             </td>
@@ -121,8 +121,8 @@
                                         @endif
                                         @if($data->nilai($data->id)->kesimpulan)
                                         <td class="ctr">
-                                            <div class="text-center">{{ $data->nilai($data->id)->kesimpulan }}
-                                                <button type="submit" id="submit-{{$data->id}}" class="btn btn-primary btn-sm btn-edit-kesimpulan" data-id="{{$data->id}}"><i class="nav-icon fas fa-save"></i> &nbsp; Edit Kesimpulan</button>
+                                            <div class="text-center">{{ ucfirst($data->nilai($data->id)->kesimpulan) }}
+                                                <button type="submit" id="submit-{{$data->id}}" class="btn btn-primary btn-sm btn-kesimpulan-edit " data-id="{{$data->id}}"><i class="nav-icon fas fa-save"></i> &nbsp; Edit Kesimpulan</button>
                                             </div>
                                         </td>
                                         @else
@@ -228,7 +228,7 @@
             }
         });
 
-        $(".btn-edit-kesimpulan").click(function(){
+        $(".btn-kesimpulan-edit").click(function(){
             var id = $(this).attr('data-id');
             var kesimpulan = $("input[name=kesimpulan]").val();
             if (kesimpulan == "") {
