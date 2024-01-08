@@ -21,6 +21,10 @@ class Rapor extends Model
         return $this->belongsTo('App\Mapel','mapels_id');
     }
 
+    public function siswa(){
+        return $this->belongsTo('App\Siswa','siswas_id');
+    }
+
     public function nilai($id)
     {
         $guru = Guru::where('nip', Auth::user()->nip)->first();

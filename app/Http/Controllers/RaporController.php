@@ -212,8 +212,23 @@ class RaporController extends Controller
     public function cetakRapor(){
         $siswa = Siswa::where('nis', Auth::user()->nis)->first();
         $kelas = Kelas::findorfail($siswa->kelas_id);
-        $nilai = Rapor::orderBy('mapels_id')->OrderBy('nilai_rapor')->where('kelas_id',$kelas->id)->get();
-        $pdf = FacadePdf::loadView('siswa.cetakrapor',['nilai'=>$nilai]);
+
+        $surat = SuratPermohonan::select(DB::raw('count(surats.kehadirans_id) AS kehadiranSiswa,kehadirans.keterangan'))
+        ->join('kehadirans','kehadirans.id','=','surats.kehadirans_id')
+        ->where('surats.users_id', Auth::user()->id)
+        ->where('kehadirans.keterangan','=','Sakit')
+        ->orderBy('kehadirans.keterangan','ASC')
+        ->groupBy('kehadirans.keterangan');
+
+        $surat2 = SuratPermohonan::select(DB::raw('count(surats.kehadirans_id) AS hadirSiswa,kehadirans.keterangan'))
+        ->join('kehadirans','kehadirans.id','=','surats.kehadirans_id')
+        ->where('surats.users_id', Auth::user()->id)
+        ->where('kehadirans.keterangan','=','Izin')
+        ->orderBy('kehadirans.keterangan','ASC')
+        ->groupBy('kehadirans.keterangan');
+
+        $nilai = Rapor::orderBy('mapels_id')->OrderBy('nilai_rapor')->OrderBy('catatan')->OrderBy('kesimpulan')->where('kelas_id',$kelas->id)->get();
+        $pdf = FacadePdf::loadView('siswa.cetakrapor',['nilai'=>$nilai,'siswa'=>$siswa,'surat'=>$surat,'surat2'=>$surat2]);
         // dd($nilai);
         return $pdf->download('nilai.pdf');
     }
