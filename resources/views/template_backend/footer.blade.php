@@ -170,7 +170,7 @@ $(function () {
     $('#timepicker').datetimepicker({
     format: 'LT'
     })
-    
+
     //Bootstrap Duallistbox
     $('.duallistbox').bootstrapDualListbox()
 

@@ -20,6 +20,8 @@
     }
   </style>
   <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="https://www.google.com/recaptcha/api.js?render={{config('services.recaptcha.site_key')}}"></script>
+
 </head>
 
 <body class="hold-transition">

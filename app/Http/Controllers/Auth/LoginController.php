@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Closure;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 class LoginController extends Controller
@@ -48,5 +50,19 @@ class LoginController extends Controller
         }
 
         Auth::logoutOtherDevices($request->password);
+    }
+
+    public function captcha(string $attribute, mixed $value, Closure $fail){
+        $g_response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => config('services.recaptcha.secret_key'),
+            'response' => $value,
+            'remoteip' => request()->ip()
+        ]);
+        if(!$g_response->json()['success']){
+            $fail('Please check the captcha form');
+        }
+        else{
+            return true;
+        }
     }
 }

@@ -12,7 +12,6 @@
                   <tr>
                     <th>Jam Pelajaran</th>
                     <th>Mata Pelajaran</th>
-                    <th>Nama Guru</th>
                     <th>Kelas</th>
                     <th>Tipe Kelas</th>
                   </tr>
