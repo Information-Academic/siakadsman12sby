@@ -16,7 +16,7 @@ class PengumumanController extends Controller
     public function index()
     {
         //
-        $pengumuman = Pengumuman::where('judul_pengumuman', 'isi_pengumuman')->first();
+        $pengumuman = Pengumuman::where('id','!=',null)->orderby('id','desc')->first();
         return view('admin.pengumuman', compact('pengumuman'));
     }
 

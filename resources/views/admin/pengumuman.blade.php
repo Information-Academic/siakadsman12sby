@@ -21,11 +21,11 @@
                     <div class="mb-3">
                         <input type="hidden" name="id" value="{{ $pengumuman['id']}}">
                         <label for="judul_pengumuman">Judul Pengumuman</label>
-                        <input type="text @error('judul_pengumuman') is-invalid @enderror" name="judul_pengumuman" value="{{$pengumuman['judul_pengumuman']}}" placeholder="Masukkan Judul Pengumuman" style="width: 100%;">
+                        <input type="text @error('judul_pengumuman') is-invalid @enderror" name="judul_pengumuman" placeholder="Masukkan Judul Pengumuman" style="width: 100%;">
                         <br>
                         <br>
                         <label for="isi_pengumuman">Isi Pengumuman</label>
-                        <textarea class="textarea @error('isi_pengumuman') is-invalid @enderror" name="isi_pengumuman" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $pengumuman['isi_pengumuman'] }}</textarea>
+                        <textarea class="textarea @error('isi_pengumuman') is-invalid @enderror" name="isi_pengumuman" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
                     </div>
                 </div>
             </form>
