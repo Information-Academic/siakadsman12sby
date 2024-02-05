@@ -237,23 +237,23 @@ class UserController extends Controller
     {
         if ($request->roles == 'Guru') {
             $this->validate($request, [
-                'foto_guru' => 'required'
+                'foto' => 'required'
             ]);
             $guru = Guru::where('nip', Auth::user()->nip)->first();
-            $foto = $request->foto_guru;
+            $foto = $request->foto;
             $new_foto = date('s' . 'i' . 'H' . 'd' . 'm' . 'Y') . "_" . $foto->getClientOriginalName();
             $guru_data = [
                 'foto' => 'uploads/guru/' . $new_foto,
             ];
             $foto->move('uploads/guru/', $new_foto);
             $guru->update($guru_data);
-            return redirect()->route('profile')->with('success', 'Foto Profile anda berhasil diperbarui!');
+            return redirect()->route('profile')->with('success', 'Foto Profile anda berhasil diperbarui!!');
         } else {
             $this->validate($request, [
-                'foto_siswa' => 'required'
+                'foto' => 'required'
             ]);
             $siswa = Siswa::where('nis', Auth::user()->nis)->first();
-            $foto = $request->foto_siswa;
+            $foto = $request->foto;
             $new_foto = date('s' . 'i' . 'H' . 'd' . 'm' . 'Y') . "_" . $foto->getClientOriginalName();
             $siswa_data = [
                 'foto' => 'uploads/siswa/' . $new_foto,

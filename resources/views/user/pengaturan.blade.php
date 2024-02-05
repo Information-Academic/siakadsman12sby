@@ -12,12 +12,12 @@
                 <div class="card-body box-profile">
                     <div class="text-center">
                     @if (Auth::user()->roles == 'Guru')
-                        <a href="{{ asset(Auth::user()->guru(Auth::user()->nip)->foto_guru) }}" data-toggle="lightbox" data-title="Foto {{ Auth::user()->nama_depan. ' '.Auth::user()->nama_belakang }}" data-gallery="gallery" data-footer='<a href="{{ route('pengaturan.edit-foto') }}" id="linkFotoGuru" class="btn btn-link btn-block btn-light"><i class="nav-icon fas fa-file-upload"></i> &nbsp; Ubah Foto</a>'>
-                            <img src="{{ asset(Auth::user()->guru(Auth::user()->nip)->foto_guru) }}" width="130px" class="profile-user-img img-fluid img-circle" alt="User profile picture">
+                        <a href="{{ asset(Auth::user()->guru(Auth::user()->nip)->foto) }}" data-toggle="lightbox" data-title="Foto {{ Auth::user()->nama_depan. ' '.Auth::user()->nama_belakang }}" data-gallery="gallery" data-footer='<a href="{{ route('pengaturan.edit-foto') }}" id="linkFotoGuru" class="btn btn-link btn-block btn-light"><i class="nav-icon fas fa-file-upload"></i> &nbsp; Ubah Foto</a>'>
+                            <img src="{{ asset(Auth::user()->guru(Auth::user()->nip)->foto) }}" width="130px" class="profile-user-img img-fluid img-circle" alt="User profile picture">
                         </a>
                     @elseif (Auth::user()->roles == 'Siswa')
-                        <a href="{{ asset(Auth::user()->siswa(Auth::user()->nis)->foto_siswa) }}" data-toggle="lightbox" data-title="Foto {{ Auth::user()->nama_depan. ' '.Auth::user()->nama_belakang }}" data-gallery="gallery" data-footer='<a href="{{ route('pengaturan.edit-foto') }}" id="linkFotoGuru" class="btn btn-link btn-block btn-light"><i class="nav-icon fas fa-file-upload"></i> &nbsp; Ubah Foto</a>'>
-                            <img src="{{ asset(Auth::user()->siswa(Auth::user()->nis)->foto_siswa) }}" width="130px" class="profile-user-img img-fluid img-circle" alt="User profile picture">
+                        <a href="{{ asset(Auth::user()->siswa(Auth::user()->nis)->foto) }}" data-toggle="lightbox" data-title="Foto {{ Auth::user()->nama_depan. ' '.Auth::user()->nama_belakang }}" data-gallery="gallery" data-footer='<a href="{{ route('pengaturan.edit-foto') }}" id="linkFotoGuru" class="btn btn-link btn-block btn-light"><i class="nav-icon fas fa-file-upload"></i> &nbsp; Ubah Foto</a>'>
+                            <img src="{{ asset(Auth::user()->siswa(Auth::user()->nis)->foto) }}" width="130px" class="profile-user-img img-fluid img-circle" alt="User profile picture">
                         </a>
                     @else
                         <img class="profile-user-img img-fluid img-circle" src="{{ asset('img/male.jpg') }}" alt="User profile picture">

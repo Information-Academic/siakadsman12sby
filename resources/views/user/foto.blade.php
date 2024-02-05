@@ -43,7 +43,7 @@
                     @if (Auth::user()->roles == 'Guru')
                         <input type="hidden" name="roles" value="{{ Auth::user()->roles }}">
                         <img src="{{ asset(Auth::user()->guru(Auth::user()->nip)->foto) }}" class="img img-responsive" alt="" width="30%" />
-                    @else
+                    @elseif (Auth::user()->roles == 'Siswa')
                         <input type="hidden" name="roles" value="{{ Auth::user()->roles }}">
                         <img src="{{ asset(Auth::user()->siswa(Auth::user()->nis)->foto) }}" class="img img-responsive" alt="" width="30%" />
                     @endif
@@ -60,4 +60,4 @@
     </div>
     <!-- /.card -->
 </div>
-@endsections
+@endsection
