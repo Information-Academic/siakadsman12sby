@@ -167,6 +167,7 @@ return [
          */
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Davmixcool\MetaManager\MetaServiceProvider::class,
         /*
          * Application Service Providers...
          */

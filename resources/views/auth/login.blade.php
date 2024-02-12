@@ -44,9 +44,12 @@
       <div>
         <input type="hidden" name="g-response" id="g-response">
       </div>
+      @if(config('services.recaptcha.key'))
+      <div class="g-recaptcha ml-2" data-sitekey="{{config('services.recaptcha.key')}}"></div>
+      @endif
       <!-- /.col -->
       <div class="col-5">
-        <button type="submit" id="btn-login" class="btn btn-primary ml-4" onclick="onClick(event)" disabled>{{ __('Login') }} &nbsp; <i class="nav-icon fas fa-sign-in-alt"></i></button>
+        <button type="submit" id="btn-login" class="btn btn-primary" disabled>{{ __('Login') }} &nbsp; <i class="nav-icon fas fa-sign-in-alt"></i></button>
       </div>
       <!-- /.col -->
     </div>
@@ -139,21 +142,4 @@
         }
     });
   </script>
-  {{-- <script>
-    function onSubmit(token) {
-      document.getElementById("login-form").submit();
-    }
-  </script> --}}
-  <script>
-    function onClick(e) {
-      e.preventDefault();
-      grecaptcha.ready(function() {
-        grecaptcha.execute('{{config('services.recaptcha.site_key')}}', {action: 'login'}).then(function(token) {
-            // Add your logic to submit to your backend server here.
-            document.getElementById("g-response").value = token;
-            document.getElementById("login-form").submit();
-        });
-      });
-    }
-</script>
 @endsection
