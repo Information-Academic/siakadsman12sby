@@ -13,7 +13,7 @@
         <div class="card-body">
             <div class="row no-gutters ml-2 mb-2 mr-2">
                 <div class="col-md-4">
-                    <img src="{{ asset($guru->foto_guru) }}" class="card-img img-details" alt="...">
+                    <img src="{{ asset($guru->foto) }}" class="card-img img-details" alt="...">
                 </div>
                 <div class="col-md-1 mb-4"></div>
                 <div class="col-md-7">

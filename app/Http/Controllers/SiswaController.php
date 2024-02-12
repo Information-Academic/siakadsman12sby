@@ -66,8 +66,8 @@ class SiswaController extends Controller
             'jenis_kelamin' => 'required',
         ]);
 
-        if ($request->foto_siswa) {
-            $foto = $request->foto_siswa;
+        if ($request->foto) {
+            $foto = $request->foto;
             $new_foto = date('siHdmY') . "_" . $foto->getClientOriginalName();
             $foto->move('uploads/siswa/', $new_foto);
             $nameFoto = 'uploads/siswa/' . $new_foto;
@@ -89,7 +89,7 @@ class SiswaController extends Controller
             'nomor_telepon' => $request->nomor_telepon,
             'tempat_lahir' => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
-            'foto_siswa' => $nameFoto
+            'foto' => $nameFoto
         ]);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan data siswa baru!');
@@ -200,14 +200,14 @@ class SiswaController extends Controller
     public function update_foto(Request $request, $id)
     {
         $this->validate($request, [
-            'foto_siswa' => 'required'
+            'foto' => 'required'
         ]);
 
         $siswa = Siswa::findorfail($id);
-        $foto = $request->foto_siswa;
+        $foto = $request->foto;
         $new_foto = date('s' . 'i' . 'H' . 'd' . 'm' . 'Y') . "_" . $foto->getClientOriginalName();
         $siswa_data = [
-            'foto_siswa' => 'uploads/siswa/' . $new_foto,
+            'foto' => 'uploads/siswa/' . $new_foto,
         ];
         $foto->move('uploads/siswa/', $new_foto);
         $siswa->update($siswa_data);
@@ -229,7 +229,7 @@ class SiswaController extends Controller
                 'alamat' => $val->alamat,
                 'tempat_lahir' => $val->tempat_lahir,
                 'tanggal_lahir' => $val->tanggal_lahir,
-                'foto_siswa' => $val->foto_siswa,
+                'foto' => $val->foto,
                 'status_siswa' => $val->status_siswa
             );
         }

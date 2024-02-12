@@ -118,11 +118,11 @@
                         <input type="text" id="nip" name="nip" maxlength="5" onkeypress="return inputAngka(event)" value="{{ $nip }}" class="form-control @error('nip') is-invalid @enderror" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="foto_guru">Foto Guru</label>
+                        <label for="foto">Foto Guru</label>
                         <div class="input-group">
                             <div class="custom-file">
-                                <input type="file" name="foto_guru" class="custom-file-input @error('foto_guru') is-invalid @enderror" id="foto_guru">
-                                <label class="custom-file-label" for="foto_guru">Choose file</label>
+                                <input type="file" name="foto" class="custom-file-input @error('foto') is-invalid @enderror" id="foto">
+                                <label class="custom-file-label" for="foto">Choose file</label>
                             </div>
                         </div>
                     </div>

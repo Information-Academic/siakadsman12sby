@@ -63,8 +63,8 @@ class GuruController extends Controller
             'jenis_kelamin' => 'required'
         ]);
 
-        if ($request->foto_guru) {
-            $foto = $request->foto_guru;
+        if ($request->foto) {
+            $foto = $request->foto;
             $new_foto = date('siHdmY') . "_" . $foto->getClientOriginalName();
             $foto->move('uploads/guru/', $new_foto);
             $nameFoto = 'uploads/guru/' . $new_foto;
@@ -87,7 +87,7 @@ class GuruController extends Controller
             'alamat' => $request -> alamat,
             'tempat_lahir' => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
-            'foto_guru' => $nameFoto,
+            'foto' => $nameFoto,
             'status_guru' => $request->status_guru,
             'status_pegawai' => $request->status_pegawai
         ]);
@@ -194,16 +194,16 @@ class GuruController extends Controller
     public function update_foto(Request $request, $id)
     {
         $this->validate($request, [
-            'foto_guru' => 'required'
+            'foto' => 'required'
         ]);
 
         $guru = Guru::findorfail($id);
-        $foto_guru = $request->foto_guru;
-        $new_foto = date('s' . 'i' . 'H' . 'd' . 'm' . 'Y') . "_" . $foto_guru->getClientOriginalName();
+        $foto = $request->foto;
+        $new_foto = date('s' . 'i' . 'H' . 'd' . 'm' . 'Y') . "_" . $foto->getClientOriginalName();
         $guru_data = [
-            'foto_guru' => 'uploads/guru/' . $new_foto,
+            'foto' => 'uploads/guru/' . $new_foto,
         ];
-        $foto_guru->move('uploads/guru/', $new_foto);
+        $foto->move('uploads/guru/', $new_foto);
         $guru->update($guru_data);
 
         return redirect()->route('guru.index')->with('success', 'Berhasil merubah foto!');

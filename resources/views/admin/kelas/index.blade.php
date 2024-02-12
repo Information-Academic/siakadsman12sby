@@ -253,7 +253,7 @@
                 siswa += "<td>"+val.alamat+"</td>";
                 siswa += "<td>"+val.tempat_lahir+"</td>";
                 siswa += "<td>"+val.tanggal_lahir+"</td>";
-                siswa += "<td><img src='"+val.foto_siswa+"' width='100px'></td>";
+                siswa += "<td><img src='"+val.foto+"' width='100px'></td>";
                 siswa += "<td>"+val.status_siswa+"</td>";
               siswa+="</tr>";
             });

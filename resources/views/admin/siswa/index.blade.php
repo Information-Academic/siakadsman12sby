@@ -87,11 +87,11 @@
                         <input type="text" id="tempat_lahir" name="tempat_lahir" class="form-control @error('tempat_lahir') is-invalid @enderror">
                     </div>
                     <div class="form-group">
-                        <label for="foto_siswa">Foto Siswa</label>
+                        <label for="foto">Foto Siswa</label>
                         <div class="input-group">
                             <div class="custom-file">
-                                <input type="file" name="foto_siswa" class="custom-file-input @error('foto_siswa') is-invalid @enderror" id="foto_siswa">
-                                <label class="custom-file-label" for="foto_siswa">Choose file</label>
+                                <input type="file" name="foto" class="custom-file-input @error('foto') is-invalid @enderror" id="foto">
+                                <label class="custom-file-label" for="foto">Choose file</label>
                             </div>
                         </div>
                     </div>

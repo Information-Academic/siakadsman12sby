@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Cetak Siswa SMA Negeri 12 Surabaya</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="shrotcut icon" href="{{ asset('img/favicon.ico') }}">
 </head>
@@ -38,7 +38,6 @@
                     <td style="text-align: center;">{{ $s->alamat }}</td>
                     <td style="text-align: center;">{{ $s->tempat_lahir }}</td>
                     <td style="text-align: center;">{{ $s->tanggal_lahir }}</td>
-                    {{-- <td><img src="{{ asset('uploads/siswa/'.$s->foto_siswa) }}" width="100px;" alt=""></td> --}}
                     <td style="text-align: center;">{{ $s->status_siswa }}</td>
                     @endforeach
                 </tr>

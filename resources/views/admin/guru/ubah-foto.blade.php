@@ -30,17 +30,17 @@
                         <input type="text" name="nama_guru" class="form-control" value="{{ $guru->nama_guru }}" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="foto_guru">File input</label>
+                        <label for="foto">File input</label>
                         <div class="input-group">
                             <div class="custom-file">
-                                <input type="file" name="foto_guru" class="custom-file-input @error('foto_guru') is-invalid @enderror" id="foto_guru">
-                                <label class="custom-file-label" for="foto_guru">Choose file</label>
+                                <input type="file" name="foto" class="custom-file-input @error('foto') is-invalid @enderror" id="foto">
+                                <label class="custom-file-label" for="foto">Choose file</label>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <img src="{{ asset($guru->foto_guru) }}" class="img img-responsive" alt="" width="30%" />
+                    <img src="{{ asset($guru->foto) }}" class="img img-responsive" alt="" width="30%" />
                 </div>
             </div>
         </div>

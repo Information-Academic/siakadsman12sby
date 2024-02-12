@@ -35,8 +35,8 @@
                         <td>{{ $data->kelas['kelas'] }}</td>
                         <td>{{ $data->kelas['tipe_kelas'] }}</td>
                         <td>
-                            <a href="{{ asset($data->foto_siswa) }}" data-toggle="lightbox" data-title="Foto {{ $data->nama_siswa }}" data-gallery="gallery" data-footer='<a href="{{ route('siswa.ubah-foto', Crypt::encrypt($data->id)) }}" id="linkFotoGuru" class="btn btn-link btn-block btn-light"><i class="nav-icon fas fa-file-upload"></i> &nbsp; Ubah Foto</a>'>
-                                <img src="{{ asset($data->foto_siswa) }}" width="130px" class="img-fluid mb-2">
+                            <a href="{{ asset($data->foto) }}" data-toggle="lightbox" data-title="Foto {{ $data->nama_siswa }}" data-gallery="gallery" data-footer='<a href="{{ route('siswa.ubah-foto', Crypt::encrypt($data->id)) }}" id="linkFotoGuru" class="btn btn-link btn-block btn-light"><i class="nav-icon fas fa-file-upload"></i> &nbsp; Ubah Foto</a>'>
+                                <img src="{{ asset($data->foto) }}" width="130px" class="img-fluid mb-2">
                             </a>
                         </td>
                         <td>
