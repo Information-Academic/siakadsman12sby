@@ -58,7 +58,6 @@ class Kernel extends HttpKernel
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         // 'checkSessionToken' => \App\Http\Middleware\CheckSessionToken::class,
-        'checkUserRegistrationLimit' => \App\Http\Middleware\CheckUserRegistrationLimit::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'guru' => \App\Http\Middleware\Guru::class,

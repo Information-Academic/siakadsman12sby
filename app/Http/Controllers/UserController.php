@@ -38,6 +38,11 @@ class UserController extends Controller
             'roles' => 'required',
         ]);
 
+        // $registrationLimit = 50;
+        // if(User::count() >= $registrationLimit) {
+        //     return redirect()->back()->with('error', 'Batas registrasi pengguna telah tercapai!');
+        // }
+
         if ($request->roles == 'Guru') {
             $countGuru = Guru::where('nip', $request->nomer)->count();
             $guruId = Guru::where('nip', $request->nomer)->get();
@@ -81,6 +86,7 @@ class UserController extends Controller
         } else {
             User::create([
                 'nama_depan' => $request->nama_depan,
+                'nama_belakang' => $request->nama_belakang,
                 'nama_pengguna' => $request->nama_pengguna,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),

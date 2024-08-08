@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('page', 'SMAN 12 Surabaya')
+@section('page', 'SIAKAD Sekolah')
 @section('content')
 <div class="card-body login-card-body">
   <p class="login-box-msg">Harap login terlebih dahulu!</p>

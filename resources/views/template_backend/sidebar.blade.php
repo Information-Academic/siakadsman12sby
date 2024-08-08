@@ -2,15 +2,16 @@
 <aside class="main-sidebar sidebar-light-primary elevation-4">
     <!-- Brand Logo -->
     <a href="" class="brand-link" style="">
-        <img src="{{ asset('img/sman12sby.png') }}" alt="sman12sby" class="brand-image img-circle elevation-3">
-        <span class="brand-text font-weight-light">SIAKAD SMAN 12 Sby</span>
+        <img src="{{ asset('img/siakad sekolah.png') }}" alt="sman12sby" class="brand-image img-circle elevation-3">
+        <span class="brand-text font-weight-light">SIAKAD Sekolah</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
                 @if (Auth::user()->roles == 'Admin')
                     <li class="nav-item" id="liDashboard">
                         <a href="{{ url('/') }}" class="nav-link" id="Home">
@@ -72,7 +73,7 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="{{route('presensikehadiran')}}" class="nav-link" id="PresensiData">
+                        <a href="{{ route('presensikehadiran') }}" class="nav-link" id="PresensiData">
                             <i class="nav-icon fas fa-edit"></i>
                             <p>
                                 Data Presensi
@@ -80,7 +81,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{route('rekapdatapermohonan')}}" class="nav-link" id="RekapPermohonanData">
+                        <a href="{{ route('rekapdatapermohonan') }}" class="nav-link" id="RekapPermohonanData">
                             <i class="nav-icon fas fa-check"></i>
                             <p>
                                 Rekap Data Permohonan
@@ -97,13 +98,13 @@
                         </a>
                         <ul class="nav nav-treeview ml-4">
                             <li class="nav-item">
-                                <a href="{{route('ulangan-kelas')}}" class="nav-link" id="Ulangan">
+                                <a href="{{ route('ulangan-kelas') }}" class="nav-link" id="Ulangan">
                                     <i class="fas fa-file-alt nav-icon"></i>
                                     <p>Nilai Ulangan</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{route('rapor-kelas')}}" class="nav-link" id="Rapot">
+                                <a href="{{ route('rapor-kelas') }}" class="nav-link" id="Rapot">
                                     <i class="fas fa-file-alt nav-icon"></i>
                                     <p>Nilai Rapor</p>
                                 </a>
@@ -136,7 +137,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{route('presensikehadiransiswa')}}" class="nav-link" id="PresensiKehadiranSiswa">
+                        <a href="{{ route('presensikehadiransiswa') }}" class="nav-link"
+                            id="PresensiKehadiranSiswa">
                             <i class="nav-icon fas fa-edit"></i>
                             <p>
                                 Data Presensi Siswa
@@ -165,7 +167,8 @@
                         </a>
                         <ul class="nav nav-treeview ml-4">
                             <li class="nav-item">
-                                <a href="{{ route('daftarulangan') }}" class="nav-link" id="DaftarUlanganSiswa" target="_blank">
+                                <a href="{{ route('daftarulangan') }}" class="nav-link" id="DaftarUlanganSiswa"
+                                    target="_blank">
                                     <i class="fas fa-file-alt nav-icon"></i>
                                     <p>Daftar Ulangan Siswa</p>
                                 </a>
